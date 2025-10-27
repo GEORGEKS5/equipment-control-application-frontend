@@ -1,8 +1,89 @@
+import { useContext, useMemo, useState } from "react";
+import FormInput from '../components/UI/formInput';
+import DefaultButton from '../components/UI/defaultButton';
+import userContext from "../context/user";
+import cryptoJs from "crypto-js";
+import getRequestPromise from '../helpers/lib';
+import { useNavigate } from "react-router";
+
 function AuthView(){
+    const {userState, setUserState} = useContext(userContext);
+    const navigateTo = useNavigate();
+    const [userName, setUserName] = useState('');
+    const [userPassword, setUserPassword] = useState('');
+
+    const userPasswordHash = useMemo(() => {
+        	const salt = 'it6fqw5tre17xzb';
+			const crOb = cryptoJs.PBKDF2(userPassword, salt, { hasher: cryptoJs.algo.SHA512, keySize: 2, iterations: 20});
+			const passString = crOb.toString(cryptoJs.enc.Hex);
+
+			return passString;
+    }, [userPassword]);
+
+    function updateNameModel(val){
+        setUserName(val);
+    }
+
+    function updatePasswordModel(val){
+        setUserPassword(val); 
+    }
+
+    async function checkUser(){
+        const checkinUserData = { UserPasswordHash: userPasswordHash ?? '', UserName: userName ?? ''};
+        const apiAddress = userState.getServerUrlAddress();
+        let userPage = 'authError';
+
+        try{
+            const userObjectPromise = await getRequestPromise(apiAddress, 'CheckUser', checkinUserData);
+            const userArray = await userObjectPromise.json();
+
+            let userResponseData = userArray[0];
+
+            console.log(userResponseData);
+            
+            if(userResponseData){
+                const {RoleName: userRole, EmpName: employeeName, EmpLastName: employeeLastName, AppointmentDate: appointmentDate} = userResponseData;
+
+                setUserState({ ...userState, employeeName, employeeLastName, userRole, userName, appointmentDate});
+
+                userPage = userRole;
+
+                console.log(document.cookie);
+            }else{
+                console.error('Server send no data for current pair name/password');
+            }
+
+            navigateTo(`/${userPage}`);
+        }catch(e){
+            console.error(e);
+            navigateTo(`/${userPage}`);
+        }
+
+        console.log('/checkUser');
+    }
+
     return (
-        <>
-            <h1>Auth view</h1>
-        </>
+        <div className={"min-h-[600px] flex flex-col justify-center"}>
+            <div id="authForm" className={"bg-[#ffffff] grid grid-rows-[auto_3fr_0.6fr] mx-auto w-[70%] max-w-[470px] min-h-[355px] p-10 md:p-28 rounded-xl"}>
+            <h1 className={"text-[#000000] text-center text-xl"}>ВХОД</h1>
+            <div className={"flex flex-col justify-evenly"}>
+                <FormInput 
+                fieldCaption={'Имя'}
+                updateInput={updateNameModel}>
+                </FormInput>
+                <FormInput 
+                fieldCaption={'Пароль'}
+                fieldType={'password'}
+                updateInput={updatePasswordModel}>
+                </FormInput>
+            </div>
+            <DefaultButton
+                buttonCaption={'Войти'}
+                buttonClass={'primaryBrown'}
+                buttonClick={checkUser}>
+            </DefaultButton>
+            </div>
+        </div>
     )
 }
 
