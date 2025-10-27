@@ -7,6 +7,7 @@ import SupervisorView from "../views/supervisorView";
 import UserView from "../views/userView";
 
 const routes = [
+    {path: '/', component: AuthView},
     {path: '/Auth', component: AuthView},
     {path: '/Admin', component: AdminView},
     {path: '/AuthError', component: AuthErrorView},
