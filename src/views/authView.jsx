@@ -7,7 +7,7 @@ import getRequestPromise from '../helpers/lib';
 import { useNavigate } from "react-router";
 
 function AuthView(){
-    const {userState, setUserState} = useContext(userContext);
+    const {USER_STATE, SET_USER_STATE} = useContext(userContext);
     const navigateTo = useNavigate();
     const [userName, setUserName] = useState('');
     const [userPassword, setUserPassword] = useState('');
@@ -30,7 +30,7 @@ function AuthView(){
 
     async function checkUser(){
         const checkinUserData = { UserPasswordHash: userPasswordHash ?? '', UserName: userName ?? ''};
-        const apiAddress = userState.getServerUrlAddress();
+        const apiAddress = USER_STATE.getServerUrlAddress();
         let userPage = 'authError';
 
         try{
@@ -44,7 +44,7 @@ function AuthView(){
             if(userResponseData){
                 const {RoleName: userRole, EmpName: employeeName, EmpLastName: employeeLastName, AppointmentDate: appointmentDate} = userResponseData;
 
-                setUserState({ ...userState, employeeName, employeeLastName, userRole, userName, appointmentDate});
+                SET_USER_STATE({ ...USER_STATE, employeeName, employeeLastName, userRole, userName, appointmentDate});
 
                 userPage = userRole;
 
