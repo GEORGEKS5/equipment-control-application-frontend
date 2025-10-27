@@ -1,5 +1,5 @@
 import React from "react";
-import inputStyle from '../styles/input.module.css';
+import inputStyle from '../../styles/input.module.css';
 
 function FormInput({fieldCaption, fieldType, updateInput, inputValue, displayOnly}){
 
