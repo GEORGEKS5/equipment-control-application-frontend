@@ -1,0 +1,40 @@
+.btn{
+    background: rgb(173, 242, 243);
+    color: black;
+    border: 2px solid rgb(69, 98, 99);
+    padding: 3em;
+    margin-top: 2em;
+}
+
+.btn:hover{
+    background: rgb(146, 250, 252);
+}
+
+.defaultButton{
+    background-color: #D0D8D9;
+    padding: 0.4em;
+    margin-top: 2em;
+    border: 0px;
+    /*padding: .7em 1em .7em 1em;*/
+    border-radius: .5em;
+}
+
+.defaultButton.primary{
+    background: #D0D8D9;
+    color: #07070D;
+}
+.defaultButton.primaryBrown{
+    background: #8C4830;
+    color: #ffffff;
+}
+
+.defaultButton span{
+    font-size: 10px;
+    font-weight: bold;
+}
+.tableHeader{
+    padding: .3em;
+    height: 2em;
+    width: 2em;
+    background-color: #e9e9ed;
+}

@@ -1,0 +1,21 @@
+.basic{
+    padding: 0.4em 0.9em 0.4em 0.9em;
+    border-radius: 0.5em;
+    font-size: medium;
+    background: #F3F3F3;
+    color: #000;
+}
+
+.header{
+    border-bottom: 2px solid #07070D;
+    margin-top: auto;
+    margin-bottom: auto;
+    font-size: small;
+    text-align: left;
+}
+
+#fieldWrapper{
+    display: grid;
+    grid-template-rows: 0.5fr 0.8fr;
+
+}
