@@ -90,7 +90,7 @@ function EmployeeSelectForm({formVisible, equipmentSerialNumber, hideForm, emplo
     }
 
     return (
-        <dialogView visibleForm={formVisible} hideWindow={hideWindow}>
+        <DialogWindow visibleForm={formVisible} hideWindow={hideWindow}>
                 {
                         isOuterSerialNumber 
                     ?
@@ -107,16 +107,16 @@ function EmployeeSelectForm({formVisible, equipmentSerialNumber, hideForm, emplo
                 }
 
                 <FormField>
-                    <dataTable
+                    <DataTable
                         tableData={employeesModel}
                         tableStructure={tableHeader}
                         tableActionButton={tableActionButton}
                         tableActionButtonAmount="1"
                         selectEmployee={selectEmployee}
                     >
-                    </dataTable>
+                    </DataTable>
                 </FormField>
-            </dialogView>
+            </DialogWindow>
     )
 }
 
