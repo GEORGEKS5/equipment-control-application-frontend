@@ -10,7 +10,7 @@ import SectionData from '../layouts/slots/sectionData';
 import SectionFooter from '../layouts/slots/sectionFooter';
 
 function CompactEditForm({editObject, identificatorKeyName, valueKeyName, propUpdate, hideCompactForm, extraPropInsert, compactFormVisible, targetModelName, targetPropModelName, extraRequestData, selectPropData}) {
-    const [USER_STATE] = useContext(UserContext);
+    const {USER_STATE} = useContext(UserContext);
 
     const [fieldValue, setFieldValue] = useState('');
 
