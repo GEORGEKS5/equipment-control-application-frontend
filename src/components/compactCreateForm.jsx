@@ -1,15 +1,15 @@
-
 import getRequestPromise from '../helpers/lib';
-import DefaultButton from '../components/UI/defaultButton';
-import FormInput from '../components/UI/formInput';
-import CompactForm from '../layouts/compactForm';
 import UserContext from '../context/user';
 import { useContext, useEffect, useState } from 'react';
 import SectionHeader from '../layouts/slots/sectionHeader';
 import SectionData from '../layouts/slots/sectionData';
 import SectionFooter from '../layouts/slots/sectionFooter';
+import PropFormSelectBlock from './propertyForm/propFormSelectBlock';
+import DefaultButton from '../components/UI/defaultButton';
+import FormInput from '../components/UI/formInput';
+import CompactForm from '../layouts/compactForm';
 
-function CompactEditForm({editObject, identificatorKeyName, valueKeyName, propUpdate, hideCompactForm, extraPropInsert, compactFormVisible, targetModelName, targetPropModelName, extraRequestData, selectPropData}) {
+function CompactEditForm({isBindedField, identificatorKeyName, valueKeyName, propInsert, hideCompactForm, extraPropInsert, compactFormVisible, targetModelName, targetPropModelName, extraRequestData, selectPropData}) {
     const {USER_STATE} = useContext(UserContext);
 
     const [fieldValue, setFieldValue] = useState('');
@@ -30,33 +30,28 @@ function CompactEditForm({editObject, identificatorKeyName, valueKeyName, propUp
         extraPropInsert(value);
     }
 
-    useEffect(() => {
-        if(compactFormVisible){
-            setFieldValue(editObject[valueKeyName]);
-        }
-    }, [compactFormVisible])
-
     function saveProp(){
         let servAdr = USER_STATE.getServerUrlAddress();
-        let endpointName = 'Update' + targetModelName;
+        let endpointName = 'Insert' + targetModelName;
 
-        let editedObject = {
-            [targetModelName+'SourceValue']: editObject[identificatorKeyName],
-            [targetModelName+'NewValue']: fieldValue,
+        let insertObject = {
+            [targetModelName+'Name']: fieldValue,
         }
 
         for(let k in extraRequestData){
-            editedObject[k] = extraRequestData[k];
+            insertObject[k] = extraRequestData[k];
         }
 
-        console.log(editedObject);
+        console.log(insertObject);
 
-        let reqPromise = getRequestPromise(servAdr, endpointName, editedObject);
+        let reqPromise = getRequestPromise(servAdr, endpointName, insertObject);
 
         reqPromise.then(result=>{
             if(result.ok){
-                propUpdate(fieldValue)
+                propInsert(fieldValue);
             }
+
+            setFieldValue('');
         });
     }
 
@@ -82,16 +77,31 @@ function CompactEditForm({editObject, identificatorKeyName, valueKeyName, propUp
     return (
         <CompactForm formVisible={compactFormVisible} hideForm={hideForm}>
             <SectionHeader>
-                <h3>Изменение свойства</h3>
+                <h3>Добавление свойства</h3>
             </SectionHeader>
 
             <SectionData>
-                <FormInput
-                    inputValue={fieldValue}
-                    fieldCaption="Значение"
-                    updateInput={changeInputValue}
-                >
-                </FormInput>
+                {
+                        isBindedField
+                    ?
+                        <PropFormSelectBlock 
+                            selectBlockValue={fieldValue}
+                            selectBlockData={selectPropData}
+                            identificatorKeyName={identificatorKeyName}
+                            valueKeyName={valueKeyName}
+                            targetModelName={targetPropModelName}
+                            fieldCaption="Значение"
+                            updateSelect={changeSelectValue}
+                            propInsert={propInsert}
+                        ></PropFormSelectBlock>
+                    :
+                        <FormInput
+                            inputValue={fieldValue}
+                            fieldCaption="Значение"
+                            updateInput={changeInputValue}
+                        >
+                        </FormInput>
+                }
             </SectionData>
 
             <SectionFooter>
