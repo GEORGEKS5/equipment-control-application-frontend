@@ -1,12 +1,13 @@
 import DataTableHeader from "./dataTableHeader";
-import DefaultButton from "../../UI/defaultButton";
+import DefaultButton from "../UI/defaultButton";
 import tableStyle from '../../styles/table.module.css';
 
 function DataTable({tableData, tableActionButton, ...props}){
+    console.log()
     return (
         <table className={"overflow-y-scroll overflow-x-scroll xl:overflow-x-hidden block md:w-min h-[90%] md:h-[100%] mx-auto p-0 border-separate border-spacing-y-2"}>
             <thead className={"sticky top-0 bg-[#ffffff]"}>
-                <DataTableHeader {...props} tableActionButtonAmount={tableActionButton.lenght} />
+                <DataTableHeader {...props} tableActionButtonAmount={tableActionButton?.length ?? 0} />
             </thead>
             <tbody>
                 {tableData.map(row=>{
@@ -23,17 +24,21 @@ function DataTable({tableData, tableActionButton, ...props}){
                                 })
                             }
                             {
-                                tableActionButton.map(actionButton=>{
-                                    return (
-                                        <td>
-                                            <DefaultButton
-                                                buttonCaption={actionButton.caption}
-                                                buttonValue={row[actionButton.valueParamName]}
-                                                buttonClass={'tableAction'}
-                                            ></DefaultButton>
-                                        </td>
-                                    )
-                                })
+                                    tableActionButton
+                                ?
+                                    tableActionButton.map(actionButton=>{
+                                        return (
+                                            <td>
+                                                <DefaultButton
+                                                    buttonCaption={actionButton.caption}
+                                                    buttonValue={row[actionButton.valueParamName]}
+                                                    buttonClass={'tableAction'}
+                                                ></DefaultButton>
+                                            </td>
+                                        )
+                                    })
+                                :
+                                <></>
                             }
                         </tr>)
                 })}
