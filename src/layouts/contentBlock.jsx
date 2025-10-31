@@ -1,5 +1,6 @@
 import MainContent from './slots/mainContent';
 import SideBar from './slots/sideBar';
+import React from 'react';
 
 function ContentBlock({children}) {
     const mainContent = React.Children.toArray(children).find(child => child.type === MainContent);
