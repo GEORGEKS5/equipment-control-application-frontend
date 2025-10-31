@@ -1,6 +1,6 @@
-import React from "react";
-import DefaultButton from "../../UI/defaultButton";
+import DefaultButton from "../UI/defaultButton";
 import tableStyle from '../../styles/table.module.css';
+import { mdiFilter } from "@mdi/js";
 
 function DataTableHeader({tableStructure, tableActionButtonAmount}){
     function filtrateColumn(){
@@ -22,6 +22,7 @@ function DataTableHeader({tableStructure, tableActionButtonAmount}){
                                 buttonValue={column.name}
                                 buttonClass={'tableHeader'}
                                 buttonClick={filtrateColumn}
+                                buttonIconPath={mdiFilter}
                             />
                         :
                         <></>
