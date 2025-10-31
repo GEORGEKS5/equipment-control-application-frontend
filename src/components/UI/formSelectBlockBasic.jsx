@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
-import FormSelect from '../components/UI/formSelect';
-import DefaultSlot from '../layouts/slots/defaultSlot';
+import FormSelect from './formSelect';
+import DefaultSlot from '../../layouts/slots/defaultSlot';
 
 function FormSelectBlockBasic({children, selectBlockValue, selectBlockData, selectPropDataUrlAddress, identificatorKeyName, valueKeyName, selectPlaceholder, targetModelName, targetPropModelName, extraRequestData, fieldCaption, actionButtonCaption, updateSelect}) {
     const formButtonBlock = React.Children.toArray(children).find(child => child.type === DefaultSlot);
