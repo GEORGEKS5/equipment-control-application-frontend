@@ -1,5 +1,6 @@
 import HeaderBlock from '../components/headerBlock';
 import DataTable from '../components/table/dataTable';
+import FormEquipEdit from '../components/supervisorView/formEquipEdit';
 
 import ContentBlock from '../layouts/contentBlock';
 import ContentBlockSection from '../layouts/contentBlockSection';
@@ -23,50 +24,60 @@ function SupervisorView(){
     console.log(pinReadyEquipmentTable);
 
     return (
-        <div id="rootEl" className="flexParent">
-            <HeaderBlock></HeaderBlock>
+        <>
+            <FormEquipEdit
+                visible={equipEditForm.visible}
+                editEquipment={equipEditForm.selectedModel}
+                hideWindow={equipEditForm.hide()}
+                updateData={updateAfterEquipEdit}
+                propUpdated={updateAfterPropertyEdit}>
+            </FormEquipEdit>
 
-            <ContentBlock>
-                <MainContent>
-                    <ContentBlockSection>
-                        <ContentSection>
-                            <SectionHeader>
-                                <h3 id="contentHeader">Закреплено</h3>
-                            </SectionHeader>
-                            <SectionData>
-                                <DataTable
-                                    tableData={supervisorPinedEquipment}
-                                    tableStructure={supervisorPinedEquipmentTable.header}
-                                ></DataTable>
-                            </SectionData>
-                            <SectionFooter>
-                                <h4>Закрепить оборудование по SN</h4>
-                            </SectionFooter>
-                        </ContentSection>
-                    </ContentBlockSection>
-                </MainContent>
+            <div id="rootEl" className="flexParent">
+                <HeaderBlock></HeaderBlock>
 
-                <SideBar>
-                    <ContentBlockSection>
-                        <ContentSection>
-                            <SectionHeader>
-                                <h3 id="contentHeader">Доступно</h3>
-                            </SectionHeader>
-                            <SectionData>
-                                <DataTable
-                                    tableData={pinReadyEquipment}
-                                    tableStructure={pinReadyEquipmentTable.header}
-                                    tableActionButton={pinReadyEquipmentTable.button}
-                                ></DataTable>
-                            </SectionData>
-                            <SectionFooter>
-                                <h4>Добавить новое</h4>
-                            </SectionFooter>
-                        </ContentSection>
-                    </ContentBlockSection> 
-                </SideBar>  
-            </ContentBlock>
-        </div>
+                <ContentBlock>
+                    <MainContent>
+                        <ContentBlockSection>
+                            <ContentSection>
+                                <SectionHeader>
+                                    <h3 id="contentHeader">Закреплено</h3>
+                                </SectionHeader>
+                                <SectionData>
+                                    <DataTable
+                                        tableData={supervisorPinedEquipment}
+                                        tableStructure={supervisorPinedEquipmentTable.header}
+                                    ></DataTable>
+                                </SectionData>
+                                <SectionFooter>
+                                    <h4>Закрепить оборудование по SN</h4>
+                                </SectionFooter>
+                            </ContentSection>
+                        </ContentBlockSection>
+                    </MainContent>
+
+                    <SideBar>
+                        <ContentBlockSection>
+                            <ContentSection>
+                                <SectionHeader>
+                                    <h3 id="contentHeader">Доступно</h3>
+                                </SectionHeader>
+                                <SectionData>
+                                    <DataTable
+                                        tableData={pinReadyEquipment}
+                                        tableStructure={pinReadyEquipmentTable.header}
+                                        tableActionButton={pinReadyEquipmentTable.button}
+                                    ></DataTable>
+                                </SectionData>
+                                <SectionFooter>
+                                    <h4>Добавить новое</h4>
+                                </SectionFooter>
+                            </ContentSection>
+                        </ContentBlockSection> 
+                    </SideBar>  
+                </ContentBlock>
+            </div>
+        </>
     )
 }
 
