@@ -48,8 +48,8 @@ function HeaderBlock({}) {
                         {USER_STATE.appointmentDate ? <li className="min-w-4 lg:px-6 md:px-5 leading-5 rounded-sm bg-amber-900 p-1 md:rounded-full text-xs md:text-sm">{USER_STATE.appointmentDate}</li> : <></>}
                     </ul>
                     <ul id="header__AccentBar" className="flex flex-row justify-between min-w-[10%]">
-                        <li className="flex md:min-w-3 md:px-4 rounded-md bg-black"><button click={shutdown}>{mdiExitToApp ? <Icon path={mdiExitToApp} size={1}></Icon> : <span>Exit</span>}</button></li>
-                        <li className="flex md:min-w-3 md:px-4 rounded-md bg-black"><button click={showChangePasswordForm}>{mdiKeyArrowRight ? <Icon path={mdiKeyArrowRight} size={1}></Icon> : <span>PSW CHNG</span>}</button></li>
+                        <li className="flex md:min-w-3 md:px-4 rounded-md bg-black"><button onClick={shutdown}>{mdiExitToApp ? <Icon path={mdiExitToApp} size={1}></Icon> : <span>Exit</span>}</button></li>
+                        <li className="flex md:min-w-3 md:px-4 rounded-md bg-black"><button onClick={showChangePasswordForm}>{mdiKeyArrowRight ? <Icon path={mdiKeyArrowRight} size={1}></Icon> : <span>PSW CHNG</span>}</button></li>
                     </ul>
                 </ul>
             </header>
