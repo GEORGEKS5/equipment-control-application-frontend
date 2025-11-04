@@ -16,21 +16,50 @@ import SectionFooter from "../layouts/slots/sectionFooter";
 
 import useSupervisorRepository from '../hooks/useSupervisorRepository';
 import useSupervisorViewDataTable from '../hooks/useSupervisorViewDataTable';
+import useSupervisorFormModel from '../hooks/useSupervisorFormModel';
 
 function SupervisorView(){
     const {supervisorPinedEquipment, pinReadyEquipment, getPinedEquipmentRepository, getPinReadyEquipmentRepository, getUnitedRepository} = useSupervisorRepository();
     const {pinReadyEquipmentTable, supervisorPinedEquipmentTable} = useSupervisorViewDataTable();
+    const {equipEditFormVisibility, setEquipEditFormVisibility, equipEditSelectedModel, setEquipEditSelectedModel} = useSupervisorFormModel(pinReadyEquipment);
 
-    console.log(pinReadyEquipmentTable);
+    function updateAfterEquipEdit(val){ 
+        console.log('updateAfterEquipEdit: ');
+        console.log(val);
+        let index = pinReadyEquipment.findIndex(item =>{
+            return item.SerialNumber === val.SerialNumber
+        });
+        
+        //this.pinReadyEquipment.splice(index, 1, val);
+        setEquipEditFormVisibility(false);
+    }
+
+    function updateAfterPropertyEdit(){
+        getUnitedRepository();
+    }
+
+    function editButtonClick(e){
+        setEquipEditFormVisibility(true);
+        setEquipEditSelectedModel(e, "SerialNumber");
+    }
+
+    function tableButtonClick(buttonType, e){  
+        switch (buttonType) {
+            case 'editButtonClick': editButtonClick(e)
+                break;
+            default:
+                break;
+        }
+    }
 
     return (
         <>
-            <FormEquipEdit
-                visible={equipEditForm.visible}
-                editEquipment={equipEditForm.selectedModel}
-                hideWindow={equipEditForm.hide()}
+            <FormEquipEdit 
+                visible={equipEditFormVisibility}
+                hideWindow={() => {setEquipEditFormVisibility(false)}}
                 updateData={updateAfterEquipEdit}
-                propUpdated={updateAfterPropertyEdit}>
+                editEquipment={equipEditSelectedModel}
+                propUpdated={()=>{}}>
             </FormEquipEdit>
 
             <div id="rootEl" className="flexParent">
@@ -67,6 +96,7 @@ function SupervisorView(){
                                         tableData={pinReadyEquipment}
                                         tableStructure={pinReadyEquipmentTable.header}
                                         tableActionButton={pinReadyEquipmentTable.button}
+                                        buttonClick={tableButtonClick}
                                     ></DataTable>
                                 </SectionData>
                                 <SectionFooter>
