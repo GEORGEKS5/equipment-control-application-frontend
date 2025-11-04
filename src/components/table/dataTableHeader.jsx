@@ -7,12 +7,10 @@ function DataTableHeader({tableStructure, tableActionButtonAmount}){
         return 0;
     }
 
-    console.log(tableStructure);
-
     return (
-        <tr>
+        <tr key='HeaderTableKey'>
             {tableStructure.map(column => {
-                return (<td style={{verticalAlign: 'top'}}>
+                return (<td style={{verticalAlign: 'top'}} key={column.name}>
                     
                     <div className={tableStyle.fieldWrapper}>
                         <h3 className={tableStyle.tdHeader}>{ column.localName }</h3>
@@ -33,7 +31,7 @@ function DataTableHeader({tableStructure, tableActionButtonAmount}){
 
             {
                 tableActionButtonAmount ?
-                    <td colSpan={tableActionButtonAmount} className={tableStyle.tableActionButtonHeaderCaption} style={{verticalAlign: 'top'}}>
+                    <td key='tableActionButtonKey' colSpan={tableActionButtonAmount} className={tableStyle.tableActionButtonHeaderCaption} style={{verticalAlign: 'top'}}>
                         <div>
                             <h3>Действия</h3>
                         </div>
