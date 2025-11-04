@@ -6,10 +6,10 @@ import markSelectedProperty from '../../helpers/markData.js'
 import DialogWindow from "../../layouts/dialogWindow";
 import FormInput from "../UI/formInput.jsx";
 import DefaultButton from "../UI/defaultButton.jsx";
-import FormSelectBlock from "../UI/formSelectBlock.jsx";
+import FormSelectBlock from "../UI/FormSelectBlock.jsx";
 import UserContext from "../../context/user.js";
-import SectionData from "../../layouts/slots/sectionData.jsx";
-import SectionFooter from "../../layouts/slots/sectionFooter.jsx";
+import FormField from "../../layouts/slots/formField.jsx";
+import FormFooter from "../../layouts/slots/formFooter.jsx";
 
 function FormEquipEdit({visible, editEquipment, hideWindow, updateData, propUpdated}) {
     const [equipmentViewModel, setEquipmentViewModel] = useState({});
@@ -18,10 +18,11 @@ function FormEquipEdit({visible, editEquipment, hideWindow, updateData, propUpda
     const [eqBrandData, setEqBrandData] = useState([]);
     const [eqModelData, setEqModelData] = useState([]);
 
-    const [USER_STATE] = useContext(UserContext);
+    const {USER_STATE} = useContext(UserContext);
 
     function updateEquipmentModelState(propertyKey, propertyName, obj){
         let v = {...equipmentViewModel, [propertyKey]: obj[propertyName]};
+
         setEquipmentRequestModel(v);
         setEquipmentViewModel(v);
     }
@@ -31,7 +32,11 @@ function FormEquipEdit({visible, editEquipment, hideWindow, updateData, propUpda
     }
 
     function updateModel(val){
-        updateEquipmentModelState('ModelName', 'ModelId', val)
+        if(val['ModelId'] !== equipmentRequestModel['ModelName']){
+            updateEquipmentModelState('ModelName', 'ModelId', val)
+            markSelectedProperty(eqModelData, val['ModelId'], 'id');
+        }
+        //
     }
 
     function updateBrand(val){
@@ -57,9 +62,9 @@ function FormEquipEdit({visible, editEquipment, hideWindow, updateData, propUpda
         })
     }
 
-    function markSelectedProperty(selectArray, value){
+    function markSelectedProperty(selectArray, value, keyName){        
         selectArray.map(item => {
-            item.selected = item.value === value ? true : false
+            item.selected = item[keyName] === value ? true : false
         })
     }
 
@@ -71,8 +76,6 @@ function FormEquipEdit({visible, editEquipment, hideWindow, updateData, propUpda
             promR.json().then(jsonResult=>{
                 setEqCategoryData({...jsonResult});
                 setEquipmentViewModel({...equipmentViewModel, CategoryName: val});
-
-                console.log(val);
 
                 markSelectedProperty(eqCategoryData, equipmentViewModel.CategoryName, 'id');
                 propUpdated();
@@ -89,7 +92,6 @@ function FormEquipEdit({visible, editEquipment, hideWindow, updateData, propUpda
                 setEqBrandData({...jsonResult});
                 setEquipmentViewModel({...equipmentViewModel, BrandName: val});
 
-                console.log(val);
                 markSelectedProperty(eqBrandData, equipmentViewModel.BrandName, 'id');
                 propUpdated();
             });
@@ -105,7 +107,6 @@ function FormEquipEdit({visible, editEquipment, hideWindow, updateData, propUpda
                 setEqModelData({...jsonResult});
                 setEquipmentViewModel({...equipmentViewModel, ModelName: val});
 
-                console.log(val);
                 markSelectedProperty(eqModelData, equipmentViewModel.ModelName, 'id');
                 propUpdated();
             });
@@ -129,6 +130,7 @@ function FormEquipEdit({visible, editEquipment, hideWindow, updateData, propUpda
     useEffect(() => {
         if(visible){
             setEquipmentViewModel({...editEquipment});
+
             setEquipmentRequestModel({...editEquipment});
 
             let serverAdr = USER_STATE.getServerUrlAddress();
@@ -136,18 +138,30 @@ function FormEquipEdit({visible, editEquipment, hideWindow, updateData, propUpda
             let pr = getEquipmentListData(serverAdr, {});
 
             pr.then(result=>{
-                console.log(result);
-                setEqBrandData(result.BrandList);
-                setEqCategoryData(result.CategoryList);
-                setEqModelData(result.SerialModelList);
 
-                markSelectedProperty(eqModelData, equipmentViewModel.ModelName, 'id');
-                markSelectedProperty(eqCategoryData, equipmentViewModel.CategoryName, 'id');
-                markSelectedProperty(eqBrandData, equipmentViewModel.BrandName, 'id'); //Помечаем у выбраной позиции бренд
+                setEqBrandData(v =>{
+                    markSelectedProperty(result.BrandList, editEquipment.BrandName, 'id'); //Помечаем у выбраной позиции бренд
+                    return result.BrandList;
+                });
 
+                setEqModelData(v => {
+                    markSelectedProperty(result.SerialModelList, editEquipment.ModelName, 'id');
+
+                    return result.SerialModelList;
+                })
+
+                setEqCategoryData(v =>{
+                    markSelectedProperty(result.CategoryList, editEquipment.CategoryName, 'id');
+
+                    return result.CategoryList;
+                })
             });
+        }else{
+            setEqBrandData([]);
+            setEqCategoryData([]);
+            setEqModelData([]);
         }
-    })
+    }, [visible])
 
     const brandCategoryBind = useMemo(()=>{
         let o = {
@@ -156,34 +170,36 @@ function FormEquipEdit({visible, editEquipment, hideWindow, updateData, propUpda
         };
 
         return o;
-    }, [equipmentRequestModel])
+    }, [equipmentRequestModel.BrandName, equipmentRequestModel.CategoryName])
 
     return(
-        <DialogWindow visibleForm={visible} hideWindow={hideForm}>
-            <SectionData>
-                <formSelectBlock 
+        <DialogWindow visibleForm={visible} hideForm={hideForm}>
+            <FormField>
+                <FormSelectBlock 
                     selectBlockValue={equipmentViewModel.CategoryName}
                     selectBlockData={eqCategoryData}
                     identificatorKeyName="id" 
                     valueKeyName="id" 
                     targetModelName="Category"
                     fieldCaption="Категория"
+                    extraRequestData={{}}
                     propCategoryUpdate={updateCategoryList}
                     propCategoryInsert={updateCategoryList}
                     updateSelect={updateCategory}>
-                </formSelectBlock>
-                <formSelectBlock 
+                </FormSelectBlock>
+                <FormSelectBlock 
                     selectBlockValue={equipmentViewModel.BrandName}
                     selectBlockData={eqBrandData}
                     targetModelName="Brand"
                     identificatorKeyName="id" 
                     valueKeyName="id" 
                     fieldCaption="Производитель"
+                    extraRequestData={{}}
                     propBrandUpdate={updateBrandList}
                     propBrandInsert={updateBrandList}
                     updateSelect={updateBrand}>
-                </formSelectBlock>
-                <formSelectBlock 
+                </FormSelectBlock>
+                <FormSelectBlock 
                     selectBlockValue={equipmentViewModel.ModelName}
                     selectBlockData={eqModelData}
                     selectPropDataUrlAddress="GetModelList" 
@@ -197,15 +213,15 @@ function FormEquipEdit({visible, editEquipment, hideWindow, updateData, propUpda
                     propModelInsert={updateModelList}
                     propSingleModelInsert={updateSingleModelList}
                     updateSelect={updateModel}>
-                </formSelectBlock>
-            </SectionData>
-            <SectionFooter>
-                <defaultButton 
+                </FormSelectBlock>
+            </FormField>
+            <FormFooter>
+                <DefaultButton 
                     buttonIconPath={mdiContentSaveCheckOutline}
                     buttonClass="form" 
                     buttonClick={saveDialog}>    
-                </defaultButton>
-            </SectionFooter>
+                </DefaultButton>
+            </FormFooter>
         </DialogWindow>
     )
 }
