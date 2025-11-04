@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 function PropertyFormSelect({selectValue, selectData, selectDefaultValue, identificatorKeyName, valueKeyName, targetModelName, extraRequestData, updateSelect}) {
-    const [filteredSelectData, setFilteredSelectData] = useState('');
+    const [filteredSelectData, setFilteredSelectData] = useState([]);
 
     function camelizePropName(name){
         let nameArray = name.split('');

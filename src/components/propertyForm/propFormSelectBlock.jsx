@@ -1,5 +1,5 @@
 import CompactEditForm from '../compactEditForm';
-import CompactCreateForm from '../compactCreatePropForm';
+import CompactCreateForm from '../propertyForm/compactCreatePropForm';
 import CompactErrorForm from '../compactErrorForm';
 import FormSelect from '../UI/propertyFormSelect';
 import DefaultButton from '../UI/defaultButton';
