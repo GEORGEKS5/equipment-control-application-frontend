@@ -1,23 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-function FormSelect({targetModelName, valueKeyName, identificatorKeyName, setSelectValue, selectDefaultValue, selectData = []}){
+function FormSelect({targetModelName, valueKeyName, identificatorKeyName, extraRequestData, updateSelect, selectDefaultValue, selectData = []}){
 
-    const filteredSelectData = useState('');
+    const [filteredSelectData, setFilteredSelectData] = useState([]);
 
-    function updateSelect(event){
+    function updateCurrentSelect(event){
         let selectValue = event.target.selectedOptions[0].textContent;
         let selectID = event.target.value;
 
         let selectObject = getSelectObject(selectID, selectValue);
 
-        console.log(selectObject);
-        //setSelectValue(selectObject);
+        updateSelect(selectObject);
     }
 
-    function getPropName(targetModelName, keyName){
-        const keyNameContainTargetName = keyName.includes(targetModelName);
+    function getPropName(targetModelNameParam, keyName){
+        const keyNameContainTargetName = keyName.includes(targetModelNameParam);
 
-        return keyNameContainTargetName ? keyName : targetModelName + '' + camelizePropName(keyName)
+        return keyNameContainTargetName ? keyName : targetModelNameParam + '' + camelizePropName(keyName)
     }
 
     function getSelectObject(selectID, selectValue = ''){
@@ -38,11 +37,92 @@ function FormSelect({targetModelName, valueKeyName, identificatorKeyName, setSel
         return nameArray.join('');
     }
 
-    return(
-        <select name="" onChange={updateSelect}>
+    function getSelectActiveOptionValueByKeyName(sData, keyName){
+        let selectDataLength = sData.length;
 
-            {selectData.map(dt => {
-                console.log(dt);
+        if(selectDataLength){
+            let selectedElement = sData.find(item => {
+                return item.selected
+            });
+
+            let activeElement = selectedElement ? selectedElement[keyName] : sData.at(-1)[keyName];
+
+            return activeElement;
+        }
+
+        return '';
+    }
+
+    function updateBindedSelect(sData){
+        let activeElementKey = getSelectActiveOptionValueByKeyName(sData, identificatorKeyName);
+        let activeElementValue = getSelectActiveOptionValueByKeyName(sData, valueKeyName);
+        let selectedObject = getSelectObject(activeElementKey, activeElementValue);
+
+        updateSelect(selectedObject);
+    }
+
+    function filterSelectDataByExtraValues(selectData, extraData){
+        let selectDataLength = Object.keys(selectData).length;
+
+        if(selectDataLength && objectPropsNotUndefined(extraData)){
+            let s = selectData.filter(it => {
+                for(let key in extraData){
+                    if(it[key] != extraData[key]){
+                        return false
+                    }
+                }
+                return true
+            })
+
+            return s;
+        }
+
+        return [];
+    }
+
+    function installSelectData(){
+        let extraDataSize = Object.keys(extraRequestData).length;
+
+        if(extraDataSize){
+            let selectDataLength = selectData.length;
+
+            if(selectDataLength){
+                //setFilteredSelectData([...filterSelectDataByExtraValues(selectData, extraRequestData)]);
+                setFilteredSelectData(v => {
+                    const nv = [...filterSelectDataByExtraValues(selectData, extraRequestData)];
+                    updateBindedSelect(nv);
+                    return nv;
+                })
+            }
+        }else{
+            setFilteredSelectData([...selectData])
+        }
+    }
+
+    useEffect(()=>{
+        if(selectData.length){
+            installSelectData();
+        }
+    },[selectData]);
+
+    function objectPropsNotUndefined(obj){
+        for(let s in obj){
+            console.log(obj[s]);
+            return Boolean(obj[s]);            
+        }
+
+        return false;
+    }
+
+    useEffect(( )=>{
+        if(objectPropsNotUndefined(extraRequestData)){
+            installSelectData();
+        }
+    },[extraRequestData]);
+
+    return(
+        <select name="" onChange={updateCurrentSelect}>
+            {filteredSelectData?.map(dt => {
                 return (<option 
                     value={dt[identificatorKeyName]}
                     key={dt[identificatorKeyName]}
