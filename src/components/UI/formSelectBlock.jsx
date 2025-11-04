@@ -11,9 +11,9 @@ import UserContext from '../../context/user';
 import DefaultSlot from '../../layouts/slots/defaultSlot';
 
 function FormSelectBlock({selectBlockValue, selectBlockData, selectPropDataUrlAddress, identificatorKeyName, valueKeyName, selectPlaceholder, targetModelName, targetPropModelName, extraRequestData, fieldCaption, updateSelect, sendPropInsert, sendExtraPropInsert, sendPropUpdate}) {
-    const [USER_STATE] = useContext(UserContext);
+    const {USER_STATE} = useContext(UserContext);
     
-    const [selectPropData, setSelectPropData] = useState({});
+    const [selectPropData, setSelectPropData] = useState([]);
     const [errorFormVisible, setErrorFormVisible] = useState(false);
     const [errorFormMessage, setErrorFormMessage] = useState('');
     const [visible, setVisible] = useState({
@@ -80,7 +80,8 @@ function FormSelectBlock({selectBlockValue, selectBlockData, selectPropDataUrlAd
                     markSelectedProperty(jsonResp, activeValue, valueKeyName)
                 }
 
-                selectPropData = jsonResp;
+                console.log(jsonResp);
+                setSelectPropData([...jsonResp]);
             });
         }
     }
