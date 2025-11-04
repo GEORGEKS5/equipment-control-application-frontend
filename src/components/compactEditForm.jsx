@@ -61,22 +61,26 @@ function CompactEditForm({editObject, identificatorKeyName, valueKeyName, propUp
     }
 
     useEffect(() => {
-        let fieldName = 'selected';
+        //console.log(selectPropData);
+        
+        if(selectPropData?.length){
+            let fieldName = 'selected';
 
-        if(fieldName in selectPropData[0]){
-            let sq = selectPropData.find(item => item[fieldName]);
-            
-            if(sq){
-                fieldValue = sq[identificatorKeyName];
+            if(fieldName in selectPropData[0]){
+                let sq = selectPropData.find(item => item[fieldName]);
+                
+                if(sq){
+                    fieldValue = sq[identificatorKeyName];
+                }else{
+                    console.warn('Not found selected element on selecPropData change');
+                }
             }else{
-                console.warn('Not found selected element on selecPropData change');
+                console.log('Selected false')
+                fieldValue = selectPropData[0][identificatorKeyName];
             }
-        }else{
-            console.log('Selected false')
-            fieldValue = selectPropData[0][identificatorKeyName];
-        }
 
-        console.log(fieldValue);
+            console.log(fieldValue);
+        }
     }, [selectPropData])
 
     return (

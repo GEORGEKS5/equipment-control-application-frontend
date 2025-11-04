@@ -1,6 +1,6 @@
 import CompactForm from '../../layouts/compactForm';
 import DefaultButton from '../UI/defaultButton';
-import FormInput from '../UI/FormInput.vue';
+import FormInput from '../UI/formInput';
 import getRequestPromise from '../../helpers/lib';
 import { useContext, useEffect, useState } from 'react';
 import UserContext from '../../context/user';
@@ -10,7 +10,7 @@ import SectionFooter from '../../layouts/slots/sectionFooter';
 
 function CompactCreatePropForm({compactFormVisible, targetModelName, targetPropModelName, extraRequestData, selectPropData, identificatorKeyName, valueKeyName, hideCompactForm, extraPropInsert, propInsert}) {
     const [fieldValue, setFieldValue] = useState('');
-    const [USER_STATE] = useContext(UserContext);
+    const {USER_STATE} = useContext(UserContext);
 
     function hideForm(){
         hideCompactForm();
@@ -52,22 +52,24 @@ function CompactCreatePropForm({compactFormVisible, targetModelName, targetPropM
     }
 
     useEffect(()=>{
-        let fieldName = 'selected';
+        if(selectPropData?.length){
+            let fieldName = 'selected';
 
-        if(fieldName in selectPropData[0]){
-            let sq = selectPropData.find(item => item[fieldName]);
-            
-            if(sq){
-                setFieldValue(sq[this.identificatorKeyName]);
+            if(fieldName in selectPropData[0]){
+                let sq = selectPropData.find(item => item[fieldName]);
+                
+                if(sq){
+                    setFieldValue(sq[identificatorKeyName]);
+                }else{
+                    console.warn('Not found selected element on selecPropData change');
+                }
             }else{
-                console.warn('Not found selected element on selecPropData change');
+                console.log('Selected false')
+                setFieldValue(selectPropData[0][identificatorKeyName]);
             }
-        }else{
-            console.log('Selected false')
-            setFieldValue(selectPropData[0][identificatorKeyName]);
-        }
 
-        console.log(fieldValue);
+            console.log(fieldValue);
+        }
     }, [selectPropData])
     
     return (

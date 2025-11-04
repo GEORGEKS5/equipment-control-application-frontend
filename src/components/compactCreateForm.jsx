@@ -9,7 +9,7 @@ import DefaultButton from '../components/UI/defaultButton';
 import FormInput from '../components/UI/formInput';
 import CompactForm from '../layouts/compactForm';
 
-function CompactEditForm({isBindedField, identificatorKeyName, valueKeyName, propInsert, hideCompactForm, extraPropInsert, compactFormVisible, targetModelName, targetPropModelName, extraRequestData, selectPropData}) {
+function CompactEditForm({isBindedField, identificatorKeyName, valueKeyName, propInsert, hideCompactForm, extraPropInsert, compactFormVisible, targetModelName, targetPropModelName, extraRequestData, selectPropData = []}) {
     const {USER_STATE} = useContext(UserContext);
 
     const [fieldValue, setFieldValue] = useState('');
@@ -56,22 +56,26 @@ function CompactEditForm({isBindedField, identificatorKeyName, valueKeyName, pro
     }
 
     useEffect(() => {
-        let fieldName = 'selected';
+        console.log(selectPropData);
 
-        if(fieldName in selectPropData[0]){
-            let sq = selectPropData.find(item => item[fieldName]);
-            
-            if(sq){
-                fieldValue = sq[identificatorKeyName];
+        if(selectPropData?.length){
+            let fieldName = 'selected';
+
+            if(fieldName in selectPropData[0]){
+                let sq = selectPropData.find(item => item[fieldName]);
+                
+                if(sq){
+                    setFieldValue(sq[identificatorKeyName]);
+                }else{
+                    console.warn('Not found selected element on selecPropData change');
+                }
             }else{
-                console.warn('Not found selected element on selecPropData change');
+                console.log('Selected false')
+                setFieldValue(selectPropData[0][identificatorKeyName]);
             }
-        }else{
-            console.log('Selected false')
-            fieldValue = selectPropData[0][identificatorKeyName];
-        }
 
-        console.log(fieldValue);
+            console.log(fieldValue);
+        }
     }, [selectPropData])
 
     return (
