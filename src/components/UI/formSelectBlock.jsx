@@ -102,7 +102,7 @@ function FormSelectBlock({selectBlockValue, selectBlockData, selectPropDataUrlAd
         }
 
         return {selectBlockData, selectBlockValue};
-    }, [])
+    }, [selectBlockValue, selectBlockData])
 
     return (
         <>

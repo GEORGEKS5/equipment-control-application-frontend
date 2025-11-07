@@ -16,6 +16,7 @@ function CompactEditForm({editObject, identificatorKeyName, valueKeyName, propUp
 
     function hideForm(){
         hideCompactForm();
+        setFieldValue('');
     }
 
     function changeInputValue(value){
