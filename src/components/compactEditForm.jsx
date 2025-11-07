@@ -84,7 +84,7 @@ function CompactEditForm({editObject, identificatorKeyName, valueKeyName, propUp
     }, [selectPropData])
 
     return (
-        <CompactForm formVisible={compactFormVisible} hideForm={hideForm}>
+        <CompactForm formVisible={compactFormVisible} hideChildForm={hideForm}>
             <SectionHeader>
                 <h3>Изменение свойства</h3>
             </SectionHeader>

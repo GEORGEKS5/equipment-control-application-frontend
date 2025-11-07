@@ -9,7 +9,7 @@ import DefaultButton from '../components/UI/defaultButton';
 import FormInput from '../components/UI/formInput';
 import CompactForm from '../layouts/compactForm';
 
-function CompactEditForm({isBindedField, identificatorKeyName, valueKeyName, propInsert, hideCompactForm, extraPropInsert, compactFormVisible, targetModelName, targetPropModelName, extraRequestData, selectPropData = []}) {
+function CompactCreateForm({isBindedField, identificatorKeyName, valueKeyName, propInsert, hideCompactForm, extraPropInsert, compactFormVisible, targetModelName, targetPropModelName, extraRequestData, selectPropData = []}) {
     const {USER_STATE} = useContext(UserContext);
 
     const [fieldValue, setFieldValue] = useState('');
@@ -79,7 +79,7 @@ function CompactEditForm({isBindedField, identificatorKeyName, valueKeyName, pro
     }, [selectPropData])
 
     return (
-        <CompactForm formVisible={compactFormVisible} hideForm={hideForm}>
+        <CompactForm formVisible={compactFormVisible} hideChildForm={hideForm}>
             <SectionHeader>
                 <h3>Добавление свойства</h3>
             </SectionHeader>
@@ -120,4 +120,4 @@ function CompactEditForm({isBindedField, identificatorKeyName, valueKeyName, pro
     )
 }
 
-export default CompactEditForm;
+export default CompactCreateForm;
