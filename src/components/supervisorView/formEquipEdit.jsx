@@ -6,7 +6,7 @@ import markSelectedProperty from '../../helpers/markData.js'
 import DialogWindow from "../../layouts/dialogWindow";
 import FormInput from "../UI/formInput.jsx";
 import DefaultButton from "../UI/defaultButton.jsx";
-import FormSelectBlock from "../UI/FormSelectBlock.jsx";
+import FormSelectBlock from "../UI/formSelectBlock.jsx";
 import UserContext from "../../context/user.js";
 import FormField from "../../layouts/slots/formField.jsx";
 import FormFooter from "../../layouts/slots/formFooter.jsx";
@@ -74,11 +74,16 @@ function FormEquipEdit({visible, editEquipment, hideWindow, updateData, propUpda
 
         catProm.then(promR=>{
             promR.json().then(jsonResult=>{
-                setEqCategoryData({...jsonResult});
                 setEquipmentViewModel({...equipmentViewModel, CategoryName: val});
+                setEqCategoryData(stateVal => {
+                    const newVal = [...jsonResult];
+                    console.log(newVal);
 
-                markSelectedProperty(eqCategoryData, equipmentViewModel.CategoryName, 'id');
-                propUpdated();
+                    markSelectedProperty(newVal, val, 'id');
+                    propUpdated();
+
+                    return newVal
+                });
             });
         })
     }
@@ -183,8 +188,8 @@ function FormEquipEdit({visible, editEquipment, hideWindow, updateData, propUpda
                     targetModelName="Category"
                     fieldCaption="Категория"
                     extraRequestData={{}}
-                    propCategoryUpdate={updateCategoryList}
-                    propCategoryInsert={updateCategoryList}
+                    sendPropUpdate={updateCategoryList}
+                    sendPropInsert={updateCategoryList}
                     updateSelect={updateCategory}>
                 </FormSelectBlock>
                 <FormSelectBlock 
@@ -195,8 +200,8 @@ function FormEquipEdit({visible, editEquipment, hideWindow, updateData, propUpda
                     valueKeyName="id" 
                     fieldCaption="Производитель"
                     extraRequestData={{}}
-                    propBrandUpdate={updateBrandList}
-                    propBrandInsert={updateBrandList}
+                    sendPropUpdate={updateBrandList}
+                    sendPropInsert={updateBrandList}
                     updateSelect={updateBrand}>
                 </FormSelectBlock>
                 <FormSelectBlock 
@@ -209,8 +214,8 @@ function FormEquipEdit({visible, editEquipment, hideWindow, updateData, propUpda
                     identificatorKeyName="id" 
                     valueKeyName="id" 
                     extraRequestData={brandCategoryBind}
-                    propModelUpdate={updateModelList}
-                    propModelInsert={updateModelList}
+                    sendPropUpdate={updateModelList}
+                    sendPropInsert={updateModelList}
                     propSingleModelInsert={updateSingleModelList}
                     updateSelect={updateModel}>
                 </FormSelectBlock>

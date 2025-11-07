@@ -59,7 +59,7 @@ function SupervisorView(){
                 hideWindow={() => {setEquipEditFormVisibility(false)}}
                 updateData={updateAfterEquipEdit}
                 editEquipment={equipEditSelectedModel}
-                propUpdated={()=>{}}>
+                propUpdated={updateAfterPropertyEdit}>
             </FormEquipEdit>
 
             <div id="rootEl" className="flexParent">

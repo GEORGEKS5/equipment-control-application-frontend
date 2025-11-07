@@ -26,7 +26,7 @@ function CompactCreateForm({isBindedField, identificatorKeyName, valueKeyName, p
         setFieldValue(value);
     }
 
-    function propInsert(value){
+    function sendExtraPropInsert(value){
         extraPropInsert(value);
     }
 
@@ -96,7 +96,7 @@ function CompactCreateForm({isBindedField, identificatorKeyName, valueKeyName, p
                             targetModelName={targetPropModelName}
                             fieldCaption="Значение"
                             updateSelect={changeSelectValue}
-                            propInsert={propInsert}
+                            propInsert={extraPropInsert}
                         ></PropFormSelectBlock>
                     :
                         <FormInput

@@ -57,6 +57,7 @@ function FormSelectBlock({selectBlockValue, selectBlockData, selectPropDataUrlAd
     }
 
     function propInsert(val){
+        console.log('prop insert');
         setVisible({...visible, createForm: false});
         sendPropInsert(val);
     }
