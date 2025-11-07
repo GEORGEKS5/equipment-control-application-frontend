@@ -64,7 +64,6 @@ function FormSelectBlock({selectBlockValue, selectBlockData, selectPropDataUrlAd
 
     function extraPropInsert(val){
         installSelectPropData(val);
-        sendExtraPropInsert(val);
     }
 
     function installSelectPropData(activeValue){

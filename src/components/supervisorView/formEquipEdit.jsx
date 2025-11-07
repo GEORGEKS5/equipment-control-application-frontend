@@ -121,7 +121,7 @@ function FormEquipEdit({visible, editEquipment, hideWindow, updateData, propUpda
                 const newModel = {...equipmentViewModel, ModelName: val};
                 setEquipmentViewModel(newModel);
                 setEquipmentRequestModel(newModel);
-                
+
                 setEqModelData(() => {
                     const newVal = [...jsonResult];
                     markSelectedProperty(newVal, val, 'id');

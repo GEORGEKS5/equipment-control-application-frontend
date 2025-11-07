@@ -12,10 +12,6 @@ function CompactCreatePropForm({compactFormVisible, targetModelName, targetPropM
     const [fieldValue, setFieldValue] = useState('');
     const {USER_STATE} = useContext(UserContext);
 
-    function hideForm(){
-        hideCompactForm();
-    }
-
     function changeInputValue(value){
         setFieldValue(value);
     }
@@ -24,8 +20,8 @@ function CompactCreatePropForm({compactFormVisible, targetModelName, targetPropM
         setFieldValue(value);
     }
 
-    function propInsert(value){
-        extraPropInsert(value);
+    function sendPropInsert(value){
+        //extraPropInsert(value);
     }
 
     function saveProp(){
@@ -75,7 +71,7 @@ function CompactCreatePropForm({compactFormVisible, targetModelName, targetPropM
     return (
         <CompactForm
             formVisible={compactFormVisible}
-            hideForm={hideForm}
+            hideChildForm={hideCompactForm}
             >
             <SectionHeader>
                 <h3>Добавление свойства</h3>
