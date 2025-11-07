@@ -74,10 +74,12 @@ function FormEquipEdit({visible, editEquipment, hideWindow, updateData, propUpda
 
         catProm.then(promR=>{
             promR.json().then(jsonResult=>{
-                setEquipmentViewModel({...equipmentViewModel, CategoryName: val});
+                const newModel = {...equipmentViewModel, CategoryName: val};
+                setEquipmentViewModel(newModel);
+                setEquipmentRequestModel(newModel);
+
                 setEqCategoryData(stateVal => {
                     const newVal = [...jsonResult];
-                    console.log(newVal);
 
                     markSelectedProperty(newVal, val, 'id');
                     propUpdated();
@@ -94,11 +96,18 @@ function FormEquipEdit({visible, editEquipment, hideWindow, updateData, propUpda
 
         brandProm.then(promR=>{
             promR.json().then(jsonResult=>{
-                setEqBrandData({...jsonResult});
-                setEquipmentViewModel({...equipmentViewModel, BrandName: val});
+                const newModel = {...equipmentViewModel, BrandName: val};
+                setEquipmentViewModel(newModel);
+                setEquipmentRequestModel(newModel);
 
-                markSelectedProperty(eqBrandData, equipmentViewModel.BrandName, 'id');
-                propUpdated();
+                setEqBrandData(() => {
+                    const newVal = [...jsonResult];
+
+                    markSelectedProperty(newVal, val, 'id');
+                    propUpdated();
+
+                    return newVal
+                });
             });
         });
     }
@@ -109,11 +118,17 @@ function FormEquipEdit({visible, editEquipment, hideWindow, updateData, propUpda
 
         modelProm.then(promR=>{
             promR.json().then(jsonResult=>{
-                setEqModelData({...jsonResult});
-                setEquipmentViewModel({...equipmentViewModel, ModelName: val});
+                const newModel = {...equipmentViewModel, ModelName: val};
+                setEquipmentViewModel(newModel);
+                setEquipmentRequestModel(newModel);
+                
+                setEqModelData(() => {
+                    const newVal = [...jsonResult];
+                    markSelectedProperty(newVal, val, 'id');
+                    propUpdated();
 
-                markSelectedProperty(eqModelData, equipmentViewModel.ModelName, 'id');
-                propUpdated();
+                    return newVal;
+                });
             });
         });
     }

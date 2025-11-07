@@ -57,38 +57,55 @@ function PropertyFormSelect({selectValue, selectData, selectDefaultValue, identi
     }
 
     function filterSelectDataByExtraValues(selectData, extraData){
-        return selectData.filter(it => {
-            for(let key in extraData){
-                if(it[key] != extraData[key]){
-                    return false
+        let selectDataLength = Object.keys(selectData).length;
+
+        if(selectDataLength && objectPropsNotUndefined(extraData)){
+            let s = selectData.filter(it => {
+                for(let key in extraData){
+                    if(it[key] != extraData[key]){
+                        return false
+                    }
                 }
-            }
-            return true
-        })
+                return true
+            })
+
+            return s;
+        }
+
+        return [];
     }
 
     function installSelectData(){
-        let extraDataSize = Object.keys(extraRequestData).length;
+        console.log(selectData);
+
+        let extraDataSize = Object.keys(extraRequestData ? extraRequestData : {}).length;
 
         if(extraDataSize){
-            setFilteredSelectData(filterSelectDataByExtraValues(selectData, extraRequestData));
-            updateBindedSelect(filteredSelectData);
+            let selectDataLength = selectData.length;
+
+            if(selectDataLength){
+                setFilteredSelectData(v => {
+                    const nv = [...filterSelectDataByExtraValues(selectData, extraRequestData)];
+                    updateBindedSelect(nv);
+                    return nv;
+                })
+            }
         }else{
-            setFilteredSelectData(selectData);
+            console.log('setFilteredSelectData setting')
+            setFilteredSelectData([...selectData])
         }
     }
 
     useEffect(()=>{
-        console.log('Select Data Changed ' + targetModelName );
-        console.log(selectData);
-        installSelectData();
+        if(selectData.length){
+            installSelectData();
+        }
     }, [selectData])
     
     return (
         <select name="" onChange={selectUpdated} className="text-[#000000] bg-[#F3F3F3] text-[11px] rounded-sm px-5 py-2">
-            {selectDefaultValue ? <option value="" selected disabled> { selectDefaultValue } </option> : <></>}
             {filteredSelectData.map(dt =>{
-                            <option 
+                           return <option 
                 key={dt[identificatorKeyName]} 
                 value={dt[identificatorKeyName]} 
                 selected={dt.selected}>{ dt[valueKeyName] }</option>

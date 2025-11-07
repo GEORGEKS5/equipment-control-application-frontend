@@ -61,7 +61,7 @@ function PropFormSelectBlock({selectBlockValue, selectBlockData, selectPropData,
     const selectedElement = useMemo(() => {
         let selDataKeySize = Object.keys(selectBlockData).length;
         if(selDataKeySize){
-            let elt = this.selectBlockData.find(item => {
+            let elt = selectBlockData.find(item => {
                 return item[valueKeyName] === selectBlockValue ? item : null
             });
 
