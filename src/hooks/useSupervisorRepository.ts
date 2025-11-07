@@ -36,5 +36,6 @@ export default function(){
         getPinedEquipmentRepository,
         getPinReadyEquipmentRepository,
         getUnitedRepository,
+        setPinReadyEquipment,
     }
 }

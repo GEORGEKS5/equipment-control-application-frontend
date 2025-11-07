@@ -19,18 +19,24 @@ import useSupervisorViewDataTable from '../hooks/useSupervisorViewDataTable';
 import useSupervisorFormModel from '../hooks/useSupervisorFormModel';
 
 function SupervisorView(){
-    const {supervisorPinedEquipment, pinReadyEquipment, getPinedEquipmentRepository, getPinReadyEquipmentRepository, getUnitedRepository} = useSupervisorRepository();
+    const {supervisorPinedEquipment, pinReadyEquipment, getPinedEquipmentRepository, getPinReadyEquipmentRepository, getUnitedRepository, setPinReadyEquipment} = useSupervisorRepository();
     const {pinReadyEquipmentTable, supervisorPinedEquipmentTable} = useSupervisorViewDataTable();
     const {equipEditFormVisibility, setEquipEditFormVisibility, equipEditSelectedModel, setEquipEditSelectedModel} = useSupervisorFormModel(pinReadyEquipment);
 
     function updateAfterEquipEdit(val){ 
         console.log('updateAfterEquipEdit: ');
-        console.log(val);
+        console.log(pinReadyEquipment);
+
         let index = pinReadyEquipment.findIndex(item =>{
+            console.log(item);
             return item.SerialNumber === val.SerialNumber
         });
-        
-        //this.pinReadyEquipment.splice(index, 1, val);
+
+        let tempPinReadyEq = [...pinReadyEquipment];
+        tempPinReadyEq.splice(index, 1, val);
+
+        setPinReadyEquipment(tempPinReadyEq);
+
         setEquipEditFormVisibility(false);
     }
 
