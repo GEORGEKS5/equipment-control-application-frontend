@@ -2,14 +2,13 @@ import { useContext, useEffect, useMemo, useState } from "react";
 import {mdiContentSaveCheckOutline } from '@mdi/js'  
 import getEquipmentListData from '../../helpers/Data/equipmentListDataFetch.js'
 import getRequestPromise from '../../helpers/lib';
-import markSelectedProperty from '../../helpers/markData.js'
 import DialogWindow from "../../layouts/dialogWindow";
-import FormInput from "../UI/formInput.jsx";
 import DefaultButton from "../UI/defaultButton.jsx";
 import FormSelectBlock from "../UI/formSelectBlock.jsx";
 import UserContext from "../../context/user.js";
 import FormField from "../../layouts/slots/formField.jsx";
 import FormFooter from "../../layouts/slots/formFooter.jsx";
+import markSelectedProperty from '../../helpers/markData.js'
 
 function FormEquipEdit({visible, editEquipment, hideWindow, updateData, propUpdated}) {
     const [equipmentViewModel, setEquipmentViewModel] = useState({});
@@ -36,7 +35,6 @@ function FormEquipEdit({visible, editEquipment, hideWindow, updateData, propUpda
             updateEquipmentModelState('ModelName', 'ModelId', val)
             markSelectedProperty(eqModelData, val['ModelId'], 'id');
         }
-        //
     }
 
     function updateBrand(val){
@@ -59,12 +57,6 @@ function FormEquipEdit({visible, editEquipment, hideWindow, updateData, propUpda
                 updateData(equipmentViewModel);
                 setEquipmentViewModel({});
             }
-        })
-    }
-
-    function markSelectedProperty(selectArray, value, keyName){        
-        selectArray.map(item => {
-            item.selected = item[keyName] === value ? true : false
         })
     }
 
