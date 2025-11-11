@@ -1,0 +1,32 @@
+.listWrapper{
+    overflow-y: scroll;
+    scrollbar-width: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: #EDEDED;
+}
+.listWrapper ul{
+    list-style-type: none;
+    padding: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 85%;
+    display: flex;
+    flex-direction: column;
+}
+.listWrapper li{
+    margin-top: .8em
+}
+.listWrapper button{
+    width: 100%;
+    text-align: left;
+    border: 0px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0;
+    padding: .7em 1.5em .7em 1.5em;
+    font-size: 10.5px;
+    border-radius: 8px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
