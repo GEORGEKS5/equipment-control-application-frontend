@@ -1,6 +1,7 @@
 import HeaderBlock from '../components/headerBlock';
 import DataTable from '../components/table/dataTable';
 import FormEquipEdit from '../components/supervisorView/formEquipEdit';
+import FormEquipNew from '../components/supervisorView/formEquipNew';
 
 import ContentBlock from '../layouts/contentBlock';
 import ContentBlockSection from '../layouts/contentBlockSection';
@@ -12,21 +13,18 @@ import MainContent from '../layouts/slots/mainContent';
 import SideBar from '../layouts/slots/sideBar';
 import SectionData from "../layouts/slots/sectionData";
 import SectionHeader from "../layouts/slots/sectionHeader";
-import SectionFooter from "../layouts/slots/sectionFooter";
+import ContentSectionFooter from "../layouts/slots/contentSectionFooter";
 
-import useSupervisorRepository from '../hooks/useSupervisorRepository';
-import useSupervisorViewDataTable from '../hooks/useSupervisorViewDataTable';
-import useSupervisorFormModel from '../hooks/useSupervisorFormModel';
+import useSupervisorRepository from '../hooks/supervisor/useSupervisorRepository';
+import useSupervisorViewDataTable from '../hooks/supervisor/useSupervisorViewDataTable';
+import useSupervisorFormModel from '../hooks/supervisor/useSupervisorFormModel';
 
 function SupervisorView(){
     const {supervisorPinedEquipment, pinReadyEquipment, getPinedEquipmentRepository, getPinReadyEquipmentRepository, getUnitedRepository, setPinReadyEquipment} = useSupervisorRepository();
     const {pinReadyEquipmentTable, supervisorPinedEquipmentTable} = useSupervisorViewDataTable();
-    const {equipEditFormVisibility, setEquipEditFormVisibility, equipEditSelectedModel, setEquipEditSelectedModel} = useSupervisorFormModel(pinReadyEquipment);
+    const {equipCreateForm, equipEditForm, equipFixationForm, filterPinReadyFormController, filterSupervisorPinedEquipFormController, fixEquipBySNForm } = useSupervisorFormModel();
 
     function updateAfterEquipEdit(val){ 
-        console.log('updateAfterEquipEdit: ');
-        console.log(pinReadyEquipment);
-
         let index = pinReadyEquipment.findIndex(item =>{
             console.log(item);
             return item.SerialNumber === val.SerialNumber
@@ -38,6 +36,7 @@ function SupervisorView(){
         setPinReadyEquipment(tempPinReadyEq);
 
         setEquipEditFormVisibility(false);
+        equipEditForm.hide();
     }
 
     function updateAfterPropertyEdit(){
@@ -45,8 +44,7 @@ function SupervisorView(){
     }
 
     function editButtonClick(e){
-        setEquipEditFormVisibility(true);
-        setEquipEditSelectedModel(e, "SerialNumber");
+        equipEditForm.show(e, pinReadyEquipment);
     }
 
     function tableButtonClick(buttonType, e){  
@@ -58,15 +56,25 @@ function SupervisorView(){
         }
     }
 
+    function updateAfterEquipCreate(){
+        getPinReadyEquipmentRepository();
+        equipCreateForm.hide();
+    }
+
     return (
         <>
             <FormEquipEdit 
-                visible={equipEditFormVisibility}
-                hideWindow={() => {setEquipEditFormVisibility(false)}}
+                visible={equipEditForm.visible}
+                hideWindow={() => {equipEditForm.hide()}}
                 updateData={updateAfterEquipEdit}
-                editEquipment={equipEditSelectedModel}
+                editEquipment={equipEditForm.selectedModel}
                 propUpdated={updateAfterPropertyEdit}>
             </FormEquipEdit>
+            <FormEquipNew
+                visible={equipCreateForm.visible}
+                updateData={updateAfterEquipCreate}
+                hideWindow={() => {equipCreateForm.hide()}}>
+            </FormEquipNew>
 
             <div id="rootEl" className="flexParent">
                 <HeaderBlock></HeaderBlock>
@@ -84,9 +92,9 @@ function SupervisorView(){
                                         tableStructure={supervisorPinedEquipmentTable.header}
                                     ></DataTable>
                                 </SectionData>
-                                <SectionFooter>
+                                <ContentSectionFooter>
                                     <h4>Закрепить оборудование по SN</h4>
-                                </SectionFooter>
+                                </ContentSectionFooter>
                             </ContentSection>
                         </ContentBlockSection>
                     </MainContent>
@@ -105,9 +113,10 @@ function SupervisorView(){
                                         buttonClick={tableButtonClick}
                                     ></DataTable>
                                 </SectionData>
-                                <SectionFooter>
-                                    <h4>Добавить новое</h4>
-                                </SectionFooter>
+                                <ContentSectionFooter
+                                    buttonCaption='Добавить новое'
+                                    buttonClick={() => {equipCreateForm.show()}}>
+                                </ContentSectionFooter>
                             </ContentSection>
                         </ContentBlockSection> 
                     </SideBar>  
