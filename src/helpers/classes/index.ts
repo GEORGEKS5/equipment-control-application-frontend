@@ -1,6 +1,6 @@
 import { IButton, IHeaderCell, IMouseEvent, IModelForm } from "../interfaces";
-import { Ref, ref } from "vue"
 import { button, TEquipment, formName, TEmployee, TConstructiveObject } from "../types";
+import React, { Dispatch, SetStateAction, useState } from "react";
 
 export class TableHeaderCell implements IHeaderCell{
     name: string;
@@ -29,35 +29,39 @@ export class TableButton implements IButton{
 }
 
 export class BasicForm{
-    private _visibility: Ref<boolean>
+    private _visibility: [ boolean, Dispatch<SetStateAction<boolean>> ]
 
     constructor(){
-        this._visibility = ref(false);
+        this._visibility = useState(false);
     }
 
     get visible(){
-        return this._visibility.value
+        return this._visibility[0]
     }
 
     hide(): void{
-        this._visibility.value = false;
+        this._visibility[1]((val) => {
+            return false;
+        });
     }
 
     show(event?: IMouseEvent, dataModel?: any[]): void{
-        this._visibility.value = true;
+        this._visibility[1]((val) => {
+            return true;
+        });
     }
 }
 
 abstract class AModelForm<T> extends BasicForm implements IModelForm<T>{
-    protected _selectedModel: Ref<T>
+    protected _selectedModel: [ T , Dispatch<SetStateAction<T>>]
 
     constructor(protected _defaultSelectModel: T){
         super();
-        this._selectedModel = ref();
+        this._selectedModel = useState<T>(_defaultSelectModel);
     }
 
     get selectedModel(): T {
-        return this._selectedModel.value ?? this._defaultSelectModel;
+        return this._selectedModel[0] ?? this._defaultSelectModel;
     }
 
     public show(event: IMouseEvent, dataModel?: T[]): void {
@@ -67,11 +71,11 @@ abstract class AModelForm<T> extends BasicForm implements IModelForm<T>{
 
     public hide(): void {
         super.hide();
-        this._selectedModel.value = this._defaultSelectModel;
+        this._selectedModel[1](this._defaultSelectModel);
     }
 
     protected findSelectedModel(event: IMouseEvent, modelKeyName: keyof T, dataModel: T[]): T{
-        let activeElement: T = dataModel?.find(val =>{
+        let activeElement: T | undefined= dataModel?.find(val =>{
             return val[modelKeyName] === event.currentTarget.value;
         });
 
@@ -106,7 +110,7 @@ export class EquipmentModelForm extends AModelForm<TEquipment>{
     }
 
     protected setSelectedModel(event: IMouseEvent, dataModel: TEquipment[]): void {
-        this._selectedModel.value = this.findSelectedModel(event, "SerialNumber", dataModel);
+        this._selectedModel[1](this.findSelectedModel(event, "SerialNumber", dataModel));
     }
 }
 
@@ -120,7 +124,7 @@ export class EmployeeModelForm extends AModelForm<TEmployee>{
     }
 
     protected setSelectedModel(event: IMouseEvent, dataModel: TEmployee[]): void {      
-        this._selectedModel.value = this.findSelectedModel(event, 'UserName', dataModel);
+        this._selectedModel[1](this.findSelectedModel(event, 'UserName', dataModel));
     }
 }
 
@@ -130,7 +134,7 @@ export class EmployeeIdentifierOnlyModelForm extends AModelForm<TEmployee>{
     }
 
     protected setSelectedModel(event: IMouseEvent): void {
-        this._selectedModel.value = this.findIdentifierOnlySelectedModel(event, "UserName");
+        this._selectedModel[1](this.findIdentifierOnlySelectedModel(event, "UserName"));
     }
 }
 
@@ -140,7 +144,7 @@ export class EquipmentIdentifierOnlyModelForm extends AModelForm<TEquipment>{
     }
 
     protected setSelectedModel(event: IMouseEvent): void {
-        this._selectedModel.value = this.findIdentifierOnlySelectedModel(event, "SerialNumber");
+        this._selectedModel[1](this.findIdentifierOnlySelectedModel(event, "SerialNumber"));
     }
 }
 
@@ -150,27 +154,27 @@ export class ConstructiveObjectIdentifierOnlyModelForm extends AModelForm<TConst
     }
     
     protected setSelectedModel(event: IMouseEvent, dataModel?: TConstructiveObject[]): void {
-        this._selectedModel.value = this.findIdentifierOnlySelectedModel(event, "objectIdentificator");
+        this._selectedModel[1](this.findIdentifierOnlySelectedModel(event, "objectIdentificator"));
     }
 }
 
 export class FilterForm extends BasicForm{
-    private _filterCategory: Ref<string>
-    static absoluteFormClientRect: Ref<DOMRect> 
+    private _filterCategory: [string, Dispatch<string>]
+    static absoluteFormClientRect: [DOMRect, Dispatch<DOMRect>] 
 
     constructor(private _name: formName){
         super();
-        this._filterCategory = ref('');
+        this._filterCategory = useState('');
         this._name = _name;
-        FilterForm.absoluteFormClientRect = ref();
+        FilterForm.absoluteFormClientRect = useState(new DOMRect());
     }
 
     set filterCategory(value: string){
-        this._filterCategory.value = value;
+        this._filterCategory[1](value);
     }
 
     get filterCategory(){
-        return this._filterCategory.value
+        return this._filterCategory[0]
     }
 
     get name(){
@@ -192,7 +196,7 @@ export class FilterFormVisibilityController{
     }
 
     protected checkUniqueFormName(testFormName: formName): boolean{
-        const res: FilterForm = this._filterFormSet.find(val=>{
+        const res: FilterForm | undefined = this._filterFormSet?.find(val=>{
             return val.name === testFormName
         });
 
@@ -208,7 +212,7 @@ export class FilterFormVisibilityController{
 
         if(this.checkUniqueFormName(additingFormName)){
             if(!this.checkActiveFormName(additingFormName)){
-                this._filterFormSet.push(formObject);
+                this._filterFormSet?.push(formObject);
             }else{
                 throw new Error('Imposible to add an active form');
             }
@@ -218,7 +222,7 @@ export class FilterFormVisibilityController{
     }
 
     protected hideUnactiveFormSet(){
-        this._filterFormSet.forEach(form=>{
+        this._filterFormSet?.forEach(form=>{
             form.hide();
         })
     }
@@ -228,6 +232,6 @@ export class FilterFormVisibilityController{
         this.hideUnactiveFormSet();
         const currentTarget = event.currentTarget;
         this.activeForm.filterCategory = typeof currentTarget.value === 'string' ? currentTarget.value : '';
-        FilterForm.absoluteFormClientRect.value = currentTarget.parentElement.getBoundingClientRect();
+        FilterForm.absoluteFormClientRect[1](currentTarget.parentElement.getBoundingClientRect());
     }
 }
