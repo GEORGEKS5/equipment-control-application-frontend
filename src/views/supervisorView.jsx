@@ -2,6 +2,7 @@ import HeaderBlock from '../components/headerBlock';
 import DataTable from '../components/table/dataTable';
 import FormEquipEdit from '../components/supervisorView/formEquipEdit';
 import FormEquipNew from '../components/supervisorView/formEquipNew';
+import DataOrderForm from '../components/dataOrderForm';
 
 import ContentBlock from '../layouts/contentBlock';
 import ContentBlockSection from '../layouts/contentBlockSection';
@@ -15,13 +16,16 @@ import SectionData from "../layouts/slots/sectionData";
 import SectionHeader from "../layouts/slots/sectionHeader";
 import ContentSectionFooter from "../layouts/slots/contentSectionFooter";
 
+import { FilterForm } from '../helpers/classes';
 import useSupervisorRepository from '../hooks/supervisor/useSupervisorRepository';
 import useSupervisorViewDataTable from '../hooks/supervisor/useSupervisorViewDataTable';
 import useSupervisorFormModel from '../hooks/supervisor/useSupervisorFormModel';
+import useSupervisorFilterRepository from '../hooks/supervisor/useSupervisorFilterRepository';
 
 function SupervisorView(){
     const {supervisorPinedEquipment, pinReadyEquipment, getPinedEquipmentRepository, getPinReadyEquipmentRepository, getUnitedRepository, setPinReadyEquipment} = useSupervisorRepository();
     const {pinReadyEquipmentTable, supervisorPinedEquipmentTable} = useSupervisorViewDataTable();
+    const {filterSupervisorPinedEquipment, filterPinReadyEquipment, setFilterPinReadyEquipment, setFilterSupervisorPinedEquipment} = useSupervisorFilterRepository(supervisorPinedEquipment, pinReadyEquipment);
     const {equipCreateForm, equipEditForm, equipFixationForm, filterPinReadyFormController, filterSupervisorPinedEquipFormController, fixEquipBySNForm } = useSupervisorFormModel();
 
     function updateAfterEquipEdit(val){ 
@@ -61,6 +65,16 @@ function SupervisorView(){
         equipCreateForm.hide();
     }
 
+    function setOrderedSupervisorPinedEquipToView(elements){
+        setFilterSupervisorPinedEquipment(elements);
+        filterSupervisorPinedEquipFormController.activeForm.hide();
+    }
+    
+    function setOrderedPinReadyEquipToView(elements){
+        setFilterPinReadyEquipment(elements);
+        filterPinReadyFormController.activeForm.hide();
+    }
+
     return (
         <>
             <FormEquipEdit 
@@ -76,6 +90,26 @@ function SupervisorView(){
                 hideWindow={() => {equipCreateForm.hide()}}>
             </FormEquipNew>
 
+            <DataOrderForm
+                formVisible={filterPinReadyFormController.activeForm.visible}
+                originFilterObject={pinReadyEquipment}
+                originSortObject={filterPinReadyEquipment}
+                orderCategory={filterPinReadyFormController.activeForm.filterCategory}
+                clientRect={FilterForm.absoluteFormClientRect}
+                elementOrdered={setOrderedPinReadyEquipToView}
+                hideForm={() => {filterPinReadyFormController.activeForm.hide()}}
+            ></DataOrderForm>
+
+            <DataOrderForm
+                formVisible={filterSupervisorPinedEquipFormController.activeForm.visible}
+                originFilterObject={supervisorPinedEquipment}
+                originSortObject={filterSupervisorPinedEquipment}
+                orderCategory={filterSupervisorPinedEquipFormController.activeForm.filterCategory}
+                clientRect={FilterForm.absoluteFormClientRect}
+                elementOrdered={setOrderedSupervisorPinedEquipToView}
+                hideForm={() => {filterSupervisorPinedEquipFormController.activeForm.hide()}}
+            ></DataOrderForm>
+
             <div id="rootEl" className="flexParent">
                 <HeaderBlock></HeaderBlock>
 
@@ -88,8 +122,9 @@ function SupervisorView(){
                                 </SectionHeader>
                                 <SectionData>
                                     <DataTable
-                                        tableData={supervisorPinedEquipment}
+                                        tableData={filterSupervisorPinedEquipment}
                                         tableStructure={supervisorPinedEquipmentTable.header}
+                                        filterButtonClick={e => filterSupervisorPinedEquipFormController.showActiveForm(e)}
                                     ></DataTable>
                                 </SectionData>
                                 <ContentSectionFooter>
@@ -107,9 +142,10 @@ function SupervisorView(){
                                 </SectionHeader>
                                 <SectionData>
                                     <DataTable
-                                        tableData={pinReadyEquipment}
+                                        tableData={filterPinReadyEquipment}
                                         tableStructure={pinReadyEquipmentTable.header}
                                         tableActionButton={pinReadyEquipmentTable.button}
+                                        filterButtonClick={e => filterPinReadyFormController.showActiveForm(e)}
                                         buttonClick={tableButtonClick}
                                     ></DataTable>
                                 </SectionData>
