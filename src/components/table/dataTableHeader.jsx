@@ -2,9 +2,10 @@ import DefaultButton from "../UI/defaultButton";
 import tableStyle from '../../styles/table.module.css';
 import { mdiFilter } from "@mdi/js";
 
-function DataTableHeader({tableStructure, tableActionButtonAmount}){
-    function filtrateColumn(){
-        return 0;
+function DataTableHeader({tableStructure, tableActionButtonAmount, filterButtonClick}){
+    function filtrateColumn(e){
+        console.log(e);
+        filterButtonClick(e);
     }
 
     return (

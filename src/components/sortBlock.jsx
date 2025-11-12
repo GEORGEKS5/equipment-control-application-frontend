@@ -11,15 +11,15 @@ function SortBlock({originSortObject = [], orderCategory = '', elementOrdered}) 
     }
 
     function sortByASC(a,b){
-        const aString = String(a[this.orderCategory]);
-        const bString = String(b[this.orderCategory]);
+        const aString = String(a[orderCategory]);
+        const bString = String(b[orderCategory]);
 
         return aString.localeCompare(bString)
     }
 
     function sortByDESC(a,b){
-        const aString = String(a[this.orderCategory]);
-        const bString = String(b[this.orderCategory]);
+        const aString = String(a[orderCategory]);
+        const bString = String(b[orderCategory]);
 
         return bString.localeCompare(aString)
     }
@@ -48,7 +48,7 @@ function SortBlock({originSortObject = [], orderCategory = '', elementOrdered}) 
                     buttonClick={emitSortingElementsByASC}
                 ></DefaultButton>
                 <DefaultButton
-                    buttonCaption="'Я'"
+                    buttonCaption="Я"
                     buttonClass="'default'"
                     buttonClick={emitSortingElementsByDESC}
                 ></DefaultButton>

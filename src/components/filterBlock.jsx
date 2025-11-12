@@ -19,14 +19,16 @@ function FilterBlock({originFilterObject = [], orderCategory = '', elementOrdere
         console.log('filterOprionMemo on change originFilterObject');
         let set = new Set();
 
-        if(originFilterObject.length){
-            originFilterObject.forEach(item => {
-            set.add(item[orderCategory])
-        });
-        }
+        console.log(originFilterObject);
 
-        return set;
-    },[originFilterObject])
+            if(originFilterObject.length){
+                originFilterObject.forEach(item => {
+                    set.add(item[orderCategory])
+                });
+            }
+
+        return Array.from(set);
+    },[originFilterObject, orderCategory])
 
     return (
         <div className="grid grid-rows-[0.25fr_0.7fr] grid-cols-[0.8fr] justify-center overflow-hidden">
@@ -34,7 +36,7 @@ function FilterBlock({originFilterObject = [], orderCategory = '', elementOrdere
             <div className={blockStyle.listWrapper}>
                 <ul>
                     {
-                        filterOptions.map((item) => {
+                        filterOptions?.map((item) => {
                             return (
                                 <li>
                                     <button className="bg-[#ffffff] text-[#000000]" onClick={filterElements} value={item}>{ item }</button>
