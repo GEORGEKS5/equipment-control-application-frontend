@@ -48,13 +48,11 @@ function SupervisorView(){
         getUnitedRepository();
     }
 
-    function editButtonClick(e){
-        equipEditForm.show(e, pinReadyEquipment);
-    }
-
     function tableButtonClick(buttonType, e){  
         switch (buttonType) {
-            case 'editButtonClick': editButtonClick(e)
+            case 'editButtonClick': equipEditForm.show(e, pinReadyEquipment);
+                break;
+            case 'pinButtonClick': equipFixationForm.show(e, pinReadyEquipment);
                 break;
             default:
                 break;
@@ -106,6 +104,13 @@ function SupervisorView(){
                 hideForm={() => {fixEquipBySNForm.hide()}}
                 employeeSelected={updateAfterEquipFixationBySN}
                 propEdited="">
+            </EmployeeSelectForm>
+            <EmployeeSelectForm 
+                formVisible={equipFixationForm.visible}
+                equipmentSerialNumber={equipFixationForm.selectedModel.SerialNumber}
+                hideForm={() => {equipFixationForm.hide()}}
+                employeeSelected={updateAfterEquipFixation}
+                propEdited={updateAfterPropertyEdit}>
             </EmployeeSelectForm>
 
             <DataOrderForm
