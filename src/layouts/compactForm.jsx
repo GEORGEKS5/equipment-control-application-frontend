@@ -8,7 +8,6 @@ function CompactForm({children, formVisible, hideChildForm}) {
     const formFields = React.Children.toArray(children).find(child => child.type === SectionData);
     const formFooter = React.Children.toArray(children).find(child => child.type === SectionFooter);
     
-
     function hideForm(){
         hideChildForm(false);
     }
