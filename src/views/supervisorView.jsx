@@ -3,6 +3,7 @@ import DataTable from '../components/table/dataTable';
 import FormEquipEdit from '../components/supervisorView/formEquipEdit';
 import FormEquipNew from '../components/supervisorView/formEquipNew';
 import DataOrderForm from '../components/dataOrderForm';
+import EmployeeSelectForm from '../components/supervisorView/employeeSelectForm';
 
 import ContentBlock from '../layouts/contentBlock';
 import ContentBlockSection from '../layouts/contentBlockSection';
@@ -65,6 +66,17 @@ function SupervisorView(){
         equipCreateForm.hide();
     }
 
+    function updateAfterEquipFixationBySN(){
+        getUnitedRepository();
+        fixEquipBySNForm.hide();
+    }
+    
+    function updateAfterEquipFixation(){
+        getUnitedRepository();
+        equipFixationForm.hide();
+    }
+
+
     function setOrderedSupervisorPinedEquipToView(elements){
         setFilterSupervisorPinedEquipment(elements);
         filterSupervisorPinedEquipFormController.activeForm.hide();
@@ -89,6 +101,12 @@ function SupervisorView(){
                 updateData={updateAfterEquipCreate}
                 hideWindow={() => {equipCreateForm.hide()}}>
             </FormEquipNew>
+            <EmployeeSelectForm 
+                formVisible={fixEquipBySNForm.visible}
+                hideForm={() => {fixEquipBySNForm.hide()}}
+                employeeSelected={updateAfterEquipFixationBySN}
+                propEdited="">
+            </EmployeeSelectForm>
 
             <DataOrderForm
                 formVisible={filterPinReadyFormController.activeForm.visible}
@@ -127,8 +145,9 @@ function SupervisorView(){
                                         filterButtonClick={e => filterSupervisorPinedEquipFormController.showActiveForm(e)}
                                     ></DataTable>
                                 </SectionData>
-                                <ContentSectionFooter>
-                                    <h4>Закрепить оборудование по SN</h4>
+                                <ContentSectionFooter
+                                    buttonCaption='Закрепить оборудование по SN'
+                                    buttonClick={() => {fixEquipBySNForm.show()}}>
                                 </ContentSectionFooter>
                             </ContentSection>
                         </ContentBlockSection>

@@ -17,11 +17,11 @@ function EmployeeSelectForm({formVisible, equipmentSerialNumber, hideForm, emplo
     const [tableHeader, setTableHeader] = useState([]);
     const [tableActionButton, setTableActionButton] = useState([]);
 
-    const [USER_STATE] = useContext(UserContext);
+    const {USER_STATE} = useContext(UserContext);
 
     const isOuterSerialNumber = useMemo(() => {
         console.log('Use Memo + ' + equipmentSerialNumber);
-        return !Boolean(equipmentSerialNumber)
+        return !Boolean(equipmentSerialNumber ?? '');
     }, [equipmentSerialNumber]);
 
     useEffect(()=>{
@@ -31,7 +31,7 @@ function EmployeeSelectForm({formVisible, equipmentSerialNumber, hideForm, emplo
 
             prmse.then(promResult=>{
                 promResult.json().then(jsonResult=>{
-                    employeesModel = jsonResult;
+                    setEmployeesModel(jsonResult);
                 });
             });
 
@@ -55,12 +55,12 @@ function EmployeeSelectForm({formVisible, equipmentSerialNumber, hideForm, emplo
         setSerialNumber('');
     }
 
-    function hideWindow(v){
+    function hideWindow(){
         clearTableStructure();
-        hideForm(v);
+        hideForm();
     }
 
-    function selectEmployee(event){
+    function selectEmployee(buttonName, event){
         console.log(event);
         let employeeValue = event.currentTarget.value;
         let servAddress = USER_STATE.getServerUrlAddress();
@@ -86,11 +86,11 @@ function EmployeeSelectForm({formVisible, equipmentSerialNumber, hideForm, emplo
     }
 
     function changeSerialNumber(value){
-        serialNumber = value;
+        setSerialNumber(value);
     }
 
     return (
-        <DialogWindow visibleForm={formVisible} hideWindow={hideWindow}>
+        <DialogWindow visibleForm={formVisible} hideForm={hideWindow}>
                 {
                         isOuterSerialNumber 
                     ?
@@ -112,7 +112,7 @@ function EmployeeSelectForm({formVisible, equipmentSerialNumber, hideForm, emplo
                         tableStructure={tableHeader}
                         tableActionButton={tableActionButton}
                         tableActionButtonAmount="1"
-                        selectEmployee={selectEmployee}
+                        buttonClick={selectEmployee}
                     >
                     </DataTable>
                 </FormField>
