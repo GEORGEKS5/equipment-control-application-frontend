@@ -97,9 +97,7 @@ function FormEquipNew({visible, updateData, hideWindow}) {
 
                 setEqCategoryData(stateVal => {
                     const newVal = [...jsonResult];
-
                     markSelectedProperty(newVal, val, 'id');
-                    propUpdated();
 
                     return newVal
                 });
@@ -119,9 +117,7 @@ function FormEquipNew({visible, updateData, hideWindow}) {
 
                 setEqBrandData(() => {
                     const newVal = [...jsonResult];
-
                     markSelectedProperty(newVal, val, 'id');
-                    propUpdated();
 
                     return newVal
                 });
@@ -142,7 +138,6 @@ function FormEquipNew({visible, updateData, hideWindow}) {
                 setEqModelData(() => {
                     const newVal = [...jsonResult];
                     markSelectedProperty(newVal, val, 'id');
-                    propUpdated();
 
                     return newVal;
                 });
