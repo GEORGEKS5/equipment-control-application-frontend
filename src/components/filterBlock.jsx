@@ -16,16 +16,13 @@ function FilterBlock({originFilterObject = [], orderCategory = '', elementOrdere
     }
 
     const filterOptions = useMemo(()=>{
-        console.log('filterOprionMemo on change originFilterObject');
         let set = new Set();
 
-        console.log(originFilterObject);
-
-            if(originFilterObject.length){
-                originFilterObject.forEach(item => {
-                    set.add(item[orderCategory])
-                });
-            }
+        if(originFilterObject.length){
+            originFilterObject.forEach(item => {
+                set.add(item[orderCategory])
+            });
+        }
 
         return Array.from(set);
     },[originFilterObject, orderCategory])

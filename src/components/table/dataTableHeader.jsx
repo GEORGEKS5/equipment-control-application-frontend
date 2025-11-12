@@ -4,7 +4,6 @@ import { mdiFilter } from "@mdi/js";
 
 function DataTableHeader({tableStructure, tableActionButtonAmount, filterButtonClick}){
     function filtrateColumn(e){
-        console.log(e);
         filterButtonClick(e);
     }
 
