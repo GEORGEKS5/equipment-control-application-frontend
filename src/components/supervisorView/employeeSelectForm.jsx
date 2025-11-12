@@ -20,7 +20,6 @@ function EmployeeSelectForm({formVisible, equipmentSerialNumber, hideForm, emplo
     const {USER_STATE} = useContext(UserContext);
 
     const isOuterSerialNumber = useMemo(() => {
-        console.log('Use Memo + ' + equipmentSerialNumber);
         return !Boolean(equipmentSerialNumber ?? '');
     }, [equipmentSerialNumber]);
 
@@ -61,11 +60,10 @@ function EmployeeSelectForm({formVisible, equipmentSerialNumber, hideForm, emplo
     }
 
     function selectEmployee(buttonName, event){
-        console.log(event);
         let employeeValue = event.currentTarget.value;
         let servAddress = USER_STATE.getServerUrlAddress();
         
-        let serialNum = serialNumber ?? equipmentSerialNumber;
+        let serialNum = serialNumber ? serialNumber : equipmentSerialNumber;
 
         let fixObject = {
             fixDate: getFullDate(),
@@ -74,11 +72,10 @@ function EmployeeSelectForm({formVisible, equipmentSerialNumber, hideForm, emplo
             supervisorUsername: USER_STATE.userName,
         };
 
-        console.log(fixObject);
         let prmse = getRequestPromise(servAddress, 'RegistrateFixation', fixObject);
 
         prmse.then(res=>{
-            employeeSelected(false);
+            employeeSelected();
 
             setEmployeesModel([])
             clearTableStructure();
