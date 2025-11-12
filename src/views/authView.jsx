@@ -29,16 +29,20 @@ function AuthView(){
     }
 
     function _formatAppointmentDate(dt){
-        let tLetterIndex = dt.indexOf('T');
-        let dateTextValue = dt.slice(0,tLetterIndex);
-        let dateValue = new Date(dateTextValue);
-        let day = dateValue.getDate();
-        let month = dateValue.getMonth() + 1;
-        let formatedDay = day > 9 ? day : '0' + day;
-        let formatedMouth = month > 9 || '0' + month;
-        let formatedDate = [formatedDay, formatedMouth, dateValue.getFullYear()].join('.');
+        let formatedDate;
 
-        return formatedDate;
+        if(dt){
+            let tLetterIndex = dt.indexOf('T');
+            let dateTextValue = dt.slice(0,tLetterIndex);
+            let dateValue = new Date(dateTextValue);
+            let day = dateValue.getDate();
+            let month = dateValue.getMonth() + 1;
+            let formatedDay = day > 9 ? day : '0' + day;
+            let formatedMouth = month > 9 || '0' + month;
+            formatedDate = [formatedDay, formatedMouth, dateValue.getFullYear()].join('.');
+        }
+
+        return formatedDate ?? '';
     }
 
     async function checkUser(){
