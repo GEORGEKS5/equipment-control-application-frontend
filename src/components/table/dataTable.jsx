@@ -25,7 +25,7 @@ function DataTable({tableData, tableActionButton, buttonClick, ...props}){
                                 props.tableStructure.map(column => {
                                     return(
                                         <td key={column.name}>
-                                            { row[column.name] }
+                                            { ''+row[column.name] }
                                         </td>
                                     )
                                 })
