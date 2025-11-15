@@ -7,6 +7,12 @@ import ContentBlockSection from "../layouts/contentBlockSection";
 import ContentSection from "../layouts/contentSection";
 import ContentSectionFooter from "../layouts/slots/contentSectionFooter.jsx";
 
+import MainContent from '../layouts/slots/mainContent';
+import SideBar from '../layouts/slots/sideBar';
+import SectionData from "../layouts/slots/sectionData";
+import SectionHeader from "../layouts/slots/sectionHeader";
+import SectionFooter from "../layouts/slots/sectionFooter";
+
 import useFullEmployeeRepository from '../hooks/hrmanager/useFullEmployeeRepository.js';
 import useHRManagerViewDataTable from "../hooks/hrmanager/useHRManagerViewDataTable";
 import useHRManagerFormModel from "../hooks/hrmanager/useHRManagerFormModel";
@@ -18,7 +24,16 @@ import { useEffect } from "react";
 function HRManagerView(){
     const {appointReadyEmployeeTable, appointedEmployeeTable, createAppointReadyEmployeeTable, createAppointedEmployeeTable} = useHRManagerViewDataTable();
     const {appointedEmployeesInitialRepository, appointmentReadyEmployeesInitialRepository, getAppointedEmployeeRepository, getAppointmentReadyEmployeeRepository} = useFullEmployeeRepository();
-    const {filterAppointReadyEmployee, filterAppointedEmployee} = useFilterEmployeeModel(appointedEmployeesInitialRepository, appointmentReadyEmployeesInitialRepository);
+    const {filterAppointReadyEmployee, filterAppointedEmployee, setFilterAppointReadyEmployee, setFilterAppointedEmployee} = useFilterEmployeeModel(appointedEmployeesInitialRepository, appointmentReadyEmployeesInitialRepository);
+    const {filterAppointReadyEmployeeFormController, 
+            filterAppointedEmployeeFormController, 
+            addressDisplayForm, 
+            addressEditForm, 
+            employeeAppointForm, 
+            employeeCreateForm, 
+            employeeDismissForm,
+            employeeReAppointForm,
+            registeredEmployeeEditForm} = useHRManagerFormModel();
 
     useEffect(()=>{
         createAppointReadyEmployeeTable();
@@ -30,10 +45,148 @@ function HRManagerView(){
 
     }, []);
 
+    function appointReadyEmployeeTableButtonClick(clickType, e) {
+        switch(clickType){
+            case 'showEmployeeAppointForm': employeeAppointForm.show(e); break;
+            case 'showRegisteredEmployeeEditForm': registeredEmployeeEditForm.show(e, filterAppointReadyEmployee); break;
+            case 'showAddressEditForm': addressEditForm.show(e); break;
+            default: ; break;
+        }
+    }
+
+    function appointedEmployeesTableButtonClick(clickType, e) {
+        switch(clickType){
+            case 'showEmployeeDismissForm': employeeDismissForm.show(e); break;
+            case 'showEmployeeReAppointForm': employeeReAppointForm.show(e, filterAppointedEmployee); break;
+            case 'showAddressDisplayForm': addressDisplayForm.show(e); break;
+            default: ; break;
+        }
+    }
+
+    function registrateEmployee(){
+        console.log('reg emp');
+    }
+
+    function setOrderedAppointedEmployeeModel(orderedModel){
+        setFilterAppointedEmployee(() => {
+            filterAppointedEmployeeFormController.activeForm.hide()
+            return orderedModel;
+        });
+    }
+
+    function setOrderedAppointReadyEmployeeModel(orderedModel){
+        setFilterAppointReadyEmployee(() => {
+            filterAppointReadyEmployeeFormController.activeForm.hide();
+            return orderedModel;
+        })
+    }
+
+    function updateAppointmentReadyEmployee(){
+        getAppointmentReadyEmployeeRepository().then(()=>{
+            employeeCreateForm.hide();
+        });
+    }
+
+    function updateAddressEditForm(){
+        getAppointmentReadyEmployeeRepository().then(()=>{
+            addressEditForm.hide();
+        });
+    }
+
+    function updateRegisteredEmployee(){
+        getAppointmentReadyEmployeeRepository().then(()=>{
+            registeredEmployeeEditForm.hide()
+        });
+    }
+
+    function updateAppointedEmployee(){
+        getAppointedEmployeeRepository().then(()=>{
+            employeeDismissForm.hide();
+        });
+    }
+
+    function updateAppointedEmployeeAndHideReappointForm(){
+        getAppointedEmployeeRepository().then(()=>{
+            employeeReAppointForm.hide();
+        });
+    }
+
+    function updateEmployeeList(){
+        getAppointmentReadyEmployeeRepository().then(async ()=>{
+            await getAppointedEmployeeRepository();
+            employeeAppointForm.hide();
+        });
+    }
+
     return (
         <>
-            <HeaderBlock />
-            <h1>HR manager view</h1>
+            <DataOrderForm
+                formVisible={filterAppointReadyEmployeeFormController.activeForm.visible}
+                originFilterObject={appointmentReadyEmployeesInitialRepository}
+                originSortObject={filterAppointReadyEmployee}
+                orderCategory={filterAppointReadyEmployeeFormController.activeForm.filterCategory}
+                clientRect={FilterForm.absoluteFormClientRect}
+                elementOrdered={setOrderedAppointReadyEmployeeModel}
+                hideForm={() => {filterAppointReadyEmployeeFormController.activeForm.hide()}}
+            ></DataOrderForm>
+
+            <DataOrderForm
+                formVisible={filterAppointedEmployeeFormController.activeForm.visible}
+                originFilterObject={appointedEmployeesInitialRepository}
+                originSortObject={filterAppointedEmployee}
+                orderCategory={filterAppointedEmployeeFormController.activeForm.filterCategory}
+                clientRect={FilterForm.absoluteFormClientRect}
+                elementOrdered={setOrderedAppointedEmployeeModel}
+                hideForm={() => {filterAppointedEmployeeFormController.activeForm.hide()}}
+            ></DataOrderForm>
+
+            <div id="rootEl" className="flexParent">
+                <HeaderBlock />
+                <ContentSingleBlock>
+                    <MainContent>
+                        <ContentBlockSection>
+                            <ContentSection>
+                                <SectionHeader>
+                                    <h3 id="contentHeader">СОТРУДНИКИ ОРГАНИЗАЦИИ</h3>
+                                </SectionHeader>
+                                <SectionData>
+                                    <DataTable
+                                        tableData={filterAppointedEmployee}
+                                        tableStructure={appointedEmployeeTable.header}
+                                        tableActionButton={appointedEmployeeTable.button}
+                                        buttonClick={appointedEmployeesTableButtonClick}
+                                        filterButtonClick={e => filterAppointedEmployeeFormController.showActiveForm(e)}>
+                                    </DataTable>
+                                </SectionData>
+                            </ContentSection>
+                        </ContentBlockSection>
+                    </MainContent>
+                    <SideBar>
+                         <ContentBlockSection>
+                            <ContentSection>
+                                <SectionHeader>
+                                    <h3 id="contentHeader">НОВЫЕ СОТРУДНИКИ ОРГАНИЗАЦИИ</h3>
+                                </SectionHeader>
+                                <SectionData>
+                                    <DataTable
+                                        tableData={filterAppointReadyEmployee}
+                                        tableStructure={appointReadyEmployeeTable.header}
+                                        tableActionButton={appointReadyEmployeeTable.button}
+                                        buttonClick={appointReadyEmployeeTableButtonClick}
+                                        filterButtonClick={e => filterAppointReadyEmployeeFormController.showActiveForm(e)}>
+                                    </DataTable>
+                                </SectionData>
+                                <SectionFooter>
+                                    <ContentSectionFooter
+                                        buttonCaption="Create New"
+                                        buttonClick={() => {employeeCreateForm.show()}}
+                                    ></ContentSectionFooter>
+                                </SectionFooter>
+                            </ContentSection>
+                        </ContentBlockSection>
+                    </SideBar>
+                </ContentSingleBlock>
+            </div>
         </>
     )
 }
