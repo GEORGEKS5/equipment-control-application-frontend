@@ -35,8 +35,8 @@ function FilterBlock({originFilterObject = [], orderCategory = '', elementOrdere
                     {
                         filterOptions?.map((item) => {
                             return (
-                                <li>
-                                    <button className="bg-[#ffffff] text-[#000000]" onClick={filterElements} value={item}>{ item }</button>
+                                <li key={'' + item}>
+                                    <button className="bg-[#ffffff] text-[#000000]" onClick={filterElements} value={''+item}>{ ''+item }</button>
                                 </li>
                             )
                         })
