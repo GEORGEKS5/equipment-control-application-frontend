@@ -19,5 +19,8 @@ export default function(appointedEmployeesInitialRepository, appointmentReadyEmp
     return{
         filterAppointReadyEmployee,
         filterAppointedEmployee,
+        setFilterAppointedEmployee,
+        setFilterAppointReadyEmployee,
+
     }
 }
