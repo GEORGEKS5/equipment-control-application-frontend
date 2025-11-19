@@ -20,6 +20,7 @@ import useFilterEmployeeModel from '../hooks/hrmanager/useFilterEmployeeModel.js
 
 import { FilterForm } from "../helpers/classes";
 import { useEffect } from "react";
+import EmployeeDismissConfirm from "../components/hrmanagerView/employeeDismissConfirm.jsx";
 
 function HRManagerView(){
     const {appointReadyEmployeeTable, appointedEmployeeTable, createAppointReadyEmployeeTable, createAppointedEmployeeTable} = useHRManagerViewDataTable();
@@ -120,6 +121,13 @@ function HRManagerView(){
 
     return (
         <>
+            <EmployeeDismissConfirm
+                formVisible={employeeDismissForm.visible}
+                activeEmployeeUserName={employeeDismissForm.selectedModel.UserName}
+                hideForm={()=>{employeeDismissForm.hide()}}
+                employeeDissmissed={updateAppointedEmployee}>
+            </EmployeeDismissConfirm>
+
             <DataOrderForm
                 formVisible={filterAppointReadyEmployeeFormController.activeForm.visible}
                 originFilterObject={appointmentReadyEmployeesInitialRepository}
