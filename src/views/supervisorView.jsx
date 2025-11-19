@@ -39,8 +39,6 @@ function SupervisorView(){
         tempPinReadyEq.splice(index, 1, val);
 
         setPinReadyEquipment(tempPinReadyEq);
-
-        setEquipEditFormVisibility(false);
         equipEditForm.hide();
     }
 
