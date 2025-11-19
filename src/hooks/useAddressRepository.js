@@ -10,15 +10,7 @@ export default function(formVisible, externalRequestModel){
     const [streetListRepository, setStreetListRepository] = useState([]);
     const [addressRequestModel, setAddressRequestModel] = useState({});
     
-    setAddressRequestModel({
-        regionName: '',
-        cityName: '',
-        typeName: '',
-        streetName: '',
-        houseId: 0,
-    });
-    
-    const [USER_STATE] = useContext(UserContext);
+    const {USER_STATE} = useContext(UserContext);
     const servUrl = USER_STATE.getServerUrlAddress();
 
     const getRequestResult = async function(servUrlAddress, endpoint){
@@ -30,48 +22,56 @@ export default function(formVisible, externalRequestModel){
         const regionEndPoint = 'GetRegionList';
         const regionJsonRepository = await getRequestResult(servUrl, regionEndPoint);
 
-        markData(regionJsonRepository, markerValue, 'RegionName');
+        markerValue && markData(regionJsonRepository, markerValue, 'RegionName');
 
         setRegionRepository(regionJsonRepository);
-        setAddressRequestModel({...addressRequestModel, regionName: markerValue});
+        setAddressRequestModel((v) => {
+            return {...v, regionName: markerValue}
+        });
     };
 
     const getCityRepository = async function(markerValue){
         const cityEndPoint = 'GetCityRegionList';
         const cityJsonRepository = await getRequestResult(servUrl, cityEndPoint);
 
-        markData(cityJsonRepository, markerValue, 'CityName');
+        markerValue && markData(cityJsonRepository, markerValue, 'CityName');
 
         setCityRepository(cityJsonRepository);
-        setAddressRequestModel({...addressRequestModel, cityName: markerValue});
+        setAddressRequestModel((v) => {
+            return {...v, cityName: markerValue}
+        });
     };
 
     const getStreetListRepository = async function(markerValue){
         const streetListEndPoint = 'GetStreetList';
         const streetListJsonRepository = await getRequestResult(servUrl, streetListEndPoint);
 
-        markData(streetListJsonRepository, markerValue, 'StreetName');
+        markerValue && markData(streetListJsonRepository, markerValue, 'StreetName');
 
         setStreetListRepository(streetListJsonRepository);
-        setAddressRequestModel({...addressRequestModel, streetName: markerValue});
+        setAddressRequestModel( v => {
+            return {...v, streetName: markerValue}
+        });
     };
     
     const getStreetTypeRepository = async function(markerValue){
         const streetTypeEndPoint = 'GetStreetType';
         const streetTypeJsonRepository = await getRequestResult(servUrl, streetTypeEndPoint);
 
-        markData(streetTypeJsonRepository, markerValue, 'TypeName');
+        markerValue && markData(streetTypeJsonRepository, markerValue, 'TypeName');
 
         setStreetTypeRepository(streetTypeJsonRepository);
-        setAddressRequestModel({...addressRequestModel, typeName: markerValue});
+        setAddressRequestModel(v=>{
+            return {...v, typeName: markerValue}
+        });
     };
 
     const getAddressRepository = async function(){
-        if(Object.keys(externalRequestModel).length){
-            await getRegionRepository(externalRequestModel.regionName);
-            await getCityRepository(externalRequestModel.cityName);
-            await getStreetListRepository(externalRequestModel.streetName);
-            await getStreetTypeRepository(externalRequestModel.typeName);
+        if(formVisible){
+            await getRegionRepository(externalRequestModel?.regionName);
+            await getCityRepository(externalRequestModel?.cityName);
+            await getStreetListRepository(externalRequestModel?.streetName);
+            await getStreetTypeRepository(externalRequestModel?.typeName);
         }
     };
 
@@ -87,7 +87,17 @@ export default function(formVisible, externalRequestModel){
                 apartmentNumber: getModelValueFromExternalModel(externalRequestModel.apartmentNumber),
             });
         }
-    }, [formVisible])
+    }, [formVisible]);
+
+    useEffect(()=>{
+        setAddressRequestModel({
+            regionName: '',
+            cityName: '',
+            typeName: '',
+            streetName: '',
+            houseId: 0,
+        });
+    }, []);
 
     return{
         regionRepository,
@@ -99,5 +109,6 @@ export default function(formVisible, externalRequestModel){
         getRegionRepository,
         getStreetListRepository,
         getStreetTypeRepository,
+        setAddressRequestModel,
     }
 }
