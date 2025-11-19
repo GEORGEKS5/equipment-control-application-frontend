@@ -2,6 +2,7 @@ import FormFooter from "./slots/formFooter";
 import MainContent from "./slots/mainContent";
 import SideBar from "./slots/sideBar";
 import layoutStyle from "../styles/layout.module.css";
+import React from "react";
 
 function DialogSplitWindow({visibleForm, children, hideForm}) {
     const leftFormFields = React.Children.toArray(children).find(child => child.type === MainContent);
