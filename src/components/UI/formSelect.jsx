@@ -81,7 +81,7 @@ function FormSelect({targetModelName, valueKeyName, identificatorKeyName, extraR
     }
 
     function installSelectData(){
-        let extraDataSize = Object.keys(extraRequestData).length;
+        let extraDataSize = Object.keys(extraRequestData || {}).length;
 
         if(extraDataSize){
             let selectDataLength = selectData.length;
@@ -107,7 +107,6 @@ function FormSelect({targetModelName, valueKeyName, identificatorKeyName, extraR
 
     function objectPropsNotUndefined(obj){
         for(let s in obj){
-            console.log(obj[s]);
             return Boolean(obj[s]);            
         }
 
