@@ -47,3 +47,42 @@
     flex-direction: row;
     border-top: 2px solid #8C4830;
 }
+
+.formBackround{
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    position: fixed;
+    display: flex;
+    justify-content: baseline;
+    background: hwb(0 100% 0% / 0.85);
+    overflow: hidden;
+    z-index: 99999;
+}
+
+.formContent{
+    background: #ffffff;
+    min-width: 850px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 4.5em;
+    margin: 1em auto 1em auto;
+    min-height: 610px;
+    color: #07070D;
+    display: grid;
+    grid-template-rows: .2fr .65fr auto;
+}
+.formFieldWrapper{
+    display: grid;
+    grid-template-columns: 18fr 18fr;
+}
+.formFooter{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: end;
+}
+.rightColumn{
+    margin-left: 1.5em;
+}
