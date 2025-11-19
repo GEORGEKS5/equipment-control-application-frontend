@@ -7,19 +7,19 @@ import SectionFooter from '../layouts/slots/sectionFooter';
 
 import { mdiCheck, mdiClose } from '@mdi/js';
 
-function ConfirmForm({formVisible, formCaption,hideForm , taskConfirmed, taskCanceled}) {
+function ConfirmForm({formVisible, formCaption, hideForm, taskConfirmed, taskCanceled}) {
     return (
         <CompactForm 
             formVisible={formVisible}
-            hideForm={hideForm}>
+            hideChildForm={hideForm}>
                 <SectionHeader>
-                    <h2 class="text-[#000000] text-center text-md md:text-xl">ПОДТВЕРЖДЕНИЕ</h2>
+                    <h2 className="text-[#000000] text-center text-md md:text-xl">ПОДТВЕРЖДЕНИЕ</h2>
                 </SectionHeader>
                 <SectionData>
-                    <p class="text-[#000000] text-center text-xs md:text-md">{ formCaption }</p>
+                    <p className="text-[#000000] text-center text-xs md:text-md">{ formCaption }</p>
                 </SectionData>
                 <SectionFooter>
-                    <div id="actionButton" class="w-[40%] flex flex-row justify-around md:w-[65%]">
+                    <div id="actionButton" className="w-[40%] flex flex-row justify-around md:w-[65%]">
                         <DefaultButton 
                             buttonClass="primaryBrown"
                             buttonIconPath={mdiCheck}
