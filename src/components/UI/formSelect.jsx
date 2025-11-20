@@ -45,7 +45,7 @@ function FormSelect({targetModelName, valueKeyName, identificatorKeyName, extraR
                 return item.selected
             });
 
-            let activeElement = selectedElement ? selectedElement[keyName] : sData.at(-1)[keyName];
+            let activeElement = selectedElement ? selectedElement[keyName] : selectDefaultValue;
 
             return activeElement;
         }
@@ -121,6 +121,14 @@ function FormSelect({targetModelName, valueKeyName, identificatorKeyName, extraR
 
     return(
         <select name="" onChange={updateCurrentSelect}>
+            {
+                    selectDefaultValue
+                ?
+                    <option value="" selected disabled> { selectDefaultValue } </option>
+                :
+                    <></>
+            }
+
             {filteredSelectData?.map(dt => {
                 return (<option 
                     value={dt[identificatorKeyName]}
