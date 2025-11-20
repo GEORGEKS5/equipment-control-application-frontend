@@ -1,9 +1,9 @@
-import getRequestPromise from "@/helpers/lib";
-import { computed, ref, watch } from "vue"
-import { useStore } from "vuex";
+import { useContext, useEffect, useState } from "react";
+import getRequestPromise from "../../helpers/lib";
+import UserContext from "../../context/user";
 
-export default function(formVisible, activeEmployeeUserName, emit){
-    const addressModel = ref({
+export default function(formVisible, activeEmployeeUserName, hideForm){
+    const [addressModel, setAddressModel] = useState({
         apartmentNumber: '',
         cityName: '',
         houseNumber: '',
@@ -11,34 +11,34 @@ export default function(formVisible, activeEmployeeUserName, emit){
         streetName: '',
         typeName: '',
     });
-    const store = useStore();
+    
+    const [addressModelLoaded, setAddressModelLoaded] = useState(false);
+    const {USER_STATE} = useContext(UserContext);
 
     const getAddressRepostiory = async function() {
         const endPoint = 'GetAddressByEmployeeUserName';
-        const servAdr = store.getters.SERVERURLADDRESS;
-        const reqBody = { userName: activeEmployeeUserName.value }
+        const servAdr = USER_STATE.getServerUrlAddress();
+        const reqBody = { userName: activeEmployeeUserName }
 
         const requestPromise = await getRequestPromise(servAdr, endPoint, reqBody);
         const jsonResponse = await requestPromise.json();
 
-        addressModel.value = camelizeObjectProperties(jsonResponse[0]);
+        setAddressModel(camelizeObjectProperties(jsonResponse[0]));
     }
 
-    let addressModelLoaded = ref(false);
-
     const hideAddressForm = function(){
-        addressModelLoaded.value = false;
+        setAddressModelLoaded(false);
 
-        Object.assign(addressModel.value, {
+        setAddressModel({
             apartmentNumber: '',
             cityName: '',
             houseNumber: '',
             regionName: '',
             streetName: '',
             typeName: '',
-        })
+        });
 
-        emit('hideForm');
+        hideForm();
     };
 
     const camelizeObjectProperties = function(object){
@@ -55,19 +55,21 @@ export default function(formVisible, activeEmployeeUserName, emit){
         return object;
     };
 
-    watch(formVisible, async (n, o)=>{
-        if(n){
-            await getAddressRepostiory();
-            console.log('Request success. Result below');
-            console.log(addressModel.value);
-            addressModelLoaded.value = true;
+    useEffect(()=>{
+        if(formVisible){
+            getAddressRepostiory().then(()=>{
+                console.log('Request success. Result below');
+                console.log(addressModel);
+                setAddressModelLoaded(true);
+            });
         }
-    })
+    }, [formVisible])
 
     return{
         addressModel,
         addressModelLoaded,
         hideAddressForm,
         getAddressRepostiory,
+        setAddressModel,
     }
 }
