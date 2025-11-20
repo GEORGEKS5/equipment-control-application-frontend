@@ -1,10 +1,13 @@
-import { watch, ref, computed } from "vue";
-import markData from '@/helpers/markData';
+import { useEffect, useMemo } from 'react';
+import markData from '../helpers/markData';
 
 export default function(departmentRepository, positionRepository, reAppointEmployee, appointmentRequestModel){
-    const appointDepartmentObject = computed(()=>{
-        const currentDepartment = departmentRepository.value.find(val => val['DepartmentName'] == reAppointEmployee.value['DepartmentName']);
-            
+    const appointDepartmentObject = useMemo(()=>{
+        const currentDepartment = departmentRepository.find(val => val['DepartmentName'] == reAppointEmployee['DepartmentName']);
+        
+        console.log('Current dept is below')
+        console.log(currentDepartment);
+
         if(currentDepartment){
             const departmentObject = {
                 Id: currentDepartment['DepartmentID'],
@@ -20,15 +23,18 @@ export default function(departmentRepository, positionRepository, reAppointEmplo
         };
     });
 
-    watch(departmentRepository, (n, o) => {
-        let {Name} = appointmentRequestModel.value.department;
-        Name = Name ? Name : appointDepartmentObject.value.Name;
+    useEffect(() => {
+        let {Name} = appointmentRequestModel.department;
+        Name = Name ? Name : appointDepartmentObject.Name;
 
-        markData(departmentRepository.value, Name, 'DepartmentName');
-    });
+        markData(departmentRepository, Name, 'DepartmentName');
+    }, [departmentRepository]);
 
-    const appointPositionObject = computed(() => {
-        const currentPosition = positionRepository.value.find(val => val['PositionName'] == reAppointEmployee.value['PositionName']);
+    const appointPositionObject = useMemo(() => {
+        const currentPosition = positionRepository.find(val => val['PositionName'] == reAppointEmployee['PositionName']);
+
+                console.log('Current pos is below')
+        console.log(currentDepartment);
 
         if(currentPosition){
             const positionObject = {
@@ -45,25 +51,22 @@ export default function(departmentRepository, positionRepository, reAppointEmplo
         };
     })
 
-    watch(
-        ()=> appointmentRequestModel.value.position.Id, 
-        (n, o) =>{
-            const reAppointEmployeeObjectSize = Object.keys(reAppointEmployee.value).length;
-    
-            if(!reAppointEmployeeObjectSize){
-                markData(positionRepository.value, n, 'PositionID');
-            }
-        }
-    );
+    useEffect(() =>{
+        const reAppointEmployeeObjectSize = Object.keys(reAppointEmployee).length;
 
-    watch(positionRepository, (n, o) => {
-        let {Id} = appointmentRequestModel.value.position;
-        Id = Id ? Id : appointPositionObject.value.Id;
+        if(!reAppointEmployeeObjectSize){
+            markData(positionRepository, appointmentRequestModel.position.Id, 'PositionID');
+        }
+    }, [appointmentRequestModel.position.Id]);
+
+    useEffect(() => {
+        let {Id} = appointmentRequestModel.position;
+        Id = Id ? Id : appointPositionObject.Id;
 
         if(Id){
-            markData(positionRepository.value, Id, 'PositionID');
+            markData(positionRepository, Id, 'PositionID');
         }
-    });
+    }, [positionRepository]);
 
     return{
         appointmentRequestModel,
