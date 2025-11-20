@@ -72,26 +72,30 @@ function AddressCreateForm({formVisible, externalAddressRequestModel, addressCre
     }
     
     function updateHouseField(item){
-        setAddressRequestModel({...addressRequestModel, houseNumber: Number(item)});
+        setAddressRequestModel(v=>{
+            return {...v, houseNumber: Number(item)}
+        });
     }
     
     function updateApartmentField(item){
-        setAddressRequestModel({...addressRequestModel, apartmentNumber: Number(item)});
+        setAddressRequestModel(v=>{
+            return {...v, apartmentNumber: Number(item)}
+        });
     }
     
     function saveAddress(){
         const servUrlAdr = USER_STATE.getServerUrlAddress();
         const endPoint = addressCreateEndPointName;
+        const tempRM = {...addressRequestModel};
 
         if(activeEmployeeUserName){
-            setAddressRequestModel({...addressRequestModel, employeeUserName: activeEmployeeUserName});
+            tempRM.employeeUserName = activeEmployeeUserName;
         }
 
-        const reqPromise = getRequestPromise(servUrlAdr, endPoint, addressRequestModel);
+        const reqPromise = getRequestPromise(servUrlAdr, endPoint, tempRM);
 
         reqPromise.then(async (res)=>{
             const jsonResult = await res.json();
-            const tempRM = {...addressRequestModel};
 
             if(jsonResult.length){
                 tempRM.houseId = jsonResult[0]['HouseID'];
