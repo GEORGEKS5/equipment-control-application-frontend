@@ -33,5 +33,7 @@ export default function(){
         departmentRepository,
         getPositionRepo,
         getDepartmentRepo,
+        setPositionRepository,
+        setDepartmentRepository,
     }
 }

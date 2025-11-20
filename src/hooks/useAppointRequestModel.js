@@ -1,27 +1,29 @@
-import { ref, watch } from "vue";
+import { useEffect } from "react";
 
-export default function(formVisible, getDepartmentRepo, getPositionRepo, positionRepository, appointDepartmentObject, appointPositionObject, appointmentRequestModel, departmentRepository){
-    watch(formVisible, async (n, o) => {
-        if(n){
-            await getDepartmentRepo();
-            appointmentRequestModel.value.department = appointDepartmentObject.value;
-            await getPositionRepo();
+export default function(formVisible, getDepartmentRepo, getPositionRepo, positionRepository, appointDepartmentObject, appointPositionObject, appointmentRequestModel, departmentRepository, setAppointmentRequestModel, setPositionRepository, setDepartmentRepository){
+    useEffect(() => {
+        if(formVisible){
+            getDepartmentRepo().then(r => {
+                setAppointmentRequestModel({...appointmentRequestModel, department: appointDepartmentObject});
+                return  getPositionRepo();
+            });
             //appointmentRequestModel.value.position = appointPositionObject.value
         }else{
-            appointmentRequestModel.value.department = {
-                Id: '',
-                Name: '',
-            };
+            setAppointmentRequestModel({
+                department: {
+                    Id: '',
+                    Name: '',
+                },
+                position: {
+                    Id: '',
+                    Name: '',
+                }
+            });
 
-            appointmentRequestModel.value.position = {
-                Id: '',
-                Name: '',
-            }
-
-            positionRepository.value = [];
-            departmentRepository.value = [];
+            setPositionRepository([]);
+            setDepartmentRepository([]);
         }
-    })
+    }, [formVisible])
     
     return {
        
