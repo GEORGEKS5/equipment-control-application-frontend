@@ -129,8 +129,8 @@ function AddressCreateForm({formVisible, externalAddressRequestModel, addressCre
                     targetModelName="Region"
                     valueKeyName="RegionName"
                     updateSelect={updateRegionField}
-                    propRegionInsert={getRegionRepository}
-                    propRegionUpdate={getRegionRepository}>
+                    sendPropInsert={getRegionRepository}
+                    sendProptUpdate={getRegionRepository}>
                 </FormSelectBlock>
                 <FormSelectBlock 
                     fieldCaption="City"
@@ -143,8 +143,8 @@ function AddressCreateForm({formVisible, externalAddressRequestModel, addressCre
                     selectBlockValue={addressRequestModel.cityName}
                     extraRequestData={regionBind}
                     updateSelect={updateCityField}
-                    propCityInsert={getCityRepository}
-                    propCityUpdate={getCityRepository}>
+                    sendPropInsert={getCityRepository}
+                    sendPropUpdate={getCityRepository}>
                 </FormSelectBlock>
             </MainContent>
             <SideBar>
@@ -158,8 +158,8 @@ function AddressCreateForm({formVisible, externalAddressRequestModel, addressCre
                     targetModelName="StreetType"
                     targetPropModelName="StreetType"
                     updateSelect={updateStreetTypeField}
-                    propStreetTypeInsert={getStreetTypeRepository}
-                    propStreetTypeUpdate={getStreetTypeRepository}>
+                    sendPropInsert={getStreetTypeRepository}
+                    sendPropUpdate={getStreetTypeRepository}>
                 </FormSelectBlock>
                 <FormSelectBlock 
                     selectBlockValue={addressRequestModel.streetName}
@@ -173,8 +173,8 @@ function AddressCreateForm({formVisible, externalAddressRequestModel, addressCre
                     targetPropModelName="SingleStreetName"
                     selectPropDataUrlAddress="GetStreetNameList"
                     updateSelect={updateStreetNameField}
-                    propStreetTypeNameInsert={getStreetListRepository}
-                    propStreetTypeNameUpdate={getStreetListRepository}>
+                    sendPropInsert={getStreetListRepository}
+                    sendPropUpdate={getStreetListRepository}>
                 </FormSelectBlock>
                 <FormInput 
                     fieldCaption="House"
