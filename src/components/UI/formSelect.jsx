@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-function FormSelect({targetModelName, valueKeyName, identificatorKeyName, extraRequestData, updateSelect, selectDefaultValue, selectData = []}){
+function FormSelect({selectValue, targetModelName, valueKeyName, identificatorKeyName, extraRequestData, updateSelect, selectDefaultValue, selectData = []}){
 
     const [filteredSelectData, setFilteredSelectData] = useState([]);
 
@@ -45,7 +45,7 @@ function FormSelect({targetModelName, valueKeyName, identificatorKeyName, extraR
                 return item.selected
             });
 
-            let activeElement = selectedElement ? selectedElement[keyName] : selectDefaultValue;
+            let activeElement = selectedElement ? selectedElement[keyName] : selectValue ? sData[0][keyName] : selectDefaultValue;
 
             return activeElement;
         }
