@@ -3,8 +3,8 @@ import getRequestPromise from "../helpers/lib";
 import UserContext from "../context/user";
 
 export default function(){
-    const [positionRepository, setPositionRepository] = useState({});
-    const [departmentRepository, setDepartmentRepository] = useState({});
+    const [positionRepository, setPositionRepository] = useState([]);
+    const [departmentRepository, setDepartmentRepository] = useState([]);
 
     const {USER_STATE} = useContext(UserContext);
     

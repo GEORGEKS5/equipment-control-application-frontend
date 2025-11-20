@@ -1,12 +1,9 @@
 import { useEffect, useMemo } from 'react';
 import markData from '../helpers/markData';
 
-export default function(departmentRepository, positionRepository, reAppointEmployee, appointmentRequestModel){
+export default function(departmentRepository = [], positionRepository = [], reAppointEmployee, appointmentRequestModel){
     const appointDepartmentObject = useMemo(()=>{
-        const currentDepartment = departmentRepository.find(val => val['DepartmentName'] == reAppointEmployee['DepartmentName']);
-        
-        console.log('Current dept is below')
-        console.log(currentDepartment);
+        const currentDepartment = departmentRepository?.find(val => val['DepartmentName'] == reAppointEmployee['DepartmentName']);
 
         if(currentDepartment){
             const departmentObject = {
@@ -31,10 +28,7 @@ export default function(departmentRepository, positionRepository, reAppointEmplo
     }, [departmentRepository]);
 
     const appointPositionObject = useMemo(() => {
-        const currentPosition = positionRepository.find(val => val['PositionName'] == reAppointEmployee['PositionName']);
-
-                console.log('Current pos is below')
-        console.log(currentDepartment);
+        const currentPosition = positionRepository?.find(val => val['PositionName'] == reAppointEmployee['PositionName']);
 
         if(currentPosition){
             const positionObject = {
