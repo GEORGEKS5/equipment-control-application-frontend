@@ -23,6 +23,7 @@ import { useEffect } from "react";
 
 import EmployeeDismissConfirm from "../components/hrmanagerView/employeeDismissConfirm.jsx";
 import EmployeeCreateForm from "../components/hrmanagerView/employeeCreate.jsx";
+import AddressDisplayForm from "../components/hrmanagerView/addressDisplayForm.jsx";
 
 function HRManagerView(){
     const {appointReadyEmployeeTable, appointedEmployeeTable, createAppointReadyEmployeeTable, createAppointedEmployeeTable} = useHRManagerViewDataTable();
@@ -135,6 +136,12 @@ function HRManagerView(){
                 hideForm={() => {employeeCreateForm.hide()}}
                 employeeRegistred={updateAppointmentReadyEmployee}>
             </EmployeeCreateForm>
+
+            <AddressDisplayForm
+                formVisible={addressDisplayForm.visible}
+                activeEmployeeUserName={addressDisplayForm.selectedModel.UserName}
+                hideForm={()=>{addressDisplayForm.hide()}}>
+            </AddressDisplayForm>
 
             <DataOrderForm
                 formVisible={filterAppointReadyEmployeeFormController.activeForm.visible}
