@@ -4,7 +4,7 @@ export default function(formVisible, getDepartmentRepo, getPositionRepo, positio
     useEffect(() => {
         if(formVisible){
             getDepartmentRepo().then(r => {
-                setAppointmentRequestModel({...appointmentRequestModel, department: appointDepartmentObject});
+
                 return  getPositionRepo();
             });
             //appointmentRequestModel.value.position = appointPositionObject.value
@@ -23,7 +23,15 @@ export default function(formVisible, getDepartmentRepo, getPositionRepo, positio
             setPositionRepository([]);
             setDepartmentRepository([]);
         }
-    }, [formVisible])
+    }, [formVisible]);
+
+    useEffect(()=>{
+        if(departmentRepository.length){
+            setAppointmentRequestModel(v => {
+                return {...v, department: {...appointDepartmentObject}}
+            });
+        }
+    },[departmentRepository])
     
     return {
        

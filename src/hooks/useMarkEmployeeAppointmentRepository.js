@@ -5,7 +5,7 @@ export default function(departmentRepository = [], positionRepository = [], reAp
     const appointDepartmentObject = useMemo(()=>{
         const currentDepartment = departmentRepository?.find(val => val['DepartmentName'] == reAppointEmployee['DepartmentName']);
 
-        if(currentDepartment){
+        if(Object.keys(currentDepartment ?? {}).length){
             const departmentObject = {
                 Id: currentDepartment['DepartmentID'],
                 Name: currentDepartment['DepartmentName'],
@@ -18,7 +18,7 @@ export default function(departmentRepository = [], positionRepository = [], reAp
             Id: '',
             Name: '',
         };
-    });
+    }, [departmentRepository]);
 
     useEffect(() => {
         let {Name} = appointmentRequestModel.department;

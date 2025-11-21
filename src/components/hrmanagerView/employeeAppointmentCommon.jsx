@@ -65,7 +65,6 @@ function EmployeeAppointmentCommon({formVisible = false, employeeId = '', reAppo
 
         getPositionRepo().then(r => {
             const model = positionRepository.find(v => {
-                console.log(val);
                 return v['PositionID'] == val
             });
 
