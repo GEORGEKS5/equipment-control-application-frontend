@@ -20,6 +20,13 @@ import dataTable from "../components/table/dataTable";
 import dataTableHeader from "../components/table/dataTableHeader";
 import defaultButton from "../components/UI/defaultButton";
 
+import useSuUserViewDataTable from "../hooks/superuser/useSuUserViewDataTable";
+import useSuUserRepository from "../hooks/superuser/useSuUserRepository";
+import useSuUserFilterRepository from '../hooks/superuser/useSuUserFilterRepository';
+import useSuUserFormModel from '../hooks/superuser/useSuUserFormModel';
+
+import { FilterForm } from '../helpers/classes';
+
 function SuperUserView(){
     return (
         <>
