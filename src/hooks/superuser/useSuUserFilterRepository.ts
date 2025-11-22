@@ -1,21 +1,22 @@
+import { useEffect, useState } from "react";
 import { ref, Ref, watch } from "vue";
 
-export default function(constructiveObjectInitial: Ref<any[]>, pinedEquipmentInitial: Ref<any[]>, actualObjectSupervisorInitial: Ref<any[]>){
-    const constructiveObjectFilterRepository = ref([]);
-    const pinedEquipmentFilterRepository = ref([]);
-    const actualObjectSupervisorFilterRepository = ref([]);
+export default function(constructiveObjectInitial: never[], pinedEquipmentInitial: never[], actualObjectSupervisorInitial: never[]){
+    const [constructiveObjectFilterRepository, setConstructiveObjectFilterRepository] = useState([]);
+    const [pinedEquipmentFilterRepository, setPinedEquipmentFilterRepository] = useState([]);
+    const [actualObjectSupervisorFilterRepository, setActualObjectSupervisorFilterRepository] = useState([]);
 
-    watch(constructiveObjectInitial, (n, o)=>{
-        constructiveObjectFilterRepository.value = constructiveObjectInitial.value;
-    });
+    useEffect(()=>{
+        setConstructiveObjectFilterRepository(constructiveObjectInitial);
+    }, [constructiveObjectInitial]);
     
-    watch(pinedEquipmentInitial, (n, o)=>{
-        pinedEquipmentFilterRepository.value = pinedEquipmentInitial.value;
-    });
+    useEffect(()=>{
+        setPinedEquipmentFilterRepository(pinedEquipmentInitial);
+    }, [pinedEquipmentInitial]);
 
-    watch(actualObjectSupervisorInitial, (n, o)=>{
-        actualObjectSupervisorFilterRepository.value = actualObjectSupervisorInitial.value;
-    });
+    useEffect(()=>{
+        setActualObjectSupervisorFilterRepository(actualObjectSupervisorInitial);
+    }, [actualObjectSupervisorInitial]);
 
     return{
         constructiveObjectFilterRepository,

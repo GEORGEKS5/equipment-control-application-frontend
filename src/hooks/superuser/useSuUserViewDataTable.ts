@@ -1,5 +1,5 @@
-import { TableButton, TableHeaderCell } from "@/helpers/classes";
-import { DataTable } from "@/helpers/types";
+import { TableButton, TableHeaderCell } from "../../helpers/classes";
+import { DataTable } from "../../helpers/types";
 import {mdiAccountTieVoiceOutline  } from '@mdi/js';
 import {mdiArchiveArrowDownOutline  } from '@mdi/js';
 import {mdiHistory} from '@mdi/js';

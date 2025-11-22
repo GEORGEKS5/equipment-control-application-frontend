@@ -1,4 +1,4 @@
-import { BasicForm, ConstructiveObjectIdentifierOnlyModelForm, EmployeeIdentifierOnlyModelForm, EquipmentIdentifierOnlyModelForm, FilterForm, FilterFormVisibilityController } from "@/helpers/classes"
+import { BasicForm, ConstructiveObjectIdentifierOnlyModelForm, EmployeeIdentifierOnlyModelForm, EquipmentIdentifierOnlyModelForm, FilterForm, FilterFormVisibilityController } from "../../helpers/classes"
 
 export default function(){
     const constructiveObjectCreationForm = new BasicForm();
