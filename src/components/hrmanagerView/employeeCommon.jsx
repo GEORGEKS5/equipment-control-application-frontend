@@ -19,7 +19,7 @@ function EmployeeCommon({children, formVisible, employeeRegistEndPointName, user
             lastName: '',
             userName: '',
         });
-        clearHouseRequestModel();
+        clearHouseRequestModel?.();
 
         hideForm();
     }

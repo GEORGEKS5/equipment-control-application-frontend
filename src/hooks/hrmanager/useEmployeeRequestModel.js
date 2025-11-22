@@ -19,14 +19,19 @@ export default function(employeeRegistEndPointName, houseRequestModel, editableE
 
     useEffect(()=>{
         if(editableEmployeeModelSize){
-            setEmployeeRequestModel({...editableEmployeeModel})
+            setEmployeeRequestModel({
+                name: editableEmployeeModel.EmployeeName ?? '',
+                surName: editableEmployeeModel.EmployeeSurName ?? '',
+                lastName: editableEmployeeModel.EmployeeLastName ?? '',
+                userName: editableEmployeeModel.UserName ?? '',
+            });
         }
     }, [editableEmployeeModel])
     
     const userPassword = useMemo(()=>{
-        if(Object.keys(employeeRequestModel || {}).length){
+        if(employeeRequestModel?.userName){
             const salt = 'it6fqw5tre17xzb';
-            const crOb = cryptoJs.PBKDF2(employeeRequestModel.userName, salt, { hasher: cryptoJs.algo.SHA512, keySize: 2, iterations: 20});
+            const crOb = cryptoJs.PBKDF2(employeeRequestModel.userName ?? '', salt, { hasher: cryptoJs.algo.SHA512, keySize: 2, iterations: 20});
             const passString = crOb.toString(cryptoJs.enc.Hex);
 
             return passString;
@@ -34,7 +39,7 @@ export default function(employeeRegistEndPointName, houseRequestModel, editableE
     }, [employeeRequestModel]);
 
     const registerEmployee = function() {
-        const houseRequestModelSize = Object.keys(houseRequestModel).length;
+        const houseRequestModelSize = Object.keys(houseRequestModel ?? {}).length;
 
         const employeeModel = {};
 
