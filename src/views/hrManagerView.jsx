@@ -27,6 +27,7 @@ import AddressDisplayForm from "../components/hrmanagerView/addressDisplayForm.j
 import EmployeeAppointment from "../components/hrmanagerView/employeeAppointment.jsx";
 import AddressEditForm from "../components/hrmanagerView/addressEditForm.jsx";
 import EmployeeReAppointment from "../components/hrmanagerView/employeeReAppointment.jsx";
+import RegisteredEmployeeEdit from "../components/hrmanagerView/registeredEmployeeEdit.jsx";
 
 function HRManagerView(){
     const {appointReadyEmployeeTable, appointedEmployeeTable, createAppointReadyEmployeeTable, createAppointedEmployeeTable} = useHRManagerViewDataTable();
@@ -166,6 +167,13 @@ function HRManagerView(){
                 hideForm={() => {employeeReAppointForm.hide()}}
                 employeeAppointed={updateAppointedEmployeeAndHideReappointForm}>
             </EmployeeReAppointment>
+
+            <RegisteredEmployeeEdit
+                formVisible={registeredEmployeeEditForm.visible}
+                editableEmployeeModel={registeredEmployeeEditForm.selectedModel}
+                hideForm={() => {registeredEmployeeEditForm.hide()}}
+                employeeRegistred={updateRegisteredEmployee}>
+            </RegisteredEmployeeEdit>
 
             <DataOrderForm
                 formVisible={filterAppointReadyEmployeeFormController.activeForm.visible}
