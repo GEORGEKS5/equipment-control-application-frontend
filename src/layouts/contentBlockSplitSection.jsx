@@ -1,5 +1,6 @@
 import SectionHeader from './slots/sectionHeader';
 import SectionFooter from './slots/sectionFooter';
+import React from 'react';
 
 function ContentBlockSplitSection({children}) {
     const upperSection = React.Children.toArray(children).find(child => child.type === SectionHeader);
