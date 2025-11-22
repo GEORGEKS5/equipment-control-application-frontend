@@ -12,7 +12,7 @@ const routes = [
     {path: '/Admin', component: AdminView},
     {path: '/AuthError', component: AuthErrorView},
     {path: '/HRManager', component: HRManagerView},
-    {path: '/Superuser', component: SuperUserView},
+    {path: '/SuUser', component: SuperUserView},
     {path: '/Supervisor', component: SupervisorView},
     {path: '/User', component: UserView},
 ]
