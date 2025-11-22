@@ -14,6 +14,12 @@ import SectionData from "../layouts/slots/sectionData";
 import SectionFooter from '../layouts/slots/sectionFooter';
 import ContentSectionFooter from "../layouts/slots/contentSectionFooter";
 
+import headerBlock from '../components/headerBlock';
+import dataOrderForm from "../components/dataOrderForm";
+import dataTable from "../components/table/dataTable";
+import dataTableHeader from "../components/table/dataTableHeader";
+import defaultButton from "../components/UI/defaultButton";
+
 function SuperUserView(){
     return (
         <>
