@@ -22,5 +22,8 @@ export default function(constructiveObjectInitial: never[], pinedEquipmentInitia
         constructiveObjectFilterRepository,
         pinedEquipmentFilterRepository,
         actualObjectSupervisorFilterRepository,
+        setConstructiveObjectFilterRepository,
+        setPinedEquipmentFilterRepository,
+        setActualObjectSupervisorFilterRepository,
     }
 }
