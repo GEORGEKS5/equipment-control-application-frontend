@@ -1,31 +1,28 @@
-import { ref, watch } from "vue";
-import { useStore } from "vuex";
-import getRequestPromise from "@/helpers/lib";
+import { useContext, useEffect, useState } from "react";
+import getRequestPromise from "../helpers/lib";
+import UserContext from "../context/user";
 
-export default function(activeEquipmentSerialNumber, formVisible){
+export default function(activeEquipmentSerialNumber = '', formVisible = false){
     const endPoint = 'GetFixHistoryByEquipKey';
-    const equipmentFixationRepository = ref([]);
-    const store = useStore();
-    const servUrl =  store.getters.SERVERURLADDRESS;
+    const [equipmentFixationRepository, setEquipmentFixationRepository] = useState([]);
+    const {USER_STATE} = useContext(UserContext);
+    const servUrl =  USER_STATE.getServerUrlAddress();
 
     const getEquipmentFixation = async function(){
-        if(formVisible.value){
-            equipmentFixationRepository.value = [];
-            const reqBodyObj = { 'equipmentSerialNumber': activeEquipmentSerialNumber.value};
-            console.log(reqBodyObj);
+        if(formVisible){
+            //equipmentFixationRepository = [];
+            const reqBodyObj = { 'equipmentSerialNumber': activeEquipmentSerialNumber};
             const objectRepositoryRequest = await getRequestPromise(servUrl, endPoint, reqBodyObj);
 
-            equipmentFixationRepository.value = await objectRepositoryRequest.json();
-
-            console.log(equipmentFixationRepository.value)
+            setEquipmentFixationRepository(await objectRepositoryRequest.json());
         }
     }
 
-    watch(formVisible, (n,o) =>{
-        if(n){
+    useEffect(() =>{
+        if(formVisible){
             getEquipmentFixation();
         }
-    })
+    }, [formVisible])
     
     return {
         equipmentFixationRepository,

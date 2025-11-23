@@ -1,36 +1,29 @@
-import TableColumnHeader from "@/helpers/tableColumnHeader";
-import { ref, watch } from "vue"
+import TableColumnHeader from "../helpers/tableColumnHeader";
+import { useEffect, useState } from "react";
 
 export default function(formVisible){
-    const tableHeader = ref([]);
+    const [tableHeader, setTableHeader] = useState([]);
 
     const createEquipmentTableStructure = function(){
-        if(formVisible.value){
+        if(formVisible){
             let fixationDateColumn = new TableColumnHeader('FixationDate', 'Дата Назначения');
             let employeeNameColumn = new TableColumnHeader('EmployeeName', 'Имя');
             let employeeLastNameColumn = new TableColumnHeader('EmployeeLastName', 'Фамилия');
             let objectNameColumn = new TableColumnHeader('ObjectName', 'Название объекта');
-        
-            tableHeader.value.push(fixationDateColumn); 
-            tableHeader.value.push(employeeLastNameColumn);
-            tableHeader.value.push(employeeNameColumn);
-            tableHeader.value.push(objectNameColumn); 
-    
-            console.log('Table Header Created')
+
+            setTableHeader([fixationDateColumn, employeeLastNameColumn, employeeNameColumn, objectNameColumn])
         }
     };
 
     const clearTableHeader = function() {
-        tableHeader.value = [];
-        console.log('Table Header Cleared')
+        setTableHeader([])
     };
 
-    watch(formVisible, (n,o) =>{
-        if(n){
-            console.log(tableHeader.value);
+    useEffect(() =>{
+        if(formVisible){
             createEquipmentTableStructure();
         }
-    })
+    }, [formVisible])
 
     return{
         tableHeader,
