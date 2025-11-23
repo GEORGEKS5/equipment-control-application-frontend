@@ -41,6 +41,7 @@ function DataTable({tableData, tableActionButton, buttonClick, ...props}){
                                                     buttonValue={row[actionButton.valueParamName]}
                                                     buttonClass={'tableAction'}
                                                     buttonClick={btnClick(actionButton.emitEventName)}
+                                                    buttonIconPath={actionButton.iconPath}
                                                 ></DefaultButton>
                                             </td>
                                         )
