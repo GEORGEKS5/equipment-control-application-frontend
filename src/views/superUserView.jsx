@@ -24,6 +24,7 @@ import { FilterForm } from '../helpers/classes';
 import { useEffect } from 'react';
 
 import ObjectUnactualizeConfirm from '../components/superuserView/objectUnactualizeConfirm';
+import ObjectAppointmentHistory from '../components/superuserView/objectAppointmentHistory';
 
 function SuperUserView(){
     const {equipmentTable, constructiveObjectTable, actualObjectSupervisorTable} = useSuUserViewDataTable();
@@ -115,6 +116,12 @@ function SuperUserView(){
                 hideForm={() => {objectUnactualizeConfirmForm.hide()}}
                 objectUnactualizeConfirmed={objectUnactualizeConfirmed}>
             </ObjectUnactualizeConfirm>
+
+            <ObjectAppointmentHistory
+                formVisible={objectAppointmentHistoryForm.visible}
+                objectIdentificator={objectAppointmentHistoryForm.selectedModel.objectIdentificator}
+                hideForm={() => {objectAppointmentHistoryForm.hide()}}>
+            </ObjectAppointmentHistory>
 
             <div id="rootEl" className="flexParent">
                 <HeaderBlock />
