@@ -1,33 +1,28 @@
-import { onBeforeUpdate, ref, watch } from "vue";
-import TableColumnHeader from "@/helpers/tableColumnHeader";
+import { useState, useEffect } from "react";
+import TableColumnHeader from "../helpers/tableColumnHeader";
 
 export default function(isFormVisible){
-    const tableHeader = ref([]);
+    const [tableHeader, setTableHeader] = useState([]);
 
     const createEmployeeTableStructure = function(){
-        if(isFormVisible.value){
+        if(isFormVisible){
             let userNameColumn = new TableColumnHeader('AppointmentDate', 'Дата Назначения');
             let employeeLastNameColumn = new TableColumnHeader('EmployeeLastName', 'Фамилия');
             let employeeNameColumn = new TableColumnHeader('EmployeeName', 'Имя');
-        
-            tableHeader.value.push(userNameColumn);
-            tableHeader.value.push(employeeLastNameColumn);
-            tableHeader.value.push(employeeNameColumn);
-    
-            console.log('Table Header Created')
+
+            setTableHeader([userNameColumn, employeeLastNameColumn, employeeNameColumn])
         }
     };
 
     const clearTableHeader = function() {
-        tableHeader.value = [];
-        console.log('Table Header Cleared')
+        setTableHeader([]);
     };
 
-    watch(isFormVisible, (n,o) =>{
-        if(n){
+    useEffect(() =>{
+        if(isFormVisible){
             createEmployeeTableStructure();
         }
-    })
+    }, [isFormVisible])
 
     return{
         tableHeader,
