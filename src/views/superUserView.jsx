@@ -23,6 +23,8 @@ import useSuUserFormModel from '../hooks/superuser/useSuUserFormModel';
 import { FilterForm } from '../helpers/classes';
 import { useEffect } from 'react';
 
+import ObjectUnactualizeConfirm from '../components/superuserView/objectUnactualizeConfirm';
+
 function SuperUserView(){
     const {equipmentTable, constructiveObjectTable, actualObjectSupervisorTable} = useSuUserViewDataTable();
     const {constructiveObjectCreationForm, supervisorAppointmentForm, objectUnactualizeConfirmForm, objectAppointmentHistoryForm, equipmentFixationHistoryForm, equipmentFixationSupervisorDetailForm, filterPinedEquipmentFormController, filterConstructiveObjectFormController} = useSuUserFormModel();
@@ -70,16 +72,18 @@ function SuperUserView(){
 
     function pinedEquipmentTableButtonClick(clickType, e) {
         switch(clickType){
-            case "showEquipmentFixationHistoryForm": e => equipmentFixationHistoryForm.show(e); break;
-            case "showEquipmentFixationSupervisorDetailForm": e => equipmentFixationSupervisorDetailForm.show(e); break;
+            case "showEquipmentFixationHistoryForm": equipmentFixationHistoryForm.show(e); break;
+            case "showEquipmentFixationSupervisorDetailForm": equipmentFixationSupervisorDetailForm.show(e); break;
         }
     }
 
     function constructiveObjectTableButtonClick(clickType, e) {
+        console.log(clickType);
         switch(clickType){
-            case "showSupervisorAppointmentForm": e => supervisorAppointmentForm.show(e); break;
-            case "showObjectUnactualizeConfirmForm": e => objectUnactualizeConfirmForm.show(e); break;
-            case "showObjectAppointmentHistoryForm": e => objectAppointmentHistoryForm.show(e); break;
+            case "showSupervisorAppointmentForm": supervisorAppointmentForm.show(e); break;
+            case "showObjectUnactualizeConfirmForm": objectUnactualizeConfirmForm.show(e); break;
+            case "showObjectAppointmentHistoryForm": objectAppointmentHistoryForm.show(e); break;
+            default: break;
         }
     }
 
@@ -104,6 +108,13 @@ function SuperUserView(){
                 elementOrdered={setConstructiveObjectEquipmentModel}
                 hideForm={() => {filterConstructiveObjectFormController.activeForm.hide()}}>
             </DataOrderForm>
+
+            <ObjectUnactualizeConfirm
+                formVisible={objectUnactualizeConfirmForm.visible}
+                objectIdentificator={objectUnactualizeConfirmForm.selectedModel.objectIdentificator}
+                hideForm={() => {objectUnactualizeConfirmForm.hide()}}
+                objectUnactualizeConfirmed={objectUnactualizeConfirmed}>
+            </ObjectUnactualizeConfirm>
 
             <div id="rootEl" className="flexParent">
                 <HeaderBlock />
