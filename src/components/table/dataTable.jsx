@@ -24,7 +24,7 @@ function DataTable({tableData, tableActionButton, buttonClick, ...props}){
                             {
                                 props.tableStructure.map(column => {
                                     return(
-                                        <td key={column.name}>
+                                        <td key={column.name} className="py-2.5 px-0 lg:px-1.5 text-[0.7em] md:text-[0.8em]">
                                             { ''+row[column.name] }
                                         </td>
                                     )
