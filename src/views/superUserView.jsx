@@ -1,12 +1,9 @@
-import dialogWindow from '../layouts/dialogWindow';
 import ContentBlock from '../layouts/contentBlock';
 import ContentBlockSection from '../layouts/contentBlockSection';
 import ContentBlockSplitSection from '../layouts/contentBlockSplitSection';
-import contentSection from '../layouts/contentSection';
+import ContentSection from '../layouts/contentSection';
 import ContentSplitSection from '../layouts/contentSplitSection';
 
-import FormField from '../layouts/slots/formField';
-import FormFooter from '../layouts/slots/formFooter';
 import MainContent from '../layouts/slots/mainContent';
 import SideBar from '../layouts/slots/sideBar';
 import SectionHeader from '../layouts/slots/sectionHeader';
@@ -17,8 +14,6 @@ import ContentSectionFooter from "../layouts/slots/contentSectionFooter";
 import HeaderBlock from '../components/headerBlock';
 import DataOrderForm from "../components/dataOrderForm";
 import DataTable from "../components/table/dataTable";
-import dataTableHeader from "../components/table/dataTableHeader";
-import defaultButton from "../components/UI/defaultButton";
 
 import useSuUserViewDataTable from "../hooks/superuser/useSuUserViewDataTable";
 import useSuUserRepository from "../hooks/superuser/useSuUserRepository";
@@ -27,7 +22,6 @@ import useSuUserFormModel from '../hooks/superuser/useSuUserFormModel';
 
 import { FilterForm } from '../helpers/classes';
 import { useEffect } from 'react';
-import ContentSection from '../layouts/contentSection';
 
 function SuperUserView(){
     const {equipmentTable, constructiveObjectTable, actualObjectSupervisorTable} = useSuUserViewDataTable();
