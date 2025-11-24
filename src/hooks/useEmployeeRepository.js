@@ -1,26 +1,29 @@
-import { onBeforeUpdate, onMounted, ref } from "vue";
-import { useStore } from "vuex";
-import getRequestPromise from "@/helpers/lib";
+import UserContext from "../context/user";
+import getRequestPromise from "../helpers/lib";
+import { useEffect, useState, useContext } from "react";
 
 export default function useEmployeeRepository(formVisible){
-    const store = useStore();
-    const servAddress = store.getters.SERVERURLADDRESS;
-    let employeesModel = ref([]);
+    const {USER_STATE} = useContext(UserContext);
+    const servAddress = USER_STATE.getServerUrlAddress();
+    let [employeesModel, setEmployeesModel] = useState([]);
 
     let getEmployeeRepositories = function(){
-        if(formVisible.value){
-            console.log('Get Request!!!');
+        if(formVisible){
             let prom = getRequestPromise(servAddress, 'GetEmployeeList', {});
 
             prom.then(promResult=>{
-                promResult.json().then(jsonResult=>{
-                    employeesModel.value = jsonResult;
-                });
+                return promResult.json();
+            }).then(jsonResult=>{
+                setEmployeesModel(jsonResult);
             });
         }
     };
 
-    onBeforeUpdate(getEmployeeRepositories);
+    useEffect(() => {
+        if(formVisible){
+            getEmployeeRepositories()
+        }
+    }, [formVisible])
 
     return{
         employeesModel,
