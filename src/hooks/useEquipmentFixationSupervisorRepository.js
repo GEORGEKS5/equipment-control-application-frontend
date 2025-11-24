@@ -1,35 +1,31 @@
-import { ref, watch } from "vue";
-import { useStore } from "vuex";
-import getRequestPromise from '@/helpers/lib.js'
+import getRequestPromise from '../helpers/lib'
+import { useState, useEffect, useContext } from 'react';
+import UserContext from '../context/user';
 
 export default function(formVisible, activeFixationSupervisor){
-    const supervisorRepository = ref({});
-    const store = useStore();
+    const [supervisorRepository, setSupervisorRepository] = useState([]);
+    const {USER_STATE} = useContext(UserContext);
 
     const getFixationSupervisor = async function(){
-        if(formVisible.value){
-            const servAdr = store.getters.SERVERURLADDRESS;
+        if(formVisible){
+            const servAdr = USER_STATE.getServerUrlAddress();
             const endPoint = 'GetSupervisorDetail';
-            const reqBody = { 'UserName': activeFixationSupervisor.value}
+            const reqBody = { 'UserName': activeFixationSupervisor}
 
-            console.log(reqBody);
-
-            supervisorRepository.value = [];
+            //setSupervisorRepository([]);
 
             const reqProm = await getRequestPromise(servAdr, endPoint, reqBody);
             const reqResult = await reqProm.json();
 
-            supervisorRepository.value = reqResult[0];
-
-            console.log(supervisorRepository.value);
+            setSupervisorRepository(reqResult[0]);
         }
     }
 
-    watch(formVisible, (n, o) => {
-        if(n){
+    useEffect(() => {
+        if(formVisible){
             getFixationSupervisor();
         }
-    });
+    }, [formVisible]);
 
     return {
         supervisorRepository,
