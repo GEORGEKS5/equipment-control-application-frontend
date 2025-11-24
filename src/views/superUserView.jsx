@@ -26,6 +26,7 @@ import { useEffect } from 'react';
 import ObjectUnactualizeConfirm from '../components/superuserView/objectUnactualizeConfirm';
 import ObjectAppointmentHistory from '../components/superuserView/objectAppointmentHistory';
 import EquipmentFixationHistory from '../components/superuserView/equipmentFixationHistory';
+import EquipmentFixationSupervisorDetail from '../components/superuserView/equipmentFixationSupervisorDetail';
 
 function SuperUserView(){
     const {equipmentTable, constructiveObjectTable, actualObjectSupervisorTable} = useSuUserViewDataTable();
@@ -129,6 +130,12 @@ function SuperUserView(){
                 activeEquipmentSerialNumber={equipmentFixationHistoryForm.selectedModel.SerialNumber}
                 hideForm={() => {equipmentFixationHistoryForm.hide()}}>
             </EquipmentFixationHistory>
+
+            <EquipmentFixationSupervisorDetail
+                formVisible={equipmentFixationSupervisorDetailForm.visible}
+                activeFixationSupervisor={equipmentFixationSupervisorDetailForm.selectedModel.UserName}
+                hideForm={() => {equipmentFixationSupervisorDetailForm.hide()}}>
+            </EquipmentFixationSupervisorDetail>   
 
             <div id="rootEl" className="flexParent">
                 <HeaderBlock />
