@@ -1,4 +1,6 @@
 import DialogWindow from '../../layouts/dialogWindow';
+import FormField from '../../layouts/slots/formField';
+import FormFooter from '../../layouts/slots/formFooter';
 import FormInput from '../UI/formInput';
 import DefaultButton from '../UI/defaultButton';
 import getRequestPromise from '../../helpers/lib';
@@ -31,7 +33,23 @@ function ObjectCreate({formVisible, constructiveObjectCreated, hideForm}) {
     }
 
     return (
-        <></>
+        <DialogWindow
+            visibleForm={formVisible}
+            hideForm={hideForm}>
+            <FormField>
+                <FormInput
+                    fieldCaption="Название объекта"
+                    updateInput={setObjectName}>
+                </FormInput>
+            </FormField>
+            <FormFooter>
+                <DefaultButton
+                    buttonCaption="Save"
+                    buttonClass="form"
+                    buttonClick={sendCreationRequest}>
+                </DefaultButton>
+            </FormFooter>
+        </DialogWindow>
     )
 }
 
