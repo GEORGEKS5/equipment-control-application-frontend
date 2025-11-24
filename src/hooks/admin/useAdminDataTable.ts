@@ -1,10 +1,8 @@
-import TableActionButton from "@/helpers/tableActionButton";
-import TableColumnHeader from "@/helpers/tableColumnHeader";
-import {DataTable} from '@/helpers/types/index';
-import { TableButton, TableHeaderCell } from '@/helpers/classes/index';
-import { ref, Ref } from "vue";
+import { DataTable } from '../../helpers/types/index';
+import { TableButton, TableHeaderCell } from '../../helpers/classes/index';
+import { useState, useEffect} from "react";
 
-export default function(){
+export default function(formVisible: boolean){
     const defaultEmployeeTable: DataTable = {
         button: [],
         header: [],
@@ -20,47 +18,86 @@ export default function(){
         header: [],
     }; 
 
-    const employeeTable: Ref<DataTable> = ref(defaultEmployeeTable);
-    const directorTable: Ref<DataTable> = ref(defaultDirectorTable);
-    const hrManagerTable: Ref<DataTable> = ref(defaultHrManagerTable);
+    const [employeeTable, setEmployeeTable] = useState(defaultEmployeeTable);
+    const [directorTable, setDirectorTable] = useState(defaultDirectorTable);
+    const [hrManagerTable, setHrManagerTable] = useState(defaultHrManagerTable);
 
     const prepareEmployeeTableHeader = function(){
-        employeeTable.value.header.push({name: 'EmployeeLastName', localName: 'Фамилия', filterable: true});
-        employeeTable.value.header.push({name: 'EmployeeName',localName: 'Имя'});
-        employeeTable.value.header.push({name: 'EmployeeSurName',localName: 'Отчество'});
-        employeeTable.value.header.push({name: 'Active',localName: 'Активен', filterable: true});
+        setEmployeeTable(prevVal => {
+            return {
+                button: [...prevVal.button],
+                header: [
+                    new TableHeaderCell('EmployeeLastName', 'Фамилия', true),
+                    new TableHeaderCell('EmployeeName', 'Имя'),
+                    new TableHeaderCell('EmployeeSurName', 'Отчество'),
+                    new TableHeaderCell('Active', 'Активен', true)
+                ]
+            }
+        });
     };
     const prepareEmployeeTableButtonSet = function(){
-        employeeTable.value.button.push(new TableButton('UserName','showAppointmentDirectorConfirmForm', 'Директор'));
-        employeeTable.value.button.push(new TableButton('UserName','showAppointmentHrManagerConfirmForm', 'HR'));
-        employeeTable.value.button.push(new TableButton('UserName','editEmployee', 'Редактировать'));
+        setEmployeeTable(prevVal => {
+            return {
+                button: [
+                    new TableButton('UserName','showAppointmentDirectorConfirmForm', 'Директор'),
+                    new TableButton('UserName','showAppointmentHrManagerConfirmForm', 'HR'),
+                    new TableButton('UserName','editEmployee', 'Редактировать'),
+                ],
+                header: [ ...prevVal.header ]
+            }
+        });
     };
     
     const prepareDirectorTableHeader = function(){
-        directorTable.value.header.push(new TableHeaderCell('EmployeeLastName','Фамилия', true));
-        directorTable.value.header.push(new TableHeaderCell('EmployeeName','Имя'));
-        directorTable.value.header.push(new TableHeaderCell('EmployeeSurName','Отчество'));
-        directorTable.value.header.push(new TableHeaderCell('DirectorAppointmentDate','Дата назначения', true));
+        setDirectorTable(prevVal => {
+            return {
+                button: [...prevVal.button],
+                header: [
+                    new TableHeaderCell('EmployeeLastName','Фамилия', true),
+                    new TableHeaderCell('EmployeeName','Имя'),
+                    new TableHeaderCell('EmployeeSurName','Отчество'),
+                    new TableHeaderCell('DirectorAppointmentDate','Дата назначения', true)
+                ]
+            }
+        });
     };
     const prepareDirectorTableButtonSet = function(){};
     
     const prepareHrManagerTableHeader = function(){
-        hrManagerTable.value.header.push(new TableHeaderCell('EmployeeLastName','Фамилия', true));
-        hrManagerTable.value.header.push(new TableHeaderCell('EmployeeName','Имя'));
-        hrManagerTable.value.header.push(new TableHeaderCell('EmployeeSurName','Отчество'));
-        hrManagerTable.value.header.push(new TableHeaderCell('HRActiveAppointment','Активен', true));
-        hrManagerTable.value.header.push(new TableHeaderCell('HRAppointmentDate','Дата назначения', true));
+        setHrManagerTable(prevVal => {
+            return {
+                button: [...prevVal.button],
+                header: [
+                    new TableHeaderCell('EmployeeLastName','Фамилия', true),
+                    new TableHeaderCell('EmployeeName','Имя'),
+                    new TableHeaderCell('EmployeeSurName','Отчество'),
+                    new TableHeaderCell('HRActiveAppointment','Активен', true),
+                    new TableHeaderCell('HRAppointmentDate','Дата назначения', true)
+                ]
+            }
+        });
     };
     const prepareHrManagerTableButtonSet = function(){
-        hrManagerTable.value.button.push(new TableButton('UserName','unActualizeHrManager', 'Del'));
+        setHrManagerTable(prevVal => {
+            return {
+                button: [
+                    new TableButton('UserName','unActualizeHrManager', 'Del')
+                ],
+                header: [ ...prevVal.header ]
+            }
+        });
     };
 
-    prepareEmployeeTableHeader();
-    prepareEmployeeTableButtonSet();
+    useEffect(() => {
+        if(formVisible){
+            prepareEmployeeTableHeader();
+            prepareEmployeeTableButtonSet();
 
-    prepareDirectorTableHeader();
-    prepareHrManagerTableHeader();
-    prepareHrManagerTableButtonSet();
+            prepareDirectorTableHeader();
+            prepareHrManagerTableHeader();
+            prepareHrManagerTableButtonSet();
+        }
+    }, [formVisible])
 
     return{
         employeeTable,
