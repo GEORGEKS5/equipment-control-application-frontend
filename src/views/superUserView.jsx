@@ -27,6 +27,7 @@ import ObjectUnactualizeConfirm from '../components/superuserView/objectUnactual
 import ObjectAppointmentHistory from '../components/superuserView/objectAppointmentHistory';
 import EquipmentFixationHistory from '../components/superuserView/equipmentFixationHistory';
 import EquipmentFixationSupervisorDetail from '../components/superuserView/equipmentFixationSupervisorDetail';
+import ObjectCreate from '../components/superuserView/objectCreate';
 
 function SuperUserView(){
     const {equipmentTable, constructiveObjectTable, actualObjectSupervisorTable} = useSuUserViewDataTable();
@@ -135,7 +136,13 @@ function SuperUserView(){
                 formVisible={equipmentFixationSupervisorDetailForm.visible}
                 activeFixationSupervisor={equipmentFixationSupervisorDetailForm.selectedModel.UserName}
                 hideForm={() => {equipmentFixationSupervisorDetailForm.hide()}}>
-            </EquipmentFixationSupervisorDetail>   
+            </EquipmentFixationSupervisorDetail>  
+
+            <ObjectCreate
+                formVisible={constructiveObjectCreationForm.visible}
+                hideForm={() => {constructiveObjectCreationForm.hide()}}
+                constructiveObjectCreated={updateAfterObjectCreation}>
+            </ObjectCreate> 
 
             <div id="rootEl" className="flexParent">
                 <HeaderBlock />
