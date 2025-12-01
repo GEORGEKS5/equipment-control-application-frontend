@@ -17,7 +17,11 @@ function Root(){
           employeeLastName: '',
           appointmentDate: '',
           getServerUrlAddress: function(){
-            return this.serverProtocol + this.serverAddress + ':' + this.serverPort;
+            if('serverProtocol' in this){
+              return this.serverProtocol + this.serverAddress + ':' + this.serverPort;
+            }
+            
+            return '';
           },
           
   });
@@ -35,6 +39,6 @@ function Root(){
   )
 }
 
-createRoot(document.getElementById('root')).render(
+createRoot(document.getElementById('root') as HTMLElement).render(
     <Root />,
 )
