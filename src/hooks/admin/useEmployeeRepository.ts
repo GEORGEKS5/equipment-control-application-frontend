@@ -1,23 +1,22 @@
-import getRequestPromise from "@/helpers/lib";
-import { ref } from "vue";
-import { useStore } from "vuex";
-
-
+import getRequestPromise from "../../helpers/lib";
+import { useContext, useEffect, useState } from "react";
+import UserContext from "../../context/user";
+import { TUserContext } from "../../helpers/types";
 
 export default function(){
-    const employeeInitialRepository = ref([]);
-    const directorInitialRepository = ref([]);
-    const hrManagerInitialRepository = ref([]);
+    const [employeeInitialRepository, setEmployeeInitialRepository] = useState([]);
+    const [directorInitialRepository, setDirectorInitialRepository] = useState([]);
+    const [hrManagerInitialRepository, setHrManagerInitialRepository] = useState([]);
 
-    const store = useStore();
-    const servUrlAddr = store.getters.SERVERURLADDRESS;
+    const {USER_STATE} = useContext<{USER_STATE: TUserContext}>(UserContext);
+    const servUrlAddr = USER_STATE.getServerUrlAddress();
 
     const getEmployeeRepository = async function () {
         const endPoint = 'GetEmployeeAbsolutList'
         const requestPromise = await getRequestPromise(servUrlAddr, endPoint);
         const jsonResponse = await requestPromise.json();
 
-        employeeInitialRepository.value = jsonResponse;
+        setEmployeeInitialRepository(jsonResponse);
     };
 
     const getDirectorRepository = async function () {
@@ -25,28 +24,28 @@ export default function(){
         const requestPromise = await getRequestPromise(servUrlAddr, endPoint);
         const jsonResponse = await requestPromise.json();
 
-        directorInitialRepository.value = jsonResponse;
+        setDirectorInitialRepository(jsonResponse);
     };
 
-    const getHrManagerRepository = async function () {
+    const getHrManagerRepository = async function <T> (): Promise<T> {
         const endPoint = 'GetHrManagerList'
         const requestPromise = await getRequestPromise(servUrlAddr, endPoint);
         const jsonResponse = await requestPromise.json();
 
-        hrManagerInitialRepository.value = jsonResponse;
+        setHrManagerInitialRepository(jsonResponse);
+
+        return jsonResponse
     };
 
     const getCoreRepositories = async function () {
         await getEmployeeRepository();
         await getHrManagerRepository();
         await getDirectorRepository();
-
-        console.log(hrManagerInitialRepository.value);
-        console.log(employeeInitialRepository.value);
-        console.log(directorInitialRepository.value);
     }
 
-    getCoreRepositories();
+    useEffect(()=>{
+        getCoreRepositories();
+    }, [])
 
     return {
         employeeInitialRepository,
