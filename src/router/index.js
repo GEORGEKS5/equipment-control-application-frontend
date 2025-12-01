@@ -5,9 +5,10 @@ import HRManagerView from "../views/hrManagerView";
 import SuperUserView from "../views/superUserView";
 import SupervisorView from "../views/supervisorView";
 import UserView from "../views/userView";
+import App from '../App.tsx'
 
 const routes = [
-    {path: '/', component: AuthView},
+    {path: '/', component: App},
     {path: '/Auth', component: AuthView},
     {path: '/Admin', component: AdminView},
     {path: '/AuthError', component: AuthErrorView},
