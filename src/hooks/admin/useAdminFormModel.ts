@@ -1,4 +1,4 @@
-import { BasicForm, EmployeeIdentifierOnlyModelForm, EmployeeModelForm, FilterForm, FilterFormVisibilityController } from "@/helpers/classes"
+import { BasicForm, EmployeeIdentifierOnlyModelForm, EmployeeModelForm, FilterForm, FilterFormVisibilityController } from "../../helpers/classes"
 
 export default function(){
     const employeeCreateForm = new BasicForm();

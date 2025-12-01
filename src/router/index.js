@@ -1,4 +1,4 @@
-import AdminView from "../views/adminView";
+import AdminView from "../views/adminView.tsx";
 import AuthErrorView from "../views/authErrorView";
 import AuthView from "../views/authView";
 import HRManagerView from "../views/hrManagerView";

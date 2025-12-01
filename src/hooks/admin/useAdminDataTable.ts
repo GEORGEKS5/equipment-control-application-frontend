@@ -2,7 +2,7 @@ import { DataTable } from '../../helpers/types/index';
 import { TableButton, TableHeaderCell } from '../../helpers/classes/index';
 import { useState, useEffect} from "react";
 
-export default function(formVisible: boolean){
+export default function(){
     const defaultEmployeeTable: DataTable = {
         button: [],
         header: [],
@@ -89,15 +89,13 @@ export default function(formVisible: boolean){
     };
 
     useEffect(() => {
-        if(formVisible){
-            prepareEmployeeTableHeader();
-            prepareEmployeeTableButtonSet();
+        prepareEmployeeTableHeader();
+        prepareEmployeeTableButtonSet();
 
-            prepareDirectorTableHeader();
-            prepareHrManagerTableHeader();
-            prepareHrManagerTableButtonSet();
-        }
-    }, [formVisible])
+        prepareDirectorTableHeader();
+        prepareHrManagerTableHeader();
+        prepareHrManagerTableButtonSet();
+    }, [])
 
     return{
         employeeTable,

@@ -21,5 +21,8 @@ export default function(employeeInitialRepository: never[], directorInitialRepos
         filteredEmployeeModel,
         filteredDirectorModel,
         filteredHrManagerModel,
+        setFilteredEmployeeModel,
+        setFilteredDirectorModel,
+        setFilteredHrManagerModel,
     }
 }
