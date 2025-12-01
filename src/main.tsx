@@ -2,28 +2,28 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import './App.css'
 import routes from './router'
-import { BrowserRouter, Routes, Route } from 'react-router'
+import { BrowserRouter, Routes, Route, useNavigate } from 'react-router'
 import UserContext from './context/user'
 import { useState } from 'react'
+import { TUserContext } from './helpers/types'
 
 function Root(){
   const [USER_STATE, SET_USER_STATE] = useState({
-          userName: '',
-          userRole: '',
-          serverProtocol:'http://',
-          serverAddress: 'localhost',
-          serverPort: '3000',
-          employeeName: '',
-          employeeLastName: '',
-          appointmentDate: '',
-          getServerUrlAddress: function(){
-            if('serverProtocol' in this){
-              return this.serverProtocol + this.serverAddress + ':' + this.serverPort;
-            }
-            
-            return '';
-          },
-          
+      userName: '',
+      userRole: '',
+      serverProtocol:'http://',
+      serverAddress: 'localhost',
+      serverPort: '3000',
+      employeeName: '',
+      employeeLastName: '',
+      appointmentDate: '',
+      getServerUrlAddress(){
+        if('serverProtocol' in this){
+          return this.serverProtocol + this.serverAddress + ':' + this.serverPort;
+        }
+        
+        return '';
+      },
   });
 
   return (
