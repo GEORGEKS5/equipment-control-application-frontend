@@ -33,4 +33,16 @@ export type TConstructiveObject = {
     objectIdentificator: undefined | string
 }
 
+export type TUserContext = {
+    userName: string,
+    userRole: string,
+    serverProtocol: string,
+    serverAddress: string,
+    serverPort: string,
+    employeeName: string,
+    employeeLastName: string,
+    appointmentDate: string,
+    getServerUrlAddress() : string,
+}
+
 
