@@ -4,7 +4,7 @@ import AuthView from "../views/authView";
 import HRManagerView from "../views/hrManagerView";
 import SuperUserView from "../views/superUserView";
 import SupervisorView from "../views/supervisorView";
-import UserView from "../views/userView";
+import UserView from "../views/userView.tsx";
 import App from '../App.tsx'
 
 const routes = [
