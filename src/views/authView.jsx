@@ -70,10 +70,10 @@ function AuthView(){
                 console.error('Server send no data for current pair name/password');
             }
 
-            navigateTo(`/${userPage}`);
+            navigateTo(`/`);
         }catch(e){
             console.error(e);
-            navigateTo(`/${userPage}`);
+            navigateTo(`/`);
         }
 
         console.log('/checkUser');

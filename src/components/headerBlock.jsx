@@ -18,7 +18,7 @@ function HeaderBlock({}) {
             console.error(e);
         }
 
-        navigateTo('/auth')
+        navigateTo('/Auth')
     }
 
     function showChangePasswordForm(){
