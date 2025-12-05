@@ -7,15 +7,18 @@ import SupervisorView from "../views/supervisorView";
 import UserView from "../views/userView.tsx";
 import App from '../App.tsx'
 
-const routes = [
-    {path: '/', component: App},
-    {path: '/Auth', component: AuthView},
-    {path: '/Admin', component: AdminView},
-    {path: '/AuthError', component: AuthErrorView},
-    {path: '/HRManager', component: HRManagerView},
-    {path: '/SuUser', component: SuperUserView},
-    {path: '/Supervisor', component: SupervisorView},
-    {path: '/User', component: UserView},
-]
+export const privateRoutes = [
+    {path: "*", Component: App},
+    {path: '/Auth', Component: AuthView},
+    {path: '/Admin', Component: AdminView},
+    {path: '/AuthError', Component: AuthErrorView},
+    {path: '/HRManager', Component: HRManagerView},
+    {path: '/SuUser', Component: SuperUserView},
+    {path: '/Supervisor', Component: SupervisorView},
+    {path: '/User', Component: UserView},
+];
 
-export default routes;
+export const publicRoutes = [
+    {path: "*", Component: App},
+    {path: '/Auth', Component: AuthView},
+];
