@@ -1,14 +1,14 @@
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import './App.css'
-import routes from './router'
-import { BrowserRouter, Routes, Route, useNavigate } from 'react-router'
+import {privateRoutes, publicRoutes} from './router'
+import { BrowserRouter, Routes, Route} from 'react-router'
 import UserContext from './context/user'
 import { useState } from 'react'
 import { TUserContext } from './helpers/types'
 
 function Root(){
-  const [USER_STATE, SET_USER_STATE] = useState({
+  const [USER_STATE, SET_USER_STATE] = useState<TUserContext>({
       userName: '',
       userRole: '',
       serverProtocol:'http://',
@@ -29,11 +29,21 @@ function Root(){
   return (
     <UserContext.Provider value={{USER_STATE, SET_USER_STATE}}>
       <BrowserRouter>
-        <Routes>
-          {routes.map(route=>{
-            return <Route path={route.path} Component={route.component} />
-          })}
-        </Routes>
+        {
+            USER_STATE.userRole === ''
+                ?
+            <Routes>
+                {publicRoutes.map(route=>{
+                    return <Route path={route.path} Component={route.Component} />
+                })}
+            </Routes>
+                :
+            <Routes>
+                {[...publicRoutes, ...privateRoutes.filter(route => route.path.includes(USER_STATE.userRole))].map(route =>{
+                    return <Route path={route.path} Component={route.Component} />
+                })}
+            </Routes>
+        }
       </BrowserRouter>
     </UserContext.Provider>
   )
