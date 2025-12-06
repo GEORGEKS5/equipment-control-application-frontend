@@ -5,10 +5,11 @@ import {useNavigate} from "react-router";
 import UserContext from "../context/user";
 import Icon from "@mdi/react";
 import {mdiExitToApp, mdiKeyArrowRight, mdiAccountCheck} from '@mdi/js';
+import { TUserContext } from "../helpers/types";
 
 function HeaderBlock({}) {
     const navigateTo = useNavigate();
-    const {USER_STATE} = useContext(UserContext);
+    const {USER_STATE} = useContext<{USER_STATE: TUserContext}>(UserContext);
     const [changePasswordFormVisible, setChangePasswordFormVisible] = useState(false);
 
     async function shutdown(){
@@ -45,7 +46,7 @@ function HeaderBlock({}) {
                         <li className="min-w-4 md:px-6 leading-5 rounded-sm bg-amber-900 p-1 md:rounded-full text-xs md:text-sm">{USER_STATE.userRole}</li>
                         <li className="min-w-4 md:px-6 leading-5 rounded-sm bg-amber-900 p-1 md:rounded-full text-xs md:text-sm">{USER_STATE.employeeLastName}</li>
                         <li className="min-w-4 md:px-6 leading-5 rounded-sm bg-amber-900 p-1 md:rounded-full text-xs md:text-sm">{USER_STATE.employeeName}</li>
-                        {USER_STATE.appointmentDate ? <li className="min-w-4 lg:px-6 md:px-5 leading-5 rounded-sm bg-amber-900 p-1 md:rounded-full text-xs md:text-sm">{USER_STATE.appointmentDate}</li> : <></>}
+                        {USER_STATE.appointmentDate ? <li className="min-w-4 lg:px-6 md:px-5 leading-5 rounded-sm bg-amber-900 p-1 md:rounded-full text-xs md:text-sm">{USER_STATE.getFormatedAppointmentDate()}</li> : <></>}
                     </ul>
                     <ul id="header__AccentBar" className="flex flex-row justify-between min-w-[10%]">
                         <li className="flex md:min-w-3 md:px-4 rounded-md bg-black"><button onClick={shutdown}>{mdiExitToApp ? <Icon path={mdiExitToApp} size={1}></Icon> : <span>Exit</span>}</button></li>
