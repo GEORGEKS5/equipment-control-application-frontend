@@ -1,4 +1,4 @@
-import HeaderBlock from "../components/headerBlock";
+import HeaderBlock from "../components/headerBlock.tsx";
 import DataTable from "../components/table/dataTable.jsx";
 import DataOrderForm from "../components/dataOrderForm.jsx";
 

@@ -11,7 +11,7 @@ import SectionData from "../layouts/slots/sectionData";
 import SectionFooter from '../layouts/slots/sectionFooter';
 import ContentSectionFooter from "../layouts/slots/contentSectionFooter";
 
-import HeaderBlock from '../components/headerBlock';
+import HeaderBlock from '../components/headerBlock.tsx';
 import DataOrderForm from "../components/dataOrderForm";
 import DataTable from "../components/table/dataTable";
 

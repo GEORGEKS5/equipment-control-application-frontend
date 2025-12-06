@@ -1,4 +1,4 @@
-import HeaderBlock from '../components/headerBlock';
+import HeaderBlock from '../components/headerBlock.tsx';
 import DataTable from '../components/table/dataTable';
 import FormEquipEdit from '../components/supervisorView/formEquipEdit';
 import FormEquipNew from '../components/supervisorView/formEquipNew';

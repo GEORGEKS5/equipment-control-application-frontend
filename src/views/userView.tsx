@@ -1,6 +1,6 @@
 import unauthAccessBlock from '../views/authErrorView';
 import getRequestPromise from '../helpers/lib';
-import HeaderBlock from '../components/headerBlock';
+import HeaderBlock from '../components/headerBlock.tsx';
 import ContentSingleBlock from '../layouts/ContentSingleBlock';
 import ContentSection from '../layouts/contentSection';
 import TableColumnHeader from '../helpers/tableColumnHeader';
