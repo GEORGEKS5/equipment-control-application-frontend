@@ -42,7 +42,6 @@ export type TUserContext = {
     employeeName: string,
     employeeLastName: string,
     appointmentDate: string,
+    getFormatedAppointmentDate(): string,
     getServerUrlAddress() : string,
 }
-
-
