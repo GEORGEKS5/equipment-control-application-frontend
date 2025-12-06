@@ -24,6 +24,22 @@ function Root(){
         
         return '';
       },
+      getFormatedAppointmentDate(){
+            const dt: string = 'appointmentDate' in this ? this.appointmentDate : 'unFormat';
+
+            if(dt){
+                let tLetterIndex = dt.indexOf('T');
+                let dateTextValue = dt.slice(0,tLetterIndex);
+                let dateValue = new Date(dateTextValue);
+                let day = dateValue.getDate();
+                let formatedDay = day > 9 ? '' + day : '0' + day;
+                let formatedDate = formatedDay + ' ' + dateValue. getMonth() + 1 + ' ' + dateValue.getFullYear();
+
+                return formatedDate;
+            }
+            
+            return dt;
+      },
   });
 
   return (
