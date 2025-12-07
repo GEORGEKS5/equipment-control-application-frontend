@@ -215,24 +215,6 @@ function SuperUserView(){
                             </SectionFooter>
                         </ContentBlockSplitSection>
                     </SideBar>
-                    <template v-slot:sideBar>
-                        <ContentBlockSplitSection>
-
-                            <template v-slot:lowerSection>
-                                <ContentSplitSection>
-                                    <template v-slot:sectionHeader>
-
-                                    </template>
-                                    <template v-slot:sectionData>
-
-                                    </template>
-                                    <template v-slot:sectionFooter>
-
-                                    </template>
-                                </ContentSplitSection>
-                            </template>
-                        </ContentBlockSplitSection>
-                    </template>
                 </ContentBlock>
             </div>
         </>
