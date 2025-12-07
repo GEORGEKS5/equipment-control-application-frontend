@@ -1,18 +1,5 @@
+import { TEventTargetValue, TFormInput } from '../../helpers/types';
 import inputStyle from '../../styles/input.module.css';
-
-type TFormInput = {
-    fieldCaption: string,
-    fieldType: string,
-    inputValue: string,
-    displayOnly: boolean,
-    updateInput(e: string): void,
-}
-
-type TEventTargetValue = {
-    target: {
-        value:string
-    }
-} | Event;
 
 function FormInput({fieldCaption, fieldType, updateInput, inputValue, displayOnly}: TFormInput){
 

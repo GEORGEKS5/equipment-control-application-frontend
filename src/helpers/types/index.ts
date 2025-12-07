@@ -45,3 +45,17 @@ export type TUserContext = {
     getFormatedAppointmentDate(): string,
     getServerUrlAddress() : string,
 }
+
+export type TFormInput = {
+    fieldCaption: string,
+    fieldType?: string,
+    inputValue: string,
+    displayOnly?: boolean,
+    updateInput(e: string): void,
+}
+
+export type TEventTargetValue = {
+    target: {
+        value:string
+    }
+} | Event;
