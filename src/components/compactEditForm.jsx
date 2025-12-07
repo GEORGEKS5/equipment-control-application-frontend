@@ -1,7 +1,7 @@
 
 import getRequestPromise from '../helpers/lib';
 import DefaultButton from '../components/UI/defaultButton';
-import FormInput from '../components/UI/formInput';
+import FormInput from '../components/UI/formInput.tsx';
 import CompactForm from '../layouts/compactForm';
 import UserContext from '../context/user';
 import { useContext, useEffect, useState } from 'react';

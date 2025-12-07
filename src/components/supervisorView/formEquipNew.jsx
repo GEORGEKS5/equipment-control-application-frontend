@@ -6,7 +6,7 @@ import markSelectedProperty from "../../helpers/markData";
 import DialogWindow from "../../layouts/dialogWindow";
 import DefaultButton from "../UI/defaultButton.jsx";
 import FormSelectBlock from "../UI/formSelectBlock.jsx";
-import FormInput from "../UI/formInput";
+import FormInput from "../UI/formInput.tsx";
 import FormField from "../../layouts/slots/formField.jsx";
 import FormFooter from "../../layouts/slots/formFooter.jsx";
 import getRequestPromise from "../../helpers/lib.js";

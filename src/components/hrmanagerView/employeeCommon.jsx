@@ -1,5 +1,5 @@
 import DialogWindow from "../../layouts/dialogWindow";
-import FormInput from "../UI/formInput";
+import FormInput from "../UI/formInput.tsx";
 import DefaultButton from "../UI/defaultButton";
 import FormField from '../../layouts/slots/formField';
 import FormFooter from '../../layouts/slots/formFooter';

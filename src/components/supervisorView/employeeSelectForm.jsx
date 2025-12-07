@@ -3,7 +3,7 @@ import DialogWindow from "../../layouts/dialogWindow";
 import FormField from "../../layouts/slots/formField";
 import FormFooter from "../../layouts/slots/formFooter";
 import DataTable from '../table/dataTable';
-import FormInput from "../UI/formInput";
+import FormInput from "../UI/formInput.tsx";
 import getRequestPromise from "../../helpers/lib";
 import getFullDate from '../../helpers/getFullDate';
 import TableActionButton from '../../helpers/tableActionButton';

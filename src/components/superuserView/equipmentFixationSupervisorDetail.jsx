@@ -1,6 +1,6 @@
 import FormField from '../../layouts/slots/formField';
 import DialogWindow from '../../layouts/dialogWindow';
-import FormInput from '../../components/UI/formInput';
+import FormInput from '../../components/UI/formInput.tsx';
 import useEquipmentFixationSupervisorRepository from '../../hooks/useEquipmentFixationSupervisorRepository';
 
 function EquipmentFixationSupervisorDetail({formVisible, activeFixationSupervisor, hideForm}) {

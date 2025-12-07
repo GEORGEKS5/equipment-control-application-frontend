@@ -1,7 +1,7 @@
 import DialogWindow from '../../layouts/dialogWindow';
 import FormField from '../../layouts/slots/formField';
 import FormFooter from '../../layouts/slots/formFooter';
-import FormInput from '../UI/formInput';
+import FormInput from '../UI/formInput.tsx';
 import DefaultButton from '../UI/defaultButton';
 import getRequestPromise from '../../helpers/lib';
 import { useContext, useState } from 'react';

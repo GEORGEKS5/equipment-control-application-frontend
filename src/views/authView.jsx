@@ -1,5 +1,5 @@
 import { useContext, useMemo, useState } from "react";
-import FormInput from '../components/UI/formInput';
+import FormInput from '../components/UI/formInput.tsx';
 import DefaultButton from '../components/UI/defaultButton';
 import userContext from "../context/user";
 import cryptoJs from "crypto-js";

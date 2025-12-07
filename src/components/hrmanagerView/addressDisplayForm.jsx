@@ -1,5 +1,5 @@
 import DialogWindow from '../../layouts/dialogWindow';
-import FormInput from '../UI/formInput';
+import FormInput from '../UI/formInput.tsx';
 import DefaultButton from '../UI/defaultButton';
 import AddressCreateForm from '../hrmanagerView/addressCreateForm';
 import useAddressModelRepository from '../../hooks/hrmanager/useAddressModelRepository';

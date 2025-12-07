@@ -6,7 +6,7 @@ import SectionData from '../layouts/slots/sectionData';
 import SectionFooter from '../layouts/slots/sectionFooter';
 import PropFormSelectBlock from './propertyForm/propFormSelectBlock';
 import DefaultButton from '../components/UI/defaultButton';
-import FormInput from '../components/UI/formInput';
+import FormInput from '../components/UI/formInput.tsx';
 import CompactForm from '../layouts/compactForm';
 
 function CompactCreateForm({isBindedField, identificatorKeyName, valueKeyName, propInsert, hideCompactForm, extraPropInsert, compactFormVisible, targetModelName, targetPropModelName, extraRequestData, selectPropData = []}) {
