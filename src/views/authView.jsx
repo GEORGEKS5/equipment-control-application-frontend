@@ -81,7 +81,7 @@ function AuthView(){
 
     return (
         <div className={"min-h-[600px] flex flex-col justify-center"}>
-            <div id="authForm" className={"bg-[#ffffff] grid grid-rows-[auto_3fr_0.6fr] mx-auto w-[70%] max-w-[470px] min-h-[355px] p-10 md:p-28 rounded-xl"}>
+            <div id="authForm" className={"bg-[#ffffff] grid grid-rows-[auto_7fr_1.8fr] mx-auto w-[70%] max-w-[470px] min-h-[355px] p-10 md:p-28 rounded-xl"}>
             <h1 className={"text-[#000000] text-center text-xl"}>ВХОД</h1>
             <div className={"flex flex-col justify-evenly"}>
                 <FormInput 

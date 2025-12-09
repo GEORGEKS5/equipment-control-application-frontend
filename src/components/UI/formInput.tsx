@@ -12,8 +12,8 @@ function FormInput({fieldCaption, fieldType, updateInput, inputValue, displayOnl
     }
 
     return (
-        <div id={inputStyle.fieldWrapper}>
-            <h3 className={inputStyle.header}>{ fieldCaption }</h3>
+        <div className='grid grid-rows-[0.5fr_0.8fr] md:grid-rows-[1fr_2fr] grid-cols-1'>
+            <h3 className={inputStyle.header + ' text-xs'}>{ fieldCaption }</h3>
             <input type={fieldType} onChange={updateFormInput} value={inputValue} disabled={displayOnly} className={inputStyle.basic} />
         </div>
     )
