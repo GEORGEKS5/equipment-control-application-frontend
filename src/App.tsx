@@ -1,9 +1,9 @@
-import { Dispatch, SetStateAction, useContext, useEffect, useState } from 'react'
+import { Dispatch, SetStateAction, useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router';
 import UserContext from './context/user';
 import { TUserContext } from './helpers/types';
-import { hasCookie } from './helpers/cookieManager';
 import getRequestPromise from './helpers/lib';
+import { getUserToken, checkUserToken } from './helpers/userToken';
 
 function App() {
   const navigateTo = useNavigate();
@@ -21,34 +21,30 @@ function App() {
   }
 
   async function restoreUserSession() {
-    if(hasCookie('userName') || hasCookie('userRole')){
-      try {
-        let getUserRequest = await getRequestPromise(USER_STATE.getServerUrlAddress(), 'GetUserDataByToken');
-        let userDataJson = await getUserRequest.json();
+    try {
+      const userToken = await getUserToken(USER_STATE.getServerUrlAddress());
+      const isTokenActual = checkUserToken(userToken)
 
-        console.log(userDataJson);
-        console.log(!('message' in userDataJson));
+      if(isTokenActual && userToken){
+          let {EmpName, EmpLastName, AppointmentDate, RoleName: userRole, UserName: userName} = userToken;
 
-        if(userDataJson && !('message' in userDataJson)){
-            let {EmpName, EmpLastName, AppointmentDate, RoleName: userRole, UserName: userName} = userDataJson;
+          setUserToStore(EmpName, EmpLastName, userName, userRole, AppointmentDate);
 
-            setUserToStore(EmpName, EmpLastName, userName, userRole, AppointmentDate);
+          navigateTo(`/${userRole}`);
 
-            navigateTo(`/${userRole}`);
-        } else {
-          try{
-            await getRequestPromise(USER_STATE.getServerUrlAddress(), 'Logout');
-          }catch(e){
-            console.error(e);
-          }
-          
-          navigateTo('/Auth');
+          return;
+      } else {
+        try{
+          await getRequestPromise(USER_STATE.getServerUrlAddress(), 'Logout');
+        }catch(e){
+          console.error(e);
         }
-      } catch (error) {
-        console.error(error);
+        
+        navigateTo('/Auth');
+        return;
       }
-
-      return;
+    } catch (error) {
+      console.error(error);
     }
 
     navigateTo('/Auth');
