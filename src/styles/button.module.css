@@ -1,3 +1,7 @@
+.baseButton{
+    border: 0px;
+    border-radius: .5em;
+}
 .btn{
     background: rgb(173, 242, 243);
     color: black;
@@ -32,6 +36,24 @@
     font-size: 10px;
     font-weight: bold;
 }
+
 .tableHeader{
+    padding: .3em;
+    height: 2em;
+    width: 2em;
     background-color: #e9e9ed;
+}
+.tableAction{
+    padding: .4em;
+    background-color: #e9e9ed;
+}
+.sectionFooter{
+    padding: .6em 2.5em .6em 2.5em;
+    font-size: .8em;
+    margin-left: auto;
+    margin-right: auto;
+    background: #8C4830;
+    color: #FFFFFF;
+    border: 1px solid #8C4830;
+    border-radius: 1em;
 }
