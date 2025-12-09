@@ -56,10 +56,10 @@
 
 .defaultButton{
     background-color: #D0D8D9;
-    padding: 0.4em;
+    /*padding: 0.4em;
+    padding: .7em 1em .7em 1em;*/
     margin-top: 2em;
     border: 0px;
-    /*padding: .7em 1em .7em 1em;*/
     border-radius: .5em;
 }
 
