@@ -22,6 +22,7 @@ import useSupervisorRepository from '../hooks/supervisor/useSupervisorRepository
 import useSupervisorViewDataTable from '../hooks/supervisor/useSupervisorViewDataTable';
 import useSupervisorFormModel from '../hooks/supervisor/useSupervisorFormModel';
 import useSupervisorFilterRepository from '../hooks/supervisor/useSupervisorFilterRepository';
+import Spinner from '../components/UI/spinner.tsx';
 
 function SupervisorView(){
     const {supervisorPinedEquipment, pinReadyEquipment, getPinedEquipmentRepository, getPinReadyEquipmentRepository, getUnitedRepository, setPinReadyEquipment} = useSupervisorRepository();
@@ -141,12 +142,12 @@ function SupervisorView(){
                                 <SectionHeader>
                                     <h3 id="contentHeader">Закреплено</h3>
                                 </SectionHeader>
-                                <SectionData>
-                                    <DataTable
-                                        tableData={filterSupervisorPinedEquipment}
-                                        tableStructure={supervisorPinedEquipmentTable.header}
-                                        filterButtonClick={e => filterSupervisorPinedEquipFormController.showActiveForm(e)}
-                                    ></DataTable>
+                                <SectionData spinnerCaption='Загрузка закрепленого оборудования' data={filterSupervisorPinedEquipment}>
+                                        <DataTable
+                                            tableData={filterSupervisorPinedEquipment}
+                                            tableStructure={supervisorPinedEquipmentTable.header}
+                                            filterButtonClick={e => filterSupervisorPinedEquipFormController.showActiveForm(e)}
+                                        ></DataTable>
                                 </SectionData>
                                 <ContentSectionFooter
                                     buttonCaption='Закрепить оборудование по SN'
@@ -162,7 +163,7 @@ function SupervisorView(){
                                 <SectionHeader>
                                     <h3 id="contentHeader">Доступно</h3>
                                 </SectionHeader>
-                                <SectionData>
+                                <SectionData data={filterPinReadyEquipment} spinnerCaption='Загрузка доступного оборудования'>
                                     <DataTable
                                         tableData={filterPinReadyEquipment}
                                         tableStructure={pinReadyEquipmentTable.header}
