@@ -21,6 +21,18 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: hsla(0, 0%, 0%, 0.975);
+  min-height: 100vh;
+}
+
+#root{
+  width: 100%;
+}
+
+@media (min-width: 800px) {
+  body {
+    display: flex;
+    place-items: center;
+  }
 }
 
 h3,h2{
