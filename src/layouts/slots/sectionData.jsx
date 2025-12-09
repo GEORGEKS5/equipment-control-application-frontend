@@ -1,9 +1,15 @@
-import React from "react";
+import Spinner from "../../components/UI/spinner";
 
-function SectionData({children}){
+function SectionData({children, data, spinnerCaption}){
     return (
         <>
-            {children}
+            {
+                    !data || Object.keys(data).length
+                ?
+                    <>{children}</>
+                :
+                    <Spinner caption={spinnerCaption}/>
+            }
         </>
     )
 }
