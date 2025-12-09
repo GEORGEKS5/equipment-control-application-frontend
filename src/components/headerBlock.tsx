@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { memo, useContext, useState } from "react";
 import ChangePassword from "./changePassword";
 import getRequestPromise from "../helpers/lib";
 import {useNavigate} from "react-router";
@@ -58,4 +58,4 @@ function HeaderBlock({}) {
     )
 }
 
-export default HeaderBlock;
+export default memo(HeaderBlock);
