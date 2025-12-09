@@ -120,7 +120,7 @@ function FormSelect({selectValue, targetModelName, valueKeyName, identificatorKe
     },[extraRequestData]);
 
     return(
-        <select name="" onChange={updateCurrentSelect}>
+        <select name="" onChange={updateCurrentSelect} className="text-black text-xs rounded-sm min-w-[175px] border-0 px-[0.9em] py-[0.4em] md:px-[1.1em] md:py-[1em] bg-[#F3F3F3] md:mt-2">
             {
                     selectDefaultValue
                 ?
