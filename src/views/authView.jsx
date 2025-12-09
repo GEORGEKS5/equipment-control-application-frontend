@@ -96,7 +96,7 @@ function AuthView(){
             </div>
             <DefaultButton
                 buttonCaption={'Войти'}
-                buttonClass={'primaryBrown'}
+                buttonClass='primaryBrown'
                 buttonClick={checkUser}>
             </DefaultButton>
             </div>

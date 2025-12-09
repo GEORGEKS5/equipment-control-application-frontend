@@ -14,6 +14,46 @@
     background: rgb(146, 250, 252);
 }
 
+.action{
+    background-color: #07070D;
+    color: azure;
+}
+
+.form{
+    background: #8C4830;
+    color: #ffffff;
+    padding: 1em 3em 1em 3em;
+}
+.compactForm{
+    display: flex;
+    background: #8C4830;
+    color: #ffffff;
+    padding: 0.8em 1.5em 0.8em 1.5em;
+}
+.formUnactive{
+    background: #D0D8D9;
+    color: #000000;
+}
+
+.defaultSM, .actionSM{
+    padding: .7em;
+    padding-top: .5em; 
+    padding-bottom: .5em; 
+    color: #000000;
+    background: #e9e9ed;
+    display: flex;
+}
+
+.actionSM{
+    background-color: #07070D;
+    color: azure;
+}
+
+.default{
+    color: #000000;
+    background-color: #e9e9ed;
+}
+
 .defaultButton{
     background-color: #D0D8D9;
     padding: 0.4em;
@@ -23,11 +63,11 @@
     border-radius: .5em;
 }
 
-.defaultButton.primary{
+.primary{
     background: #D0D8D9;
     color: #07070D;
 }
-.defaultButton.primaryBrown{
+.primaryBrown{
     background: #8C4830;
     color: #ffffff;
 }
