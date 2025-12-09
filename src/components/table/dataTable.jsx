@@ -35,11 +35,11 @@ function DataTable({tableData, tableActionButton, buttonClick, ...props}){
                                 ?
                                     tableActionButton.map((actionButton, index)=>{
                                         return (
-                                            <td key={'tableActionButton' + index}>
+                                            <td key={'tableActionButton' + index} className="py-2.5 px-0 lg:px-1.5 text-[0.7em] md:text-[0.8em]">
                                                 <DefaultButton
                                                     buttonCaption={actionButton.caption}
                                                     buttonValue={row[actionButton.valueParamName]}
-                                                    buttonClass={'tableAction'}
+                                                    buttonClass='tableAction'
                                                     buttonClick={btnClick(actionButton.emitEventName)}
                                                     buttonIconPath={actionButton.iconPath}
                                                 ></DefaultButton>
