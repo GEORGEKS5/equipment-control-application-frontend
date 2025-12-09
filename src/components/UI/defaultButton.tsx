@@ -9,9 +9,9 @@ type TDefaultButtonProps = {
     buttonClick(): void,
 }
 
-function DefaultButton({buttonValue, buttonClick, buttonClass, buttonCaption, buttonIconPath}: TDefaultButtonProps){
+function DefaultButton({buttonValue, buttonClick, buttonClass = 'default', buttonCaption, buttonIconPath}: TDefaultButtonProps){
     const tailwindClassName = 'bg-[#D0D8D9] p-[0.4em] md:p-[1em] md:mt-2 text-xs cursor-pointer';
-    const className = tailwindClassName + ' ' + btnStyle.baseButton + ' ' + (btnStyle[buttonClass] ?? btnStyle.defaultButton);
+    const className = tailwindClassName + ' ' + btnStyle.baseButton + ' ' + btnStyle[buttonClass];
 
     return(
         <button value={buttonValue} onClick={buttonClick}  className={className}>
