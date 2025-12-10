@@ -22,13 +22,18 @@ import useSupervisorRepository from '../hooks/supervisor/useSupervisorRepository
 import useSupervisorViewDataTable from '../hooks/supervisor/useSupervisorViewDataTable';
 import useSupervisorFormModel from '../hooks/supervisor/useSupervisorFormModel';
 import useSupervisorFilterRepository from '../hooks/supervisor/useSupervisorFilterRepository';
-import Spinner from '../components/UI/spinner.tsx';
+import ErrorForm from '../components/errorForm.tsx';
+import { useNavigate } from 'react-router';
+import useErrorForm from '../hooks/useErrorForm.tsx';
 
 function SupervisorView(){
     const {supervisorPinedEquipment, pinReadyEquipment, getPinedEquipmentRepository, getPinReadyEquipmentRepository, getUnitedRepository, setPinReadyEquipment} = useSupervisorRepository();
     const {pinReadyEquipmentTable, supervisorPinedEquipmentTable} = useSupervisorViewDataTable();
     const {filterSupervisorPinedEquipment, filterPinReadyEquipment, setFilterPinReadyEquipment, setFilterSupervisorPinedEquipment} = useSupervisorFilterRepository(supervisorPinedEquipment, pinReadyEquipment);
     const {equipCreateForm, equipEditForm, equipFixationForm, filterPinReadyFormController, filterSupervisorPinedEquipFormController, fixEquipBySNForm } = useSupervisorFormModel();
+    const {errorDescription, errorFormVisible, hideErrorForm, showErrorFormWithDescription} = useErrorForm();
+
+    const navTo = useNavigate();
 
     function updateAfterEquipEdit(val){ 
         let index = pinReadyEquipment.findIndex(item =>{
@@ -84,6 +89,10 @@ function SupervisorView(){
         filterPinReadyFormController.activeForm.hide();
     }
 
+    function authErrorButtonClick() {
+         navTo('/');
+    }
+
     return (
         <>
             <FormEquipEdit 
@@ -131,6 +140,14 @@ function SupervisorView(){
                 elementOrdered={setOrderedSupervisorPinedEquipToView}
                 hideForm={() => {filterSupervisorPinedEquipFormController.activeForm.hide()}}
             ></DataOrderForm>
+
+            <ErrorForm 
+                formVisible={errorFormVisible}
+                errorDescription={errorDescription}
+                actionButtonCaption='Войти'
+                actionButtonClick={authErrorButtonClick}
+                closeButtonClick={hideErrorForm}>
+            </ErrorForm>
 
             <div id="rootEl" className="flexParent">
                 <HeaderBlock></HeaderBlock>
