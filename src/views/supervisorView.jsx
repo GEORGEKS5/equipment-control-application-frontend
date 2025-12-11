@@ -24,7 +24,8 @@ import useSupervisorFormModel from '../hooks/supervisor/useSupervisorFormModel';
 import useSupervisorFilterRepository from '../hooks/supervisor/useSupervisorFilterRepository';
 import ErrorForm from '../components/errorForm.tsx';
 import { useNavigate } from 'react-router';
-import useErrorForm from '../hooks/useErrorForm.tsx';
+import useErrorForm from '../hooks/useErrorForm.ts';
+import useTokenErrorControl from '../hooks/useTokenErrorControl.ts';
 
 function SupervisorView(){
     const {supervisorPinedEquipment, pinReadyEquipment, getPinedEquipmentRepository, getPinReadyEquipmentRepository, getUnitedRepository, setPinReadyEquipment} = useSupervisorRepository();
@@ -32,6 +33,7 @@ function SupervisorView(){
     const {filterSupervisorPinedEquipment, filterPinReadyEquipment, setFilterPinReadyEquipment, setFilterSupervisorPinedEquipment} = useSupervisorFilterRepository(supervisorPinedEquipment, pinReadyEquipment);
     const {equipCreateForm, equipEditForm, equipFixationForm, filterPinReadyFormController, filterSupervisorPinedEquipFormController, fixEquipBySNForm } = useSupervisorFormModel();
     const {errorDescription, errorFormVisible, hideErrorForm, showErrorFormWithDescription} = useErrorForm();
+    const {showFormWithAuthCheck} = useTokenErrorControl(showErrorFormWithDescription);
 
     const navTo = useNavigate();
 
@@ -52,11 +54,13 @@ function SupervisorView(){
         getUnitedRepository();
     }
 
-    function tableButtonClick(buttonType, e){  
+    function tableButtonClick(buttonType, e){ 
+        const currentEvent = {...e};
+        
         switch (buttonType) {
-            case 'editButtonClick': equipEditForm.show(e, pinReadyEquipment);
+            case 'editButtonClick': showFormWithAuthCheck(equipEditForm, currentEvent, pinReadyEquipment);
                 break;
-            case 'pinButtonClick': equipFixationForm.show(e, pinReadyEquipment);
+            case 'pinButtonClick': showFormWithAuthCheck(equipFixationForm, currentEvent, pinReadyEquipment);
                 break;
             default:
                 break;
@@ -168,7 +172,7 @@ function SupervisorView(){
                                 </SectionData>
                                 <ContentSectionFooter
                                     buttonCaption='Закрепить оборудование по SN'
-                                    buttonClick={() => {fixEquipBySNForm.show()}}>
+                                    buttonClick={() => {showFormWithAuthCheck(fixEquipBySNForm)}}>
                                 </ContentSectionFooter>
                             </ContentSection>
                         </ContentBlockSection>
@@ -191,7 +195,7 @@ function SupervisorView(){
                                 </SectionData>
                                 <ContentSectionFooter
                                     buttonCaption='Добавить новое'
-                                    buttonClick={() => {equipCreateForm.show()}}>
+                                    buttonClick={() => {showFormWithAuthCheck(equipCreateForm)}}>
                                 </ContentSectionFooter>
                             </ContentSection>
                         </ContentBlockSection> 
